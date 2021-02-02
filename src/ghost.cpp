@@ -2,7 +2,7 @@
 
 Ghost::Ghost(){
     initTexture();
-    setPos(/*HERE*/);
+    //setPos(/*HERE*/);
 }
 Ghost::~Ghost(){
 

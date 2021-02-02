@@ -976,16 +976,6 @@ SFML/Config.hpp
 
 ../dep/SFML/include/SFML/Window/WindowStyle.hpp
 
-../dep/ghost.hpp
-
-../dep/map.hpp
-string
--
-vector
--
-SFML/Graphics.hpp
-../dep/SFML/Graphics.hpp
-
 ../dep/pack.hpp
 iostream
 -
@@ -1000,31 +990,7 @@ SFML/Audio.hpp
 SFML/Network.hpp
 -
 
-../dep/pack_E.hpp
+/home/dimond/Projects/Repository/PacMan/src/pack.cpp
 pack.hpp
-../dep/pack.hpp
-world.hpp
-../dep/world.hpp
-
-../dep/world.hpp
-vector
--
-SFML/Window.hpp
--
-SFML/System.hpp
--
-SFML/Graphics.hpp
--
-SFML/Audio.hpp
--
-SFML/Network.hpp
--
-map.hpp
-../dep/map.hpp
-ghost.hpp
-../dep/ghost.hpp
-
-/home/dimond/Projects/Repository/PacMan/src/pack_E.cpp
-pack_E.hpp
-/home/dimond/Projects/Repository/PacMan/src/pack_E.hpp
+/home/dimond/Projects/Repository/PacMan/src/pack.hpp
 
