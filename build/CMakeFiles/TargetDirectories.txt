@@ -1,0 +1,3 @@
+/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/rebuild_cache.dir
+/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/edit_cache.dir
+/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/packman.dir
