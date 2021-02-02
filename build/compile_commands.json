@@ -1,6 +1,11 @@
 [
 {
   "directory": "/home/dimond/Projects/Repository/PacMan/build",
+  "command": "/bin/x86_64-linux-gnu-g++-10  -I/home/dimond/Projects/Repository/PacMan/dep/SFML/include -I/home/dimond/Projects/Repository/PacMan/dep -g   -ggdb -Wall -o CMakeFiles/packman.dir/src/ghost.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/ghost.cpp",
+  "file": "/home/dimond/Projects/Repository/PacMan/src/ghost.cpp"
+},
+{
+  "directory": "/home/dimond/Projects/Repository/PacMan/build",
   "command": "/bin/x86_64-linux-gnu-g++-10  -I/home/dimond/Projects/Repository/PacMan/dep/SFML/include -I/home/dimond/Projects/Repository/PacMan/dep -g   -ggdb -Wall -o CMakeFiles/packman.dir/src/main.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/main.cpp",
   "file": "/home/dimond/Projects/Repository/PacMan/src/main.cpp"
 },

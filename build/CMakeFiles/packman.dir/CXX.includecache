@@ -976,6 +976,8 @@ SFML/Config.hpp
 
 ../dep/SFML/include/SFML/Window/WindowStyle.hpp
 
+../dep/ghost.hpp
+
 ../dep/map.hpp
 string
 -
@@ -1019,22 +1021,10 @@ SFML/Network.hpp
 -
 map.hpp
 ../dep/map.hpp
-
-/home/dimond/Projects/Repository/PacMan/src/main.cpp
-pack_E.hpp
-/home/dimond/Projects/Repository/PacMan/src/pack_E.hpp
-
-/home/dimond/Projects/Repository/PacMan/src/map.cpp
-map.hpp
-/home/dimond/Projects/Repository/PacMan/src/map.hpp
+ghost.hpp
+../dep/ghost.hpp
 
 /home/dimond/Projects/Repository/PacMan/src/pack_E.cpp
 pack_E.hpp
 /home/dimond/Projects/Repository/PacMan/src/pack_E.hpp
-
-/home/dimond/Projects/Repository/PacMan/src/world.cpp
-world.hpp
-/home/dimond/Projects/Repository/PacMan/src/world.hpp
-iostream
--
 

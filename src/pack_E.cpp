@@ -4,14 +4,16 @@
 Game::Game(){
     window = new sf::RenderWindow(sf::VideoMode(800,600),"PacMan",sf::Style::Default);
     window->setFramerateLimit(120);
+
+    world = new World(window->getSize().x,window->getSize().y);
     pack = new Hero_pack();
     event = new sf::Event;
-    world = new World(window->getSize().x,window->getSize().y);
 }
 Game::~Game(){
-    delete window;   
     delete event;
+    delete pack;
     delete world;
+    delete window;   
 }
 
 void Game::run(){
@@ -24,9 +26,9 @@ void Game::update(){
     while (window->pollEvent(*event)){
         if (event->type == sf::Event::Closed)
             window->close();
-            
     }
-    pack->_update(*event,*window);
+    
+    pack->_update(*event, *window, world->_getTiles());
     world->_update();
 }
 void Game::render(){

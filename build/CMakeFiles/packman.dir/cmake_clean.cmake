@@ -1,4 +1,5 @@
 file(REMOVE_RECURSE
+  "CMakeFiles/packman.dir/src/ghost.cpp.o"
   "CMakeFiles/packman.dir/src/main.cpp.o"
   "CMakeFiles/packman.dir/src/map.cpp.o"
   "CMakeFiles/packman.dir/src/pack.cpp.o"

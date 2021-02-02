@@ -5,9 +5,11 @@ World::World(unsigned int winWidth, unsigned int winHeight){
     initVar(winWidth,winHeight);
     initTiles();
     initMap();
+    initGhost();
 }
 World::~World(){
     delete map;
+    delete[] ghost;
 }
 
 /*Init f*/
@@ -37,15 +39,26 @@ void World::initMap(){
         row.clear();
     }
 }
+void World::initGhost(){
+    ghost = new Ghost[4];
+}
 
 /*Update f*/
 void World::_update(){
+    updateGhost();
+}
+void World::updateGhost(){
+    for (int i = 0; i != 4; ++i){
+        ghost[i].__update();
+    }
+}
+void World::updateMap(){
 
 }
-
 /*Render f*/
 void World::_render(sf::RenderTarget &win){
     renderMap(win);
+    renderGhost(win);
 }
 void World::renderMap(sf::RenderTarget &win){
     for (const auto &i : tiles){
@@ -54,4 +67,11 @@ void World::renderMap(sf::RenderTarget &win){
         }
     }
 }
-
+void World::renderGhost(sf::RenderTarget &win){
+    for (int i = 0; i != 4; ++i){
+        ghost[i].__render();
+    }
+}
+std::vector<std::vector<sf::Sprite>> &World::_getTiles(){
+    return tiles;
+}

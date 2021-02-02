@@ -4,6 +4,7 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
+  "/home/dimond/Projects/Repository/PacMan/src/ghost.cpp" "/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/packman.dir/src/ghost.cpp.o"
   "/home/dimond/Projects/Repository/PacMan/src/main.cpp" "/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/packman.dir/src/main.cpp.o"
   "/home/dimond/Projects/Repository/PacMan/src/map.cpp" "/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/packman.dir/src/map.cpp.o"
   "/home/dimond/Projects/Repository/PacMan/src/pack.cpp" "/home/dimond/Projects/Repository/PacMan/build/CMakeFiles/packman.dir/src/pack.cpp.o"

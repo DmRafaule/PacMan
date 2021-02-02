@@ -4,20 +4,23 @@
 Hero_pack::Hero_pack(){
     texture.loadFromFile("../texture/pacman.png");
     pack.setTexture(texture);
-    pack.setPosition(sf::Vector2f(400.f,300.f));
-    pack.setScale(0.1f,0.1f);
-
+    pack.setPosition(sf::Vector2f(350.f,300.f));
 }
 
 void Hero_pack::_render(sf::RenderTarget *window){
     window->draw(pack);
 }
-void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window){
+void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles){
+    updateTiles(tiles);
     movements(event);
     collisions(event, window);
 }
 
+void Hero_pack::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
+    this->tiles = tiles;
+}
 
+/*movements f-tion*/
 void Hero_pack::movements(sf::Event &event){
     pack.move(dir_x,dir_y);
     if (event.type == sf::Event::KeyPressed)
@@ -76,13 +79,32 @@ void Hero_pack::correct_movements(float &dir_x, float &dir_y){
         pack.setPosition(pos_x,pos_y);
     }
 }
+
+/*collisions f-tions*/
 void Hero_pack::collisions(sf::Event &event, sf::RenderTarget &window){
-/*left*/ if(pack.getGlobalBounds().left <= 0) 
-            pack.setPosition(0.f, pack.getGlobalBounds().top);
-/*right*/else if(pack.getGlobalBounds().left + pack.getGlobalBounds().width >= window.getSize().x)
-            pack.setPosition(window.getSize().x - pack.getGlobalBounds().width, pack.getGlobalBounds().top);
-/*top*/  if(pack.getGlobalBounds().top <= 0) 
-            pack.setPosition(pack.getGlobalBounds().left, 0.f);
-/*botom*/else if(pack.getGlobalBounds().top + pack.getGlobalBounds().height >= window.getSize().y)
-            pack.setPosition(pack.getGlobalBounds().left, window.getSize().y - pack.getGlobalBounds().height);
+    collisionWalls(window);
+    collisionBorders(window);
+}
+void Hero_pack::collisionBorders(sf::RenderTarget &window){
+/*left*/ if(pack.getGlobalBounds().left < 0) 
+            dir_x = 1;
+/*right*/else if(pack.getGlobalBounds().left + pack.getGlobalBounds().width > window.getSize().x)
+            dir_x = -1;
+/*top*/  if(pack.getGlobalBounds().top < 0) 
+            dir_y = 1;
+/*botom*/else if(pack.getGlobalBounds().top + pack.getGlobalBounds().height > window.getSize().y)
+            dir_y = -1;
+}
+void Hero_pack::collisionWalls(sf::RenderTarget &window){
+    for (const auto &i : tiles){
+        for (const auto &j : i){
+            if (pack.getGlobalBounds().intersects(j.getGlobalBounds())){
+                if (dir_y == 1) dir_y = -1;
+                else if (dir_y == -1) dir_y = 1;
+                if (dir_x == 1) dir_x = -1;
+                else if (dir_x == -1) dir_x = 1;
+            }
+        }
+    }
+    
 }

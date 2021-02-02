@@ -76,9 +76,22 @@ include CMakeFiles/packman.dir/progress.make
 # Include the compile flags for this target's objects.
 include CMakeFiles/packman.dir/flags.make
 
+CMakeFiles/packman.dir/src/ghost.cpp.o: CMakeFiles/packman.dir/flags.make
+CMakeFiles/packman.dir/src/ghost.cpp.o: ../src/ghost.cpp
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/packman.dir/src/ghost.cpp.o"
+	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/ghost.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/ghost.cpp
+
+CMakeFiles/packman.dir/src/ghost.cpp.i: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Preprocessing CXX source to CMakeFiles/packman.dir/src/ghost.cpp.i"
+	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -E /home/dimond/Projects/Repository/PacMan/src/ghost.cpp > CMakeFiles/packman.dir/src/ghost.cpp.i
+
+CMakeFiles/packman.dir/src/ghost.cpp.s: cmake_force
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green "Compiling CXX source to assembly CMakeFiles/packman.dir/src/ghost.cpp.s"
+	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -S /home/dimond/Projects/Repository/PacMan/src/ghost.cpp -o CMakeFiles/packman.dir/src/ghost.cpp.s
+
 CMakeFiles/packman.dir/src/main.cpp.o: CMakeFiles/packman.dir/flags.make
 CMakeFiles/packman.dir/src/main.cpp.o: ../src/main.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_1) "Building CXX object CMakeFiles/packman.dir/src/main.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/packman.dir/src/main.cpp.o"
 	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/main.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/main.cpp
 
 CMakeFiles/packman.dir/src/main.cpp.i: cmake_force
@@ -91,7 +104,7 @@ CMakeFiles/packman.dir/src/main.cpp.s: cmake_force
 
 CMakeFiles/packman.dir/src/map.cpp.o: CMakeFiles/packman.dir/flags.make
 CMakeFiles/packman.dir/src/map.cpp.o: ../src/map.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_2) "Building CXX object CMakeFiles/packman.dir/src/map.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/packman.dir/src/map.cpp.o"
 	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/map.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/map.cpp
 
 CMakeFiles/packman.dir/src/map.cpp.i: cmake_force
@@ -104,7 +117,7 @@ CMakeFiles/packman.dir/src/map.cpp.s: cmake_force
 
 CMakeFiles/packman.dir/src/pack.cpp.o: CMakeFiles/packman.dir/flags.make
 CMakeFiles/packman.dir/src/pack.cpp.o: ../src/pack.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_3) "Building CXX object CMakeFiles/packman.dir/src/pack.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/packman.dir/src/pack.cpp.o"
 	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/pack.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/pack.cpp
 
 CMakeFiles/packman.dir/src/pack.cpp.i: cmake_force
@@ -117,7 +130,7 @@ CMakeFiles/packman.dir/src/pack.cpp.s: cmake_force
 
 CMakeFiles/packman.dir/src/pack_E.cpp.o: CMakeFiles/packman.dir/flags.make
 CMakeFiles/packman.dir/src/pack_E.cpp.o: ../src/pack_E.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_4) "Building CXX object CMakeFiles/packman.dir/src/pack_E.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/packman.dir/src/pack_E.cpp.o"
 	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/pack_E.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/pack_E.cpp
 
 CMakeFiles/packman.dir/src/pack_E.cpp.i: cmake_force
@@ -130,7 +143,7 @@ CMakeFiles/packman.dir/src/pack_E.cpp.s: cmake_force
 
 CMakeFiles/packman.dir/src/world.cpp.o: CMakeFiles/packman.dir/flags.make
 CMakeFiles/packman.dir/src/world.cpp.o: ../src/world.cpp
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_5) "Building CXX object CMakeFiles/packman.dir/src/world.cpp.o"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Building CXX object CMakeFiles/packman.dir/src/world.cpp.o"
 	/bin/x86_64-linux-gnu-g++-10 $(CXX_DEFINES) $(CXX_INCLUDES) $(CXX_FLAGS) -o CMakeFiles/packman.dir/src/world.cpp.o -c /home/dimond/Projects/Repository/PacMan/src/world.cpp
 
 CMakeFiles/packman.dir/src/world.cpp.i: cmake_force
@@ -143,6 +156,7 @@ CMakeFiles/packman.dir/src/world.cpp.s: cmake_force
 
 # Object files for target packman
 packman_OBJECTS = \
+"CMakeFiles/packman.dir/src/ghost.cpp.o" \
 "CMakeFiles/packman.dir/src/main.cpp.o" \
 "CMakeFiles/packman.dir/src/map.cpp.o" \
 "CMakeFiles/packman.dir/src/pack.cpp.o" \
@@ -152,6 +166,7 @@ packman_OBJECTS = \
 # External object files for target packman
 packman_EXTERNAL_OBJECTS =
 
+packman: CMakeFiles/packman.dir/src/ghost.cpp.o
 packman: CMakeFiles/packman.dir/src/main.cpp.o
 packman: CMakeFiles/packman.dir/src/map.cpp.o
 packman: CMakeFiles/packman.dir/src/pack.cpp.o
@@ -164,7 +179,7 @@ packman: ../dep/SFML/lib/libsfml-network.so.2.5.1
 packman: ../dep/SFML/lib/libsfml-system.so.2.5.1
 packman: ../dep/SFML/lib/libsfml-window.so.2.5.1
 packman: CMakeFiles/packman.dir/link.txt
-	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_6) "Linking CXX executable packman"
+	@$(CMAKE_COMMAND) -E cmake_echo_color --switch=$(COLOR) --green --bold --progress-dir=/home/dimond/Projects/Repository/PacMan/build/CMakeFiles --progress-num=$(CMAKE_PROGRESS_7) "Linking CXX executable packman"
 	$(CMAKE_COMMAND) -E cmake_link_script CMakeFiles/packman.dir/link.txt --verbose=$(VERBOSE)
 
 # Rule to build all files generated by this target.
