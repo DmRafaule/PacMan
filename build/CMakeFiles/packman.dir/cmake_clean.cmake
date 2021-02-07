@@ -5,8 +5,8 @@ file(REMOVE_RECURSE
   "CMakeFiles/packman.dir/src/pack.cpp.o"
   "CMakeFiles/packman.dir/src/pack_E.cpp.o"
   "CMakeFiles/packman.dir/src/world.cpp.o"
-  "packman"
   "packman.pdb"
+  "packman"
 )
 
 # Per-language clean rules from dependency scanning.
