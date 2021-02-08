@@ -49,13 +49,13 @@ void World::initGhost(){
 }
 
 /*Update f*/
-void World::_update(){
+void World::_update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack){
     updateMap();
-    updateGhost();
+    updateGhost(win,tiles,pack);
 }
-void World::updateGhost(){
+void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack){
     for (int i = 0; i != 4; ++i){
-        ghost[i].__update();
+        ghost[i].__update(win,tiles,pack);
     }
 }
 void World::updateMap(){

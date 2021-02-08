@@ -19,7 +19,7 @@ public:
     World(unsigned int winWidth, unsigned int winHeight);
     ~World();
     void _render(sf::RenderTarget &win);
-    void _update();
+    void _update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     std::vector<std::vector<sf::Sprite>> &_getTiles();
 
 private:
@@ -33,12 +33,13 @@ private:
     void renderMap(sf::RenderTarget &win);
     void renderGhost(sf::RenderTarget &win);
     /*update f*/
-    void updateGhost();
+    void updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void updateMap();
 private:
     std::vector<std::vector<sf::Sprite>> tiles;
     sf::Texture textureMap;
     sf::Sprite spriteMap;
+    sf::Sprite pack;
 
     unsigned int winHeight, winWidth;
 private:

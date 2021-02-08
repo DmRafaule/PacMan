@@ -6,13 +6,35 @@ class Ghost{
 public:
     Ghost();
     ~Ghost();
-    void __update();
+    void __update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void __render(sf::RenderTarget &win);
     void setPos(float x, float y);
 private:
     void initTexture();
-    void initPos();
+    void initEyes();
+        /*about collisions*/
+    void collisions(sf::RenderTarget &);//for detecting  a border of screen
+    void collisionBorders(sf::RenderTarget &);
+    void collisionWalls(sf::RenderTarget &);
+    
+    /*about movements*/
+    void movements(sf::Sprite &pack);//f-tion for movements
+    void ch_movements();//f-tion for changing of direction 
+    void correct_movements(float &dir_x, float &dir_y);//f-tion for smooth movement(i.e. right angles )
+    
+    void vision(sf::Sprite &pack);//for get an information about surroundings
+    void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
+    void updateEyes();
 private:
+    std::vector<std::vector<sf::Sprite>> tiles;
+    sf::Sprite *pack;
+
     sf::Texture texture;
     sf::Sprite sprite;
+    sf::RectangleShape *eyes;
+private:
+    bool isRight=false,isLeft=false,isTop=false,isBottom=false;
+    float dir_x = 0;
+    float dir_y = 0;
+    float speed = 0.9;
 };

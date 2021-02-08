@@ -108,3 +108,6 @@ void Hero_pack::collisionWalls(sf::RenderTarget &window){
     }
     
 }
+sf::Sprite &Hero_pack::_getPack(){
+    return pack;
+}

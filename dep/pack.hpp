@@ -38,6 +38,7 @@ private:
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
 public:
     Hero_pack();//init character pack
+    sf::Sprite &_getPack();
     void _render(sf::RenderTarget *);//for render on main window
     void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>>& );//for all updating events to pack
 };

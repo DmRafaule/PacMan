@@ -29,7 +29,7 @@ void Game::update(){
     }
     
     pack->_update(*event, *window, world->_getTiles());
-    world->_update();
+    world->_update(*window,world->_getTiles(),pack->_getPack());
 }
 void Game::render(){
     window->clear();

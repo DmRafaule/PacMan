@@ -1029,6 +1029,8 @@ ghost.hpp
 /home/dimond/Projects/Repositories/PacMan/src/ghost.cpp
 ghost.hpp
 /home/dimond/Projects/Repositories/PacMan/src/ghost.hpp
+iostream
+-
 
 /home/dimond/Projects/Repositories/PacMan/src/main.cpp
 ctime
