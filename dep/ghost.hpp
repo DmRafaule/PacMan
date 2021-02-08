@@ -7,11 +7,11 @@ public:
     Ghost();
     ~Ghost();
     void __update();
-    void __render();
-    
+    void __render(sf::RenderTarget &win);
+    void setPos(float x, float y);
 private:
     void initTexture();
-    void setPos(float x, float y);/*HERE*/
+    void initPos();
 private:
     sf::Texture texture;
     sf::Sprite sprite;

@@ -1026,21 +1026,23 @@ map.hpp
 ghost.hpp
 ../dep/ghost.hpp
 
-/home/dimond/Downloads/GitHub/PacMan/src/ghost.cpp
+/home/dimond/Projects/Repositories/PacMan/src/ghost.cpp
 ghost.hpp
-/home/dimond/Downloads/GitHub/PacMan/src/ghost.hpp
+/home/dimond/Projects/Repositories/PacMan/src/ghost.hpp
 
-/home/dimond/Downloads/GitHub/PacMan/src/main.cpp
+/home/dimond/Projects/Repositories/PacMan/src/main.cpp
+ctime
+-
 pack_E.hpp
-/home/dimond/Downloads/GitHub/PacMan/src/pack_E.hpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 
-/home/dimond/Downloads/GitHub/PacMan/src/pack_E.cpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp
 pack_E.hpp
-/home/dimond/Downloads/GitHub/PacMan/src/pack_E.hpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 
-/home/dimond/Downloads/GitHub/PacMan/src/world.cpp
+/home/dimond/Projects/Repositories/PacMan/src/world.cpp
 world.hpp
-/home/dimond/Downloads/GitHub/PacMan/src/world.hpp
+/home/dimond/Projects/Repositories/PacMan/src/world.hpp
 iostream
 -
 

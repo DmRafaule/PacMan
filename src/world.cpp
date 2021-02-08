@@ -41,10 +41,16 @@ void World::initMap(){
 }
 void World::initGhost(){
     ghost = new Ghost[4];
+
+    ghost[0].setPos(0,50);
+    ghost[1].setPos(750,50);
+    ghost[2].setPos(0,550);
+    ghost[3].setPos(750,550);
 }
 
 /*Update f*/
 void World::_update(){
+    updateMap();
     updateGhost();
 }
 void World::updateGhost(){
@@ -69,7 +75,7 @@ void World::renderMap(sf::RenderTarget &win){
 }
 void World::renderGhost(sf::RenderTarget &win){
     for (int i = 0; i != 4; ++i){
-        ghost[i].__render();
+        ghost[i].__render(win);
     }
 }
 std::vector<std::vector<sf::Sprite>> &World::_getTiles(){

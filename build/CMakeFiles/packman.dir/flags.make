@@ -6,5 +6,5 @@ CXX_FLAGS =   -ggdb -Wall
 
 CXX_DEFINES = 
 
-CXX_INCLUDES = -I/home/dimond/Downloads/GitHub/PacMan/dep/SFML/include -I/home/dimond/Downloads/GitHub/PacMan/dep 
+CXX_INCLUDES = -I/home/dimond/Projects/Repositories/PacMan/dep/SFML/include -I/home/dimond/Projects/Repositories/PacMan/dep 
 
