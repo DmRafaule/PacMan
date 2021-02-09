@@ -1,5 +1,6 @@
 #pragma once 
 
+
 #include <SFML/Graphics.hpp>
 
 class Ghost{
@@ -20,8 +21,8 @@ private:
     
     /*about movements*/
     void movements(sf::Sprite &pack);//f-tion for movements
-    void ch_movements();//f-tion for changing of direction 
-    void correct_movements(float &dir_x, float &dir_y);//f-tion for smooth movement(i.e. right angles )
+    void ch_movements(sf::Sprite &pack);//f-tion for changing of direction 
+    void correct_movements();//f-tion for smooth movement(i.e. right angles )
     
     void vision(sf::Sprite &pack);//for get an information about surroundings
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
@@ -29,12 +30,20 @@ private:
 private:
     std::vector<std::vector<sf::Sprite>> *tiles;
     sf::Sprite *pack;
+    sf::RenderTarget *win;
 
     sf::Texture texture;
     sf::Sprite sprite;
     sf::RectangleShape *eyes;//for detcting a surroundig on distanse
+    enum Colors:int{//types of ghost
+        red,
+        green,
+        blue,
+        yellow
+    };
 private:
-    bool isRight=true,isLeft=false,isTop=false,isBottom=false;
+    bool isRight=false,isLeft=false,isTop=true,isBottom=false;
+    bool isFirst=true;
     float dir_x = 0;
     float dir_y = 0;
 };
