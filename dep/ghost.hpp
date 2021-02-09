@@ -8,10 +8,11 @@ public:
     ~Ghost();
     void __update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void __render(sf::RenderTarget &win);
-    void setPos(float x, float y);
+    void setPos(float x, float y);//set position of each ghost
+    void showStat();//TEMP REMOVE NOW!!!
 private:
-    void initTexture();
-    void initEyes();
+    void initTexture();//init ghost
+    void initEyes();//init ghost eyes
         /*about collisions*/
     void collisions(sf::RenderTarget &);//for detecting  a border of screen
     void collisionBorders(sf::RenderTarget &);
@@ -24,17 +25,16 @@ private:
     
     void vision(sf::Sprite &pack);//for get an information about surroundings
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
-    void updateEyes();
+    void updateEyes();//for correct displaying eyes on ghost
 private:
-    std::vector<std::vector<sf::Sprite>> tiles;
+    std::vector<std::vector<sf::Sprite>> *tiles;
     sf::Sprite *pack;
 
     sf::Texture texture;
     sf::Sprite sprite;
-    sf::RectangleShape *eyes;
+    sf::RectangleShape *eyes;//for detcting a surroundig on distanse
 private:
-    bool isRight=false,isLeft=false,isTop=false,isBottom=false;
+    bool isRight=true,isLeft=false,isTop=false,isBottom=false;
     float dir_x = 0;
     float dir_y = 0;
-    float speed = 0.9;
 };

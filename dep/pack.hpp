@@ -23,7 +23,9 @@ private:
     sf::Sprite pack;
     
     /*for directions of moves*/
-    float dir_x=0, dir_y=0;
+    float dir_x=0, dir_y=1;
+    
+    bool isWall=false;//logical(it isn't wall)
 private: 
     /*about collisions*/
     void collisions(sf::Event &, sf::RenderTarget &);//for detecting  a border of screen
