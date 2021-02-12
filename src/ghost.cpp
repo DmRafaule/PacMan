@@ -3,34 +3,44 @@
 
 Ghost::Ghost(){
     initTexture();
-    initEyes();
+    initVision();
 }
 Ghost::~Ghost(){
-    delete[] eyes;
+    delete vision;
 }
 
 /*update f-tion*/
-void Ghost::updateEyes(){
+void Ghost::updateVision(){
     for (int i = 0; i != 4 ; ++i){
-        eyes[i].setPosition(sprite.getGlobalBounds().left + texture.getSize().x/2,
-                            sprite.getGlobalBounds().top + texture.getSize().y/2);
+        vision->setPosition(sprite.getGlobalBounds().left - vision->getSize().x/2.5,
+                            sprite.getGlobalBounds().top - vision->getSize().y/2.5);
     }
 }
 void Ghost::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
     this->tiles = &tiles;
 }
+void Ghost::updateTime(){
+    time = clock.getElapsedTime();
+    if (time.asSeconds() >= 0.2){
+        isFirst=true;
+        clock.restart();
+    }
+}
 void Ghost::__update(sf::RenderTarget &win,std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack){
     updateTiles(tiles);
-    updateEyes();
+    updateVision();
+    updateTime();
+
     collisions(win);
     movements(pack);
+    
     this->win = &win;
 }
 /*Render f-tion*/
 void Ghost::__render(sf::RenderTarget &win){
     win.draw(sprite);
     for (int i = 0; i != 4 ; ++i){
-        win.draw(eyes[i]);
+        win.draw(*vision);
     }
 }
 /*init f-tion*/
@@ -60,17 +70,12 @@ void Ghost::initTexture(){
 }
 void Ghost::setPos(float x, float y){
     sprite.setPosition(x,y);
-    for (int i = 0; i != 4 ; ++i){
-        eyes[i].setPosition(x,y);        
-    }
+    vision->setPosition(x,y);        
 }
-void Ghost::initEyes(){
-    eyes = new sf::RectangleShape[4];
-    for (int i = 0; i != 4 ; ++i){
-        eyes[i].setSize(sf::Vector2f(150.f, 5.f));
-        eyes[i].setFillColor(sf::Color::Red);      
-        eyes[i].rotate(i*90);
-    }
+void Ghost::initVision(){
+    vision = new sf::RectangleShape;
+    vision->setSize(sf::Vector2f(200.f, 200.f));
+    vision->setFillColor(sf::Color(255,0,0,40));
 }
 
 /*about collisions*/
@@ -80,14 +85,10 @@ void Ghost::collisions(sf::RenderTarget &win){
 }
 void Ghost::showStat(){
     system("clear");
-    std::cout << "isRight = " <<this->isRight<<std::endl;
-    std::cout << "isLeft = " <<this->isLeft<<std::endl;
-    std::cout << "isTop = " <<this->isTop<<std::endl;
-    std::cout << "isBottom = " <<this->isBottom<<std::endl;
-    std::cout << "dir_x = " <<this->dir_x<<std::endl;
-    std::cout << "dir_y = " <<this->dir_y<<std::endl;
-    std::cout << "pos_x = " <<this->sprite.getPosition().x<<std::endl;
-    std::cout << "pos_y = " <<this->sprite.getPosition().y<<std::endl;
+    std::cout << "pos pack x = " <<this->posPac_x<<std::endl;
+    std::cout << "pos pack y = " <<this->posPac_y<<std::endl;
+    //std::cout << "pos_x = " <<this->sprite.getPosition().x<<std::endl;
+    //std::cout << "pos_y = " <<this->sprite.getPosition().y<<std::endl;
 }
 void Ghost::collisionBorders(sf::RenderTarget &win){
 /*left*/if(sprite.getGlobalBounds().left < 0){
@@ -111,12 +112,14 @@ void Ghost::collisionWalls(sf::RenderTarget &win){
     for (const auto &i : *tiles){
         for (const auto &j : i){
             if (sprite.getGlobalBounds().intersects(j.getGlobalBounds())){
+                isWall=true;
                 if (isRight || isLeft){
                     if (isRight) {
                         dir_x=-0.7;
                         dir_y=0;
                         isLeft=true;
                         isRight=false;
+
                    }
                     else if(!isRight) {
                         dir_x=0.7;
@@ -145,11 +148,23 @@ void Ghost::collisionWalls(sf::RenderTarget &win){
     }
 }
 
-/*about movements*/
+/*about movements and visions*/
 void Ghost::movements(sf::Sprite &pack){
     ch_movements(pack);
-    vision(pack);
+    correct_movements();
+    
+    visionPack(pack);
+    
     sprite.move(sf::Vector2f(dir_x,dir_y));
+}
+void Ghost::visionPack(sf::Sprite &pack){
+    if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
+        posPac_x = pack.getPosition().x;
+        posPac_y = pack.getPosition().y;
+
+        
+    }
+    
 }
 void Ghost::ch_movements(sf::Sprite &pack){
     if (isRight){
@@ -167,39 +182,6 @@ void Ghost::ch_movements(sf::Sprite &pack){
     else if (isBottom){
         dir_y = 0.7;
         dir_x = 0;
-    }
-}
-void Ghost::vision(sf::Sprite &pack){
-    if (eyes[0].getGlobalBounds().intersects(pack.getGlobalBounds())){
-        correct_movements();
-        isRight=true;
-        isLeft=false;
-        isTop=false;
-        isBottom=false;
-    }
-    else if (eyes[1].getGlobalBounds().intersects(pack.getGlobalBounds())){
-        correct_movements();
-        isRight=false;
-        isLeft=false;
-        isTop=false;
-        isBottom=true;
-    }
-    else if (eyes[2].getGlobalBounds().intersects(pack.getGlobalBounds())){
-        correct_movements();
-        isRight=false;
-        isLeft=true;
-        isTop=false;
-        isBottom=false;
-    }
-    else if (eyes[3].getGlobalBounds().intersects(pack.getGlobalBounds())){
-        correct_movements();
-        isRight=false;
-        isLeft=false;
-        isTop=true;
-        isBottom=false;
-    }
-    else{
-        isFirst=true;
     }
 }
 void Ghost::correct_movements(){
@@ -230,4 +212,5 @@ void Ghost::correct_movements(){
         sprite.setPosition(pos_x,pos_y);
         isFirst=false;
     }
+    
 }
