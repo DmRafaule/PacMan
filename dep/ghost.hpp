@@ -47,7 +47,7 @@ private:
         yellow
     };
 private:
-    bool isRight=false,isLeft=true,isTop=false,isBottom=false;
+    bool isRight=false,isLeft=false,isTop=true,isBottom=false;
     bool isFirst=true;//this is need for correct a move only once since they have see a packman or they just stop
     bool isWall=false;
     float dir_x = 0;

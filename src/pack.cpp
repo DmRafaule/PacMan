@@ -18,7 +18,7 @@ void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<s
 }
 
 void Hero_pack::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
-    this->tiles = tiles;
+    this->tiles = &tiles;
 }
 
 /*movements f-tion*/
@@ -85,7 +85,7 @@ void Hero_pack::correct_movements(float &dir_x, float &dir_y){
 
 /*collisions f-tions*/
 void Hero_pack::collisions(sf::Event &event, sf::RenderTarget &window){
-    collisionWalls(window);
+    collisionWallsPoint(window);
     collisionBorders(window);
 }
 void Hero_pack::collisionBorders(sf::RenderTarget &window){
@@ -98,15 +98,23 @@ void Hero_pack::collisionBorders(sf::RenderTarget &window){
 /*botom*/else if(pack.getGlobalBounds().top + pack.getGlobalBounds().height > window.getSize().y)
             dir_y = -1;
 }
-void Hero_pack::collisionWalls(sf::RenderTarget &window){
-    for (const auto &i : tiles){
-        for (const auto &j : i){
-            if (pack.getGlobalBounds().intersects(j.getGlobalBounds())){
+void Hero_pack::collisionWallsPoint(sf::RenderTarget &window){
+    for (auto &map : *tiles){
+        for (long unsigned int j = 0; j < map.size(); ++j){
+            if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) && (map[j].getScale().x == 0.25)){
                 if (dir_y == 1) dir_y = -1;
                 else if (dir_y == -1) dir_y = 1;
                 if (dir_x == 1) dir_x = -1;
                 else if (dir_x == -1) dir_x = 1;
                 isWall=true;
+            }
+            if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) &&
+                (map[j].getScale().x >= 0.05) &&
+                (map[j].getScale().x <= 0.15)){
+                if (dir_x == 1 && pack.getPosition().x+5 >= map[j].getPosition().x) map.erase(map.begin()+j);
+                else if (dir_x == -1 && pack.getPosition().x+5 <= map[j].getPosition().x) map.erase(map.begin()+j);
+                if (dir_y == 1 && pack.getPosition().y+5 >= map[j].getPosition().y) map.erase(map.begin()+j);
+                else if (dir_y == -1 && pack.getPosition().y+5 <= map[j].getPosition().y) map.erase(map.begin()+j);
             }
         }
     }

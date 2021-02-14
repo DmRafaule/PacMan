@@ -38,7 +38,9 @@ private:
 private:
     std::vector<std::vector<sf::Sprite>> tiles;
     sf::Texture textureMap;
+    sf::Texture textureP;
     sf::Sprite spriteMap;
+    sf::Sprite spriteP;
     sf::Sprite pack;
 
     unsigned int winHeight, winWidth;

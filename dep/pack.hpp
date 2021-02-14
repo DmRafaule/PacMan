@@ -16,7 +16,7 @@ Class about packman(player) and interaction with world, enemies
 class Hero_pack{
 private:
     /*For holding info about map*/
-    std::vector<std::vector<sf::Sprite>> tiles;
+    std::vector<std::vector<sf::Sprite>> *tiles;
     
     /*For pack textures*/
     sf::Texture texture;
@@ -30,7 +30,7 @@ private:
     /*about collisions*/
     void collisions(sf::Event &, sf::RenderTarget &);//for detecting  a border of screen
     void collisionBorders(sf::RenderTarget &);
-    void collisionWalls(sf::RenderTarget &);
+    void collisionWallsPoint(sf::RenderTarget &);
     
     /*about movements*/
     void movements(sf::Event &);//f-tion for movements
@@ -42,7 +42,7 @@ public:
     Hero_pack();//init character pack
     sf::Sprite &_getPack();
     void _render(sf::RenderTarget *);//for render on main window
-    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>>& );//for all updating events to pack
+    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>> &);//for all updating events to pack
 };
 
 #endif

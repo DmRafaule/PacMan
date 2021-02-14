@@ -20,20 +20,29 @@ void World::initVar(unsigned int winWidth, unsigned int winHeight){
 void World::initTiles(){
     if (!textureMap.loadFromFile("../texture/mapTile.png"))
         std::cout << "error, header.cpp::game::initTiles, cann't load a texture " << std::endl;
+    if (!textureP.loadFromFile("../texture/point.png")){
+        std::cout << "error, header.cpp::game::initTiles, cann't load a texture " << std::endl;
+    }
+    spriteP.setTexture(textureP);
     spriteMap.setTexture(textureMap);
-    spriteMap.scale(sf::Vector2f(0.5,0.5));
+    spriteP.setScale(0.05,0.05);
+    spriteMap.setScale(0.25,0.25);
 }
 void World::initMap(){
     map = new Map();
 
     tiles.clear();
     std::vector<sf::Sprite> row;
-    for (size_t i = 0; i < winHeight/50; ++i){
-        for (size_t j = 0; j < winWidth/50; ++j){
+    for (size_t i = 0; i < winHeight/25; ++i){
+        for (size_t j = 0; j < winWidth/25; ++j){
             if (map->get_map(i,j) == '#'){
                 row.push_back(spriteMap);
             }
-            spriteMap.setPosition(j*50,i*50);
+            if (map->get_map(i,j) == '_'){
+                row.push_back(spriteP);
+            }
+            spriteMap.setPosition(j*25,i*25);
+            spriteP.setPosition(j*25,i*25);
         }
         tiles.push_back(row);
         row.clear();
@@ -42,9 +51,9 @@ void World::initMap(){
 void World::initGhost(){
     ghost = new Ghost[4];
 
-    ghost[0].setPos(0,50);
+    ghost[0].setPos(50,50);
     ghost[1].setPos(750,50);
-    ghost[2].setPos(0,550);
+    ghost[2].setPos(50,550);
     ghost[3].setPos(750,550);
 }
 
@@ -57,7 +66,7 @@ void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprit
     for (int i = 0; i != 4; ++i){
         ghost[i].__update(win,tiles,pack);
     }
-    ghost[2].showStat();
+    //ghost[2].showStat();
 }
 void World::updateMap(){
 
@@ -68,8 +77,8 @@ void World::_render(sf::RenderTarget &win){
     renderGhost(win);
 }
 void World::renderMap(sf::RenderTarget &win){
-    for (const auto &i : tiles){
-        for (const auto &j : i){
+    for (auto &i : tiles){
+        for (auto &j : i){
             win.draw(j);
         }
     }

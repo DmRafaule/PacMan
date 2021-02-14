@@ -66,7 +66,7 @@ void Ghost::initTexture(){
             break;
         }
     }
-    sprite.scale(0.5,0.5);
+    sprite.scale(0.05,0.05);
 }
 void Ghost::setPos(float x, float y){
     sprite.setPosition(x,y);
@@ -111,7 +111,7 @@ void Ghost::collisionBorders(sf::RenderTarget &win){
 void Ghost::collisionWalls(sf::RenderTarget &win){
     for (const auto &i : *tiles){
         for (const auto &j : i){
-            if (sprite.getGlobalBounds().intersects(j.getGlobalBounds())){
+            if ((sprite.getGlobalBounds().intersects(j.getGlobalBounds())) && j.getScale().x == 0.25 ){
                 isWall=true;
                 if (isRight || isLeft){
                     if (isRight) {
@@ -161,8 +161,7 @@ void Ghost::visionPack(sf::Sprite &pack){
     if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
         posPac_x = pack.getPosition().x;
         posPac_y = pack.getPosition().y;
-
-        
+//HERE  
     }
     
 }
