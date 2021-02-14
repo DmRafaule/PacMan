@@ -2,6 +2,7 @@ file(REMOVE_RECURSE
   "CMakeFiles/packman.dir/src/ghost.cpp.o"
   "CMakeFiles/packman.dir/src/main.cpp.o"
   "CMakeFiles/packman.dir/src/map.cpp.o"
+  "CMakeFiles/packman.dir/src/menu.cpp.o"
   "CMakeFiles/packman.dir/src/pack.cpp.o"
   "CMakeFiles/packman.dir/src/pack_E.cpp.o"
   "CMakeFiles/packman.dir/src/world.cpp.o"

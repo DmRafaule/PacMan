@@ -9,6 +9,7 @@ Class for handling other class and connect them (Hero_pack,Enemy_goust,Map)
 
 #include "pack.hpp"
 #include "world.hpp"
+#include "menu.hpp"
 
 class Game{
 private:
@@ -17,6 +18,9 @@ private:
     
     Hero_pack *pack;//Class about user and interacion with game
     World *world;
+    Menu *menu;
+private:
+    bool isMenu = false;
 public:
     
     void run();//main infinity loop

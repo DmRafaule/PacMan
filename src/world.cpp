@@ -69,7 +69,7 @@ void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprit
     //ghost[2].showStat();
 }
 void World::updateMap(){
-
+    
 }
 /*Render f*/
 void World::_render(sf::RenderTarget &win){

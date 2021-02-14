@@ -204,6 +204,33 @@ src/map.cpp.s:
 	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/map.cpp.s
 .PHONY : src/map.cpp.s
 
+src/menu.o: src/menu.cpp.o
+
+.PHONY : src/menu.o
+
+# target to build an object file
+src/menu.cpp.o:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/menu.cpp.o
+.PHONY : src/menu.cpp.o
+
+src/menu.i: src/menu.cpp.i
+
+.PHONY : src/menu.i
+
+# target to preprocess a source file
+src/menu.cpp.i:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/menu.cpp.i
+.PHONY : src/menu.cpp.i
+
+src/menu.s: src/menu.cpp.s
+
+.PHONY : src/menu.s
+
+# target to generate assembly for a file
+src/menu.cpp.s:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/menu.cpp.s
+.PHONY : src/menu.cpp.s
+
 src/pack.o: src/pack.cpp.o
 
 .PHONY : src/pack.o
@@ -303,6 +330,9 @@ help:
 	@echo "... src/map.o"
 	@echo "... src/map.i"
 	@echo "... src/map.s"
+	@echo "... src/menu.o"
+	@echo "... src/menu.i"
+	@echo "... src/menu.s"
 	@echo "... src/pack.o"
 	@echo "... src/pack.i"
 	@echo "... src/pack.s"

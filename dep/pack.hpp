@@ -23,8 +23,8 @@ private:
     sf::Sprite pack;
     
     /*for directions of moves*/
-    float dir_x=0, dir_y=1;
-    
+    float dir_x = 0, dir_y = 1;
+    int score = 0;
     bool isWall=false;//logical(it isn't wall)
 private: 
     /*about collisions*/
