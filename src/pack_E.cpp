@@ -44,7 +44,7 @@ void Game::update(){
         }
     }
     if (!isMenu){//pop up menu/pausa 
-        pack->_update(*event, *window, world->_getTiles());
+        pack->_update(*event, *window, world->_getTiles(),world->_getGhost());
         world->_update(*window,world->_getTiles(),pack->_getPack());
     }
     menu->_update(isMenu,*window);

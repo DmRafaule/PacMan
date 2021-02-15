@@ -1,28 +1,95 @@
 #include "pack.hpp"
-
+#include <sstream>
 
 Hero_pack::Hero_pack(){
     texture.loadFromFile("../texture/pacman.png");
     pack.setTexture(texture);
     pack.setPosition(sf::Vector2f(350.f,300.f));
     pack.scale(0.5,0.5);
+
+    healthBar = new char[sizeHealthBar];//init health
+    for (int i =0; i != sizeHealthBar; ++i){
+        healthBar[i]='*';
+    }
+}
+Hero_pack::~Hero_pack(){
+    delete[] healthBar;
+}
+void Hero_pack::initStatus_Bar(sf::Event &event){
+    if (event.key.code == sf::Keyboard::Tab && !isBar) {//allocate memory for status bar
+        //Window stuff
+        isBar=true;
+        texture_bar = new sf::Texture();
+        texture_bar->loadFromFile("../texture/status_bar.png");
+        sprite_bar = new sf::Sprite(*texture_bar);
+        //Text stuff
+        font = new sf::Font();
+        font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
+        textHealth = new sf::Text(); 
+        textScore = new sf::Text(); 
+        textScore->setFont(*font);
+        textHealth->setFont(*font);
+
+        textScore->setCharacterSize(30);
+        textHealth->setCharacterSize(50);
+        textHealth->setFillColor(sf::Color::Red);
+
+    }
+    if (event.key.code == sf::Keyboard::Q && isBar){//free memory for status bar
+        isBar = false;
+        delete texture_bar;
+        delete sprite_bar;
+        delete font;
+        delete textScore;
+        delete textHealth;
+    }
 }
 
 void Hero_pack::_render(sf::RenderTarget *window){
     window->draw(pack);
+    if (isBar){
+        window->draw(*sprite_bar);
+        window->draw(*textScore);
+        window->draw(*textHealth);
+    }
 }
-void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles){
+void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost){
     updateTiles(tiles);
-    collisions(event, window);
-    movements(event);
+    updateCollisions(window,ghost);
+    updateMovements(event);
+    initStatus_Bar(event);
+    if (isBar)
+        updateStatus_Bar(window);
 }
 
 void Hero_pack::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
     this->tiles = &tiles;
 }
+void Hero_pack::updateStatus_Bar(sf::RenderTarget &window){
+    std::stringstream ss;
+    ss << "Score: " << score << "\t\t\t\t\tHealth: ";
+    textScore->setString(ss.str());
+    ss.str("");//Clear stream
+    ss << healthBar;
+    textHealth->setString(ss.str());
 
-/*movements f-tion*/
-void Hero_pack::movements(sf::Event &event){
+    if (pack.getPosition().y >= window.getSize().y/2){//If pack on the top of window, display status bar on bottom
+        sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,0);
+    }
+    else{  //else display on top
+        sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,
+                                window.getSize().y - sprite_bar->getGlobalBounds().height);
+    }
+    textScore->setPosition(sprite_bar->getPosition().x + 20, sprite_bar->getPosition().y + 20);
+    textHealth->setPosition(sprite_bar->getPosition().x + sprite_bar->getGlobalBounds().width - textHealth->getGlobalBounds().width -30,
+                            sprite_bar->getPosition().y + 7);
+
+
+
+}
+
+
+void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
         ch_movements(event);
     pack.move(dir_x,dir_y);
@@ -83,10 +150,11 @@ void Hero_pack::correct_movements(float &dir_x, float &dir_y){
     }
 }
 
-/*collisions f-tions*/
-void Hero_pack::collisions(sf::Event &event, sf::RenderTarget &window){
+
+void Hero_pack::updateCollisions(sf::RenderTarget &window, Ghost &ghost){
     collisionWallsPoint(window);
     collisionBorders(window);
+    collisionGhost(ghost);
 }
 void Hero_pack::collisionBorders(sf::RenderTarget &window){
 /*left*/ if(pack.getGlobalBounds().left < 0) 
@@ -111,17 +179,36 @@ void Hero_pack::collisionWallsPoint(sf::RenderTarget &window){
             if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) &&
                 (map[j].getScale().x >= 0.05) &&
                 (map[j].getScale().x <= 0.15)){
-                if (dir_x == 1 && pack.getPosition().x+5 >= map[j].getPosition().x) map.erase(map.begin()+j);
-                else if (dir_x == -1 && pack.getPosition().x+5 <= map[j].getPosition().x) map.erase(map.begin()+j);
-                if (dir_y == 1 && pack.getPosition().y+5 >= map[j].getPosition().y) map.erase(map.begin()+j);
-                else if (dir_y == -1 && pack.getPosition().y+5 <= map[j].getPosition().y) map.erase(map.begin()+j);
+                if (dir_x == 1 && pack.getPosition().x+5 >= map[j].getPosition().x){
+                    map.erase(map.begin()+j);
+                    score++;
+                }
+                else if (dir_x == -1 && pack.getPosition().x+5 <= map[j].getPosition().x){
+                    map.erase(map.begin()+j);
+                    score++;
+                }
+                if (dir_y == 1 && pack.getPosition().y+5 >= map[j].getPosition().y){
+                    map.erase(map.begin()+j);
+                    score++;
+                }
+                else if (dir_y == -1 && pack.getPosition().y+5 <= map[j].getPosition().y){
+                    map.erase(map.begin()+j);
+                    score++;
+                }
+                /*Why not here?? Because score too fast growing*/
             }
         }
     }
     
 }
+void Hero_pack::collisionGhost(Ghost &ghost){
+    if (pack.getGlobalBounds().intersects(ghost._getGhostSprite().getGlobalBounds()) && !isGhost){//Here it's ok MAKE  a global timer in Engine
+        std::cout << "It's ghost\n";
+        isGhost=true;
+    }
+}
 
-
+/*Getters*/
 sf::Sprite &Hero_pack::_getPack(){
     return pack;
 }

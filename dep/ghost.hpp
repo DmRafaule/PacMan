@@ -10,6 +10,7 @@ public:
     void __update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void __render(sf::RenderTarget &win);
     void setPos(float x, float y);//set position of each ghost
+    sf::Sprite &_getGhostSprite();
     void showStat();//TEMP REMOVE NOW!!!
 private:
     void initTexture();//init ghost
@@ -29,6 +30,7 @@ private:
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
     void updateVision();//for correct displaying eyes on ghost
     void updateTime();//for timers and time
+    
 private:
     std::vector<std::vector<sf::Sprite>> *tiles;
     sf::Sprite *pack;

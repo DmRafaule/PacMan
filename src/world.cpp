@@ -91,3 +91,6 @@ void World::renderGhost(sf::RenderTarget &win){
 std::vector<std::vector<sf::Sprite>> &World::_getTiles(){
     return tiles;
 }
+Ghost &World::_getGhost(){
+    return *ghost;
+}

@@ -21,6 +21,7 @@ public:
     void _render(sf::RenderTarget &win);
     void _update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     std::vector<std::vector<sf::Sprite>> &_getTiles();
+    Ghost &_getGhost();
 
 private:
     /*Init f*/

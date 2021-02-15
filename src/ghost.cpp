@@ -161,6 +161,7 @@ void Ghost::visionPack(sf::Sprite &pack){
     if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
         posPac_x = pack.getPosition().x;
         posPac_y = pack.getPosition().y;
+
 //HERE  
     }
     
@@ -212,4 +213,7 @@ void Ghost::correct_movements(){
         isFirst=false;
     }
     
+}
+sf::Sprite &Ghost::_getGhostSprite(){
+    return sprite;
 }
