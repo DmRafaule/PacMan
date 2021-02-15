@@ -11,9 +11,14 @@ Hero_pack::Hero_pack(){
     for (int i =0; i != sizeHealthBar; ++i){
         healthBar[i]='*';
     }
+
+    clock = new sf::Clock();
+    localTime = new sf::Time();
 }
 Hero_pack::~Hero_pack(){
     delete[] healthBar;
+    delete clock;
+    delete localTime;
 }
 void Hero_pack::initStatus_Bar(sf::Event &event){
     if (event.key.code == sf::Keyboard::Tab && !isBar) {//allocate memory for status bar
@@ -25,12 +30,13 @@ void Hero_pack::initStatus_Bar(sf::Event &event){
         //Text stuff
         font = new sf::Font();
         font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
-        textHealth = new sf::Text(); 
+        
         textScore = new sf::Text(); 
         textScore->setFont(*font);
-        textHealth->setFont(*font);
-
         textScore->setCharacterSize(30);
+
+        textHealth = new sf::Text(); 
+        textHealth->setFont(*font);
         textHealth->setCharacterSize(50);
         textHealth->setFillColor(sf::Color::Red);
 
@@ -53,27 +59,32 @@ void Hero_pack::_render(sf::RenderTarget *window){
         window->draw(*textHealth);
     }
 }
-void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost){
+void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime){
     updateTiles(tiles);
     updateCollisions(window,ghost);
     updateMovements(event);
+    updateTime();
     initStatus_Bar(event);
     if (isBar)
-        updateStatus_Bar(window);
+        updateStatus_Bar(window,globalTime);
 }
 
 void Hero_pack::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
     this->tiles = &tiles;
 }
-void Hero_pack::updateStatus_Bar(sf::RenderTarget &window){
+void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime){
     std::stringstream ss;
-    ss << "Score: " << score << "\t\t\t\t\tHealth: ";
+    /*Player score and game time*/
+    ss << "Score: " << score << "\t\t\t\t\tHealth: " << "\n\nTime: " << static_cast<int>(globalTime.asSeconds());
     textScore->setString(ss.str());
+    /*Player lives*/
     ss.str("");//Clear stream
-    ss << healthBar;
+    for (int i = 0; i != sizeHealthBar ; ++i){
+        ss << healthBar[i];
+    }
     textHealth->setString(ss.str());
 
-    if (pack.getPosition().y >= window.getSize().y/2){//If pack on the top of window, display status bar on bottom
+    if (pack.getPosition().y >= window.getSize().y/2-100){//If pack on the top of window, display status bar on bottom
         sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,0);
     }
     else{  //else display on top
@@ -87,7 +98,9 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window){
 
 
 }
-
+void Hero_pack::updateTime(){
+    *localTime = clock->getElapsedTime();
+}
 
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
@@ -202,9 +215,15 @@ void Hero_pack::collisionWallsPoint(sf::RenderTarget &window){
     
 }
 void Hero_pack::collisionGhost(Ghost &ghost){
-    if (pack.getGlobalBounds().intersects(ghost._getGhostSprite().getGlobalBounds()) && !isGhost){//Here it's ok MAKE  a global timer in Engine
-        std::cout << "It's ghost\n";
-        isGhost=true;
+    for (int i = 0; i != 4 ; ++i){
+        if (pack.getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 5){//Here it's ok MAKE  a global timer in Engine
+            (*clock).restart();
+            isGhost=true;
+            sizeHealthBar--;
+        }
+        if (isGhost){
+            isGhost=false;
+        }
     }
 }
 

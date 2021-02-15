@@ -18,7 +18,10 @@ class Hero_pack{
 private:
     /*For holding info about map*/
     std::vector<std::vector<sf::Sprite>> *tiles;
-    
+    /*For holdig info about globalTime*/
+    sf::Clock *clock;
+    sf::Time *localTime;
+
     /*For pack textures*/
     sf::Texture texture;
     sf::Sprite pack;
@@ -32,7 +35,7 @@ private:
     float dir_x = 0, dir_y = 1;
     /*for status bar*/
     int score = 0, sizeHealthBar = 6;
-    char *healthBar;
+    char *healthBar;//contain ****** as default
     bool isWall=false;//logical(it isn't wall)
     bool isBar=false;//about question of existing status bar
     bool isGhost=false;//for detect a ghost
@@ -59,7 +62,9 @@ private:
     /*update state of tiles map*/
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);
     /*update state of status bar*/
-    void updateStatus_Bar(sf::RenderTarget &window);
+    void updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime);
+    /*update local time*/
+    void updateTime();
 public:
     /*init character pack*/
     Hero_pack();
@@ -69,7 +74,7 @@ public:
     /*for render on main window*/
     void _render(sf::RenderTarget *);
     /*for all updating events to pack*/
-    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>> &, Ghost &);
+    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>> &, Ghost &,sf::Time &globalTime);
 };
 
 #endif

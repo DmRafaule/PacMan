@@ -2,8 +2,6 @@
 #define PACK_E_HPP
 /*
 Class for handling other class and connect them (Hero_pack,Enemy_goust,Map)
-
-
 */
 
 
@@ -19,6 +17,10 @@ private:
     Hero_pack *pack;//Class about user and interacion with game
     World *world;
     Menu *menu;
+
+    /*Game time*/
+    sf::Clock globalClock;
+    sf::Time globalTime;
 private:
     bool isMenu = false;
 public:

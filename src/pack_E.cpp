@@ -26,6 +26,7 @@ void Game::run(){
     }
 }
 void Game::update(){
+    globalTime = globalClock.getElapsedTime();
     while (window->pollEvent(*event)){
         if (event->type == sf::Event::Closed){
             window->close();
@@ -44,7 +45,7 @@ void Game::update(){
         }
     }
     if (!isMenu){//pop up menu/pausa 
-        pack->_update(*event, *window, world->_getTiles(),world->_getGhost());
+        pack->_update(*event, *window, world->_getTiles(),world->_getGhost(),globalTime);
         world->_update(*window,world->_getTiles(),pack->_getPack());
     }
     menu->_update(isMenu,*window);
