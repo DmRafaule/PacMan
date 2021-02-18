@@ -5,6 +5,7 @@ Hero_pack::Hero_pack(){
     texture.loadFromFile("../texture/pacman.png");
     pack.setTexture(texture);
     pack.setPosition(sf::Vector2f(350.f,300.f));
+    pack.setTextureRect(sf::IntRect(0,0,50,50));
     pack.scale(0.5,0.5);
 
     healthBar = new char[sizeHealthBar];//init health
@@ -62,6 +63,7 @@ void Hero_pack::_render(sf::RenderTarget *window){
 void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime){
     updateTiles(tiles);
     updateCollisions(window,ghost);
+    updateAnimation();
     updateMovements(event);
     updateTime();
     initStatus_Bar(event);
@@ -102,6 +104,17 @@ void Hero_pack::updateTime(){
     *localTime = clock->getElapsedTime();
 }
 
+void Hero_pack::updateAnimation(){
+    frame+=0.06;
+    if (frame < 4){  
+        if (dir_x == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),47,50,50));//Animation for leftward
+        else if (dir_x == 1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),95,50,50));//Animation for rightward
+        if (dir_y == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),193,50,50));//Animation for upward
+        else if (dir_y == 1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),143,50,50));//Animation for downward
+    }
+    else frame = 0;
+}
+
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
         ch_movements(event);
@@ -109,7 +122,6 @@ void Hero_pack::updateMovements(sf::Event &event){
 }
 void Hero_pack::ch_movements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed && !isWall){
-        //for animation in move
         if (event.key.code == sf::Keyboard::Left){
             dir_x = -1;
             dir_y = 0;
@@ -131,7 +143,6 @@ void Hero_pack::ch_movements(sf::Event &event){
     }
     else{
         isWall=false;
-        //for animation in static
     }
 }
 void Hero_pack::correct_movements(float &dir_x, float &dir_y){

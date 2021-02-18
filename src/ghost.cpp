@@ -10,6 +10,16 @@ Ghost::~Ghost(){
 }
 
 /*update f-tion*/
+void Ghost::updateAnimation(){
+    frame+=0.06;
+    if (frame < 4){  
+        if (isLeft) sprite.setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for leftward
+        else if (isRight) sprite.setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for rightward
+        if (isTop) sprite.setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for upward
+        else if (isBottom) sprite.setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for downward
+    }
+    else frame = 0;
+}
 void Ghost::updateVision(){
     for (int i = 0; i != 4 ; ++i){
         vision->setPosition(sprite.getGlobalBounds().left - vision->getSize().x/2.5,
@@ -33,6 +43,7 @@ void Ghost::__update(sf::RenderTarget &win,std::vector<std::vector<sf::Sprite>> 
 
     collisions(win);
     movements(pack);
+    updateAnimation();
     
     this->win = &win;
 }
@@ -80,7 +91,7 @@ void Ghost::initVision(){
 
 /*about collisions*/
 void Ghost::collisions(sf::RenderTarget &win){
-    collisionBorders(win);
+    //collisionBorders(win);
     collisionWalls(win);
 }
 void Ghost::showStat(){
@@ -161,7 +172,7 @@ void Ghost::visionPack(sf::Sprite &pack){
     if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
         posPac_x = pack.getPosition().x;
         posPac_y = pack.getPosition().y;
-
+        
 //HERE  
     }
     
