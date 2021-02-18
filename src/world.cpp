@@ -66,7 +66,7 @@ void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprit
     for (int i = 0; i != 4; ++i){
         ghost[i].__update(win,tiles,pack);
     }
-    //ghost[2].showStat();
+    ghost[0].showStat();
 }
 void World::updateMap(){
     

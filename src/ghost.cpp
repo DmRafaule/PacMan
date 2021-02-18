@@ -8,6 +8,9 @@ Ghost::Ghost(){
 Ghost::~Ghost(){
     delete vision;
 }
+sf::Sprite &Ghost::_getGhostSprite(){
+    return sprite;
+}
 
 /*update f-tion*/
 void Ghost::updateAnimation(){
@@ -41,8 +44,8 @@ void Ghost::__update(sf::RenderTarget &win,std::vector<std::vector<sf::Sprite>> 
     updateVision();
     updateTime();
 
-    collisions(win);
-    movements(pack);
+    updateCollisions(win);
+    updateMovements(pack);
     updateAnimation();
     
     this->win = &win;
@@ -78,6 +81,7 @@ void Ghost::initTexture(){
         }
     }
     sprite.scale(0.05,0.05);
+    sprite.setTextureRect(sf::IntRect(0,0,500,500));
 }
 void Ghost::setPos(float x, float y){
     sprite.setPosition(x,y);
@@ -88,114 +92,99 @@ void Ghost::initVision(){
     vision->setSize(sf::Vector2f(200.f, 200.f));
     vision->setFillColor(sf::Color(255,0,0,40));
 }
-
+/*Update f-tions*/
 /*about collisions*/
-void Ghost::collisions(sf::RenderTarget &win){
-    //collisionBorders(win);
-    collisionWalls(win);
+void Ghost::updateCollisions(sf::RenderTarget &win){
+    isWall = updateCollisionWalls(win);
 }
 void Ghost::showStat(){
-    system("clear");
-    std::cout << "pos pack x = " <<this->posPac_x<<std::endl;
-    std::cout << "pos pack y = " <<this->posPac_y<<std::endl;
-    //std::cout << "pos_x = " <<this->sprite.getPosition().x<<std::endl;
-    //std::cout << "pos_y = " <<this->sprite.getPosition().y<<std::endl;
 }
-void Ghost::collisionBorders(sf::RenderTarget &win){
-/*left*/if(sprite.getGlobalBounds().left < 0){
-            isLeft=false;
-            isRight=true;
-        }
-/*right*/else if(sprite.getGlobalBounds().left + sprite.getGlobalBounds().width > win.getSize().x){
-            isLeft=true;
-            isRight=false;
-        }
-/*top*/ if(sprite.getGlobalBounds().top < 0){
-            isBottom=true;
-            isTop=false;
-        }
-/*botom*/else if(sprite.getGlobalBounds().top + sprite.getGlobalBounds().height > win.getSize().y){
-            isBottom=false;
-            isTop=true;
-        }
-}
-void Ghost::collisionWalls(sf::RenderTarget &win){
+bool Ghost::updateCollisionWalls(sf::RenderTarget &win){
     for (const auto &i : *tiles){
         for (const auto &j : i){
             if ((sprite.getGlobalBounds().intersects(j.getGlobalBounds())) && j.getScale().x == 0.25 ){
-                isWall=true;
-                if (isRight || isLeft){
-                    if (isRight) {
-                        dir_x=-0.7;
-                        dir_y=0;
-                        isLeft=true;
-                        isRight=false;
+                return true;
+            }
+        }
+    }
+    return false;
+}
 
-                   }
-                    else if(!isRight) {
-                        dir_x=0.7;
-                        dir_y=0;
-                        isLeft=false;
-                        isRight=true;
-                   }
-                }
-                else{
-                        if (isTop){
-                        dir_x=0;
-                        dir_y=0.7;
-                        isTop=false;
-                        isBottom=true;
-                    }
-                    else if (!isTop){
-                        dir_x=0;
-                        dir_y=-0.7;
-                        isTop=true;
-                        isBottom=false;
-                    }
-                }
+/*about movements and visions*/
+void Ghost::updateMovements(sf::Sprite &pack){
+    updateMovementsNoVisionPack(pack);
+    updateMovementsYesVisionPack();
+
+    updateCorrectMovements();
+    updateVisionPack(pack);
+    
+    updateChangingMovements();
+    sprite.move(sf::Vector2f(dir_x,dir_y));
+}
+void Ghost::updateMovementsNoVisionPack(sf::Sprite &pack){
+    if (isWall){
+        switch (updateDecision()){
+        case 0:
+            isLeft = true;
+            break;
+        
+        case 1:
+            isTop = true;
+            break;
+        
+        case 2:
+            isBottom = true;
+            break;
+        
+        case 3:
+            isRight = true;
+            break;
+        }
+    }
+}
+int Ghost::updateDecision(){
+    int outcome  = 2;
+    ghostPos.x = sprite.getPosition().x;
+    ghostPos.y = sprite.getPosition().y;
+    ghostSize.x = sprite.getGlobalBounds().width;
+    ghostSize.y = sprite.getGlobalBounds().height;
+    sf::Vector2f tmpPos;
+
+    for (const auto &i : *tiles){
+        for (const auto &j : i){
+            //top sensor
+            tmpPos.y = ghostPos.y - ghostSize.y;
+            tmpPos.x = ghostPos.x - 0;
+            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
+                //HERE SENSORS ARE WORK
+            }
+            //bottom sensor
+            tmpPos.y = ghostPos.y + ghostSize.y;
+            tmpPos.x = ghostPos.x - 0;
+            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
+                
+            }
+            //right sensor
+            tmpPos.y = ghostPos.y + 0;
+            tmpPos.x = ghostPos.x + ghostSize.x;
+            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
+                
+            }
+            //left sensor
+            tmpPos.y = ghostPos.y + 0;
+            tmpPos.x = ghostPos.x - ghostSize.x;
+            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
                 
             }
         }
     }
+    isRight = isLeft = isBottom = isTop = false;//"just stop and thinking"
+    return outcome;
 }
+void Ghost::updateMovementsYesVisionPack(){
 
-/*about movements and visions*/
-void Ghost::movements(sf::Sprite &pack){
-    ch_movements(pack);
-    correct_movements();
-    
-    visionPack(pack);
-    
-    sprite.move(sf::Vector2f(dir_x,dir_y));
 }
-void Ghost::visionPack(sf::Sprite &pack){
-    if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
-        posPac_x = pack.getPosition().x;
-        posPac_y = pack.getPosition().y;
-        
-//HERE  
-    }
-    
-}
-void Ghost::ch_movements(sf::Sprite &pack){
-    if (isRight){
-        dir_y = 0;
-        dir_x = 0.7;
-    }
-    else if (isLeft){
-        dir_y = 0;
-        dir_x = -0.7;
-    }
-    if (isTop){
-        dir_y = -0.7;
-        dir_x = 0;
-    }
-    else if (isBottom){
-        dir_y = 0.7;
-        dir_x = 0;
-    }
-}
-void Ghost::correct_movements(){
+void Ghost::updateCorrectMovements(){
     int pos_x = sprite.getPosition().x;
     int pos_y = sprite.getPosition().y;
     int remain_y = pos_y%25;
@@ -225,6 +214,44 @@ void Ghost::correct_movements(){
     }
     
 }
-sf::Sprite &Ghost::_getGhostSprite(){
-    return sprite;
+void Ghost::updateVisionPack(sf::Sprite &pack){
+    if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
+        packPos.x = pack.getPosition().x;
+        packPos.y = pack.getPosition().y;
+        if (packPos.y < sprite.getGlobalBounds().top){//If  pack on the top
+            wherePack[0] = true;
+        }
+        else if (packPos.y > sprite.getGlobalBounds().top +sprite.getGlobalBounds().height){//If  pack on the bottom
+            wherePack[1] = true;
+        }
+        if (packPos.x < sprite.getGlobalBounds().left){//if pack on the left
+            wherePack[2] = true;
+        }
+        else if (packPos.x > sprite.getGlobalBounds().left + sprite.getGlobalBounds().width){//if pack on the right
+            wherePack[3] = true;
+        }
+    }
+    else {
+        for (int i = 0 ; i != 4 ; ++i)
+            wherePack[i] = false;    
+    }
+    
+}
+void Ghost::updateChangingMovements(){
+    if (isRight){
+        dir_y = 0;
+        dir_x = 0.7;
+    }
+    else if (isLeft){
+        dir_y = 0;
+        dir_x = -0.7;
+    }
+    if (isTop){
+        dir_y = -0.7;
+        dir_x = 0;
+    }
+    else if (isBottom){
+        dir_y = 0.7;
+        dir_x = 0;
+    }
 }

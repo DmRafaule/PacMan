@@ -48,18 +48,18 @@ private:
     /*for detecting  a border of screen*/
     void updateCollisions(sf::RenderTarget &, Ghost &);
         /*For detect colisions with border of screen*/
-        void collisionBorders(sf::RenderTarget &);
+        void updateCollisionBorders(sf::RenderTarget &);
         /*For detect colisions with tiles(walls) and points*/
-        void collisionWallsPoint(sf::RenderTarget &);
+        void updateCollisionWallsPoint(sf::RenderTarget &);
         /*For detect collisions with ghost*/
-        void collisionGhost(Ghost &);
+        void updateCollisionGhost(Ghost &);
 
     /*for detecting a key input and make some moves*/
     void updateMovements(sf::Event &);
         /*f-tion for changing of direction*/
-        void ch_movements(sf::Event &);
+        void updateCh_movements(sf::Event &);
         /*f-tion for smooth movement(i.e. right angles )*/
-        void correct_movements(float &dir_x, float &dir_y);
+        void updateCorrect_movements(float &dir_x, float &dir_y);
     /*update state of tiles map*/
     void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);
     /*update state of status bar*/

@@ -117,10 +117,10 @@ void Hero_pack::updateAnimation(){
 
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
-        ch_movements(event);
+        updateCh_movements(event);
     pack.move(dir_x,dir_y);
 }
-void Hero_pack::ch_movements(sf::Event &event){
+void Hero_pack::updateCh_movements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed && !isWall){
         if (event.key.code == sf::Keyboard::Left){
             dir_x = -1;
@@ -139,13 +139,13 @@ void Hero_pack::ch_movements(sf::Event &event){
             dir_x = 0;
         }
         isWall=true;
-        correct_movements(dir_x,dir_y);
+        updateCorrect_movements(dir_x,dir_y);
     }
     else{
         isWall=false;
     }
 }
-void Hero_pack::correct_movements(float &dir_x, float &dir_y){
+void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
     
     int pos_x = pack.getPosition().x;
     int pos_y = pack.getPosition().y;
@@ -176,11 +176,11 @@ void Hero_pack::correct_movements(float &dir_x, float &dir_y){
 
 
 void Hero_pack::updateCollisions(sf::RenderTarget &window, Ghost &ghost){
-    collisionWallsPoint(window);
-    collisionBorders(window);
-    collisionGhost(ghost);
+    updateCollisionWallsPoint(window);
+    updateCollisionBorders(window);
+    updateCollisionGhost(ghost);
 }
-void Hero_pack::collisionBorders(sf::RenderTarget &window){
+void Hero_pack::updateCollisionBorders(sf::RenderTarget &window){
 /*left*/ if(pack.getGlobalBounds().left < 0) 
             dir_x = 1;
 /*right*/else if(pack.getGlobalBounds().left + pack.getGlobalBounds().width > window.getSize().x)
@@ -190,7 +190,7 @@ void Hero_pack::collisionBorders(sf::RenderTarget &window){
 /*botom*/else if(pack.getGlobalBounds().top + pack.getGlobalBounds().height > window.getSize().y)
             dir_y = -1;
 }
-void Hero_pack::collisionWallsPoint(sf::RenderTarget &window){
+void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
     for (auto &map : *tiles){
         for (long unsigned int j = 0; j < map.size(); ++j){
             if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) && (map[j].getScale().x == 0.25)){
@@ -225,7 +225,7 @@ void Hero_pack::collisionWallsPoint(sf::RenderTarget &window){
     }
     
 }
-void Hero_pack::collisionGhost(Ghost &ghost){
+void Hero_pack::updateCollisionGhost(Ghost &ghost){
     for (int i = 0; i != 4 ; ++i){
         if (pack.getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 5){//Here it's ok MAKE  a global timer in Engine
             (*clock).restart();

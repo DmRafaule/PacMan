@@ -13,49 +13,68 @@ public:
     sf::Sprite &_getGhostSprite();
     void showStat();//TEMP REMOVE NOW!!!
 private:
-    void initTexture();//init ghost
-    void initVision();//init ghost eyes
+    /*Init f-tions*/
+    //init ghost
+    void initTexture();
+    //init ghost eyes
+    void initVision();
+    /*Update f-tions*/
         /*about collisions*/
-    void collisions(sf::RenderTarget &);//for detecting  a border of screen
-    void collisionBorders(sf::RenderTarget &);
-    void collisionWalls(sf::RenderTarget &);
-    
-    /*about movements*/
-    void movements(sf::Sprite &pack);//f-tion for movements
-    void ch_movements(sf::Sprite &pack);//f-tion for changing of direction 
-    void correct_movements();//correcting if pack visable
-    
-    void visionPack(sf::Sprite &pack);//for detection pack
-    
-    void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);//for inteact with map
-    void updateVision();//for correct displaying eyes on ghost
-    void updateTime();//for timers and time
-    void updateAnimation();//for updating animation
-    
+        void updateCollisions(sf::RenderTarget &);//for detecting  a border of screen
+            /*For detect a walls*/
+            bool updateCollisionWalls(sf::RenderTarget &);
+
+        /*About movements*/
+        /*f-tions for movements*/
+        void updateMovements(sf::Sprite &pack);
+            //f-tion for changing of direction if ghost dont see pack 
+            void updateMovementsNoVisionPack(sf::Sprite &pack);
+                //f-tion for make desision which direction to choose
+                int  updateDecision();
+            //f-tion for changing of direction if ghost can see pack
+            void updateMovementsYesVisionPack();
+            //How we change a directions
+            void updateChangingMovements();
+            //Correcting position of ghost for "square moves(i.e. turning by angle 90deg and fix positon)"
+            void updateCorrectMovements();
+            //for detection pack
+            void updateVisionPack(sf::Sprite &pack);
+        //for inteact with map
+        void updateTiles(std::vector<std::vector<sf::Sprite>> &tiles);
+        //for correct displaying eyes on ghost
+        void updateVision();
+        //for timers and time
+        void updateTime();
+        //for updating animation
+        void updateAnimation();
+
 private:
+    /*For knowing by ghost where tiles and pack are*/
     std::vector<std::vector<sf::Sprite>> *tiles;
     sf::Sprite *pack;
     sf::RenderTarget *win;
-
+    //Timer
     sf::Clock clock;
     sf::Time time;
 
     sf::Texture texture;
     sf::Sprite sprite;
     sf::RectangleShape *vision;//for detcting a surroundig on distanse
-    enum Colors:int{//types of ghost
+    enum Colors:int{//Type of ghost
         red,
         green,
         blue,
         yellow
     };
-    float frame = 0;
+    float frame = 0;//for counting frames for animation
 private:
-    bool isRight=false,isLeft=false,isTop=false,isBottom=false;
+    bool isRight=true,isLeft=false,isTop=false,isBottom=false;//for directions of  moves
+    bool wherePack[4]{false};//for detecting pack
     bool isFirst=true;//this is need for correct a move only once since they have see a packman or they just stop
-    bool isWall=false;
+    bool isWall;//this is neen for detect a walls
     float dir_x = 0;
     float dir_y = 0;
-    int posPac_x;
-    int posPac_y;
+    sf::Vector2f packPos;//for remember a coordinate of pack
+    sf::Vector2f ghostPos;//for ghost sensors(look at f. updateDecision)
+    sf::Vector2f ghostSize;//for ghost sensors(look at f. updateDecision)
 };
