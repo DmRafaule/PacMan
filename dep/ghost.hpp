@@ -75,6 +75,4 @@ private:
     float dir_x = 0;
     float dir_y = 0;
     sf::Vector2f packPos;//for remember a coordinate of pack
-    sf::Vector2f ghostPos;//for ghost sensors(look at f. updateDecision)
-    sf::Vector2f ghostSize;//for ghost sensors(look at f. updateDecision)
 };

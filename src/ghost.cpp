@@ -98,6 +98,7 @@ void Ghost::updateCollisions(sf::RenderTarget &win){
     isWall = updateCollisionWalls(win);
 }
 void Ghost::showStat(){
+    
 }
 bool Ghost::updateCollisionWalls(sf::RenderTarget &win){
     for (const auto &i : *tiles){
@@ -143,42 +144,96 @@ void Ghost::updateMovementsNoVisionPack(sf::Sprite &pack){
     }
 }
 int Ghost::updateDecision(){
-    int outcome  = 2;
-    ghostPos.x = sprite.getPosition().x;
-    ghostPos.y = sprite.getPosition().y;
-    ghostSize.x = sprite.getGlobalBounds().width;
-    ghostSize.y = sprite.getGlobalBounds().height;
-    sf::Vector2f tmpPos;
+    int outcome;//It's for contain a answer about which way to choose
+    int options = 4;
+    sf::FloatRect sens[4];//Declare our sensor for detecting surrounding
+    for (auto &i : sens){
+        i.height = 20;
+        i.width = 20;
+    }
+    //Top sensor
+    sens[0].left = sprite.getPosition().x + 2;
+    sens[0].top = sprite.getPosition().y - sens[0].height;
+    //Bottom sensor
+    sens[1].left = sprite.getPosition().x + 2;
+    sens[1].top = sprite.getPosition().y + sens[1].height * 1.25;
+    //Right sensor
+    sens[2].left = sprite.getPosition().x + sens[2].width * 1.25;
+    sens[2].top = sprite.getPosition().y + 2;
+    //Left sensor
+    sens[3].left = sprite.getPosition().x - sens[3].width;
+    sens[3].top = sprite.getPosition().y + 2;
 
+    isLeft=isRight=isBottom=isTop=true;// We suppose that ghost can move to any directions
     for (const auto &i : *tiles){
         for (const auto &j : i){
-            //top sensor
-            tmpPos.y = ghostPos.y - ghostSize.y;
-            tmpPos.x = ghostPos.x - 0;
-            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
-                //HERE SENSORS ARE WORK
+            if (sens[0].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
+                isTop=false;//now we cant move to up
+                options--;
             }
-            //bottom sensor
-            tmpPos.y = ghostPos.y + ghostSize.y;
-            tmpPos.x = ghostPos.x - 0;
-            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
-                
+            if (sens[1].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
+                isBottom=false;
+                options--;
             }
-            //right sensor
-            tmpPos.y = ghostPos.y + 0;
-            tmpPos.x = ghostPos.x + ghostSize.x;
-            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
-                
+            if (sens[2].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
+                isRight=false;
+                options--;
             }
-            //left sensor
-            tmpPos.y = ghostPos.y + 0;
-            tmpPos.x = ghostPos.x - ghostSize.x;
-            if (j.getGlobalBounds().intersects(sf::FloatRect(tmpPos,ghostSize)) && j.getScale().x == 0.25){
-                
+            if (sens[3].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
+                isLeft=false;
+                options--;
             }
         }
     }
-    isRight = isLeft = isBottom = isTop = false;//"just stop and thinking"
+    switch (options){
+    case 2:{
+        int rand_num = rand()%2;
+        if (!isTop && !isRight){
+            if (rand_num == 1) outcome = 0;
+            else outcome = 2;
+        }
+        if (!isBottom && !isRight){ 
+            if (rand_num == 1) outcome = 0;
+            else outcome = 1;
+        }
+        if (!isBottom && !isLeft){ 
+            if (rand_num == 1) outcome = 1;
+            else outcome = 3;
+        }
+        if (!isTop && !isLeft){
+            if (rand_num == 1) outcome = 2;
+            else outcome = 3;
+        }
+        isLeft=isRight=isBottom=isTop=false; 
+        break;
+    }
+    case 3:{
+        int rand_num = rand()%3;
+        if (!isTop){
+            if (rand_num == 0) outcome = 0;
+            else if (rand_num == 1) outcome = 2;
+            else outcome = 3;
+        }
+        if (!isBottom){ 
+            if (rand_num == 0) outcome = 0;
+            else if (rand_num == 1) outcome = 1;
+            else outcome = 3;
+        }
+        if (!isLeft){ 
+            if (rand_num == 0) outcome = 1;
+            else if (rand_num == 1) outcome = 2;
+            else outcome = 3;
+        }
+        if (!isRight){ 
+            if (rand_num == 0) outcome = 0;
+            else if (rand_num == 1) outcome = 1;
+            else outcome = 2;
+        }
+        isLeft=isRight=isBottom=isTop=false; 
+        break;
+    }
+    }
+
     return outcome;
 }
 void Ghost::updateMovementsYesVisionPack(){
