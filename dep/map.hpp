@@ -1,7 +1,5 @@
 #pragma once
 
-#include <string>
-#include <vector>
 #include "SFML/Graphics.hpp"
 
 class Map{
@@ -33,7 +31,7 @@ private:
 private:
     char gen_map();//TODO
 public:
-    const char get_map(size_t iterator_x,size_t itertor_y) const;
     Map();
     ~Map();
+    const char get_map(size_t iterator_x,size_t itertor_y) const;
 };

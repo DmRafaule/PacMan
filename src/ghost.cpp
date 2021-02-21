@@ -35,7 +35,8 @@ void Ghost::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
 void Ghost::updateTime(){
     time = clock.getElapsedTime();
     if (time.asSeconds() >= 0.2){
-        isFirst=true;
+        fixPos=true;
+        //isFirst=true;
         clock.restart();
     }
 }
@@ -98,16 +99,24 @@ void Ghost::updateCollisions(sf::RenderTarget &win){
     isWall = updateCollisionWalls(win);
 }
 void Ghost::showStat(){
-    
+    if (isWall){
+    std::cout << "it is wall"<< std::endl;
+    std::cout << "options = "<<option<<std::endl;
+    std::cout << "outcome = "<<outcome<<std::endl<<std::endl<<std::endl;
+    std::cout << "l sensor = "<<isLeft<<std::endl;
+    std::cout << "r sensor = "<<isRight<<std::endl;
+    std::cout << "t sensor = "<<isTop<<std::endl;
+    std::cout << "b sensor = "<<isBottom<<std::endl;
+
+    }
 }
 bool Ghost::updateCollisionWalls(sf::RenderTarget &win){
-    for (const auto &i : *tiles){
-        for (const auto &j : i){
-            if ((sprite.getGlobalBounds().intersects(j.getGlobalBounds())) && j.getScale().x == 0.25 ){
+    for (const auto &i : *tiles)
+        for (const auto &j : i)
+            if ((sprite.getGlobalBounds().intersects(j.getGlobalBounds())) && j.getScale().x == 0.25 && isFirst ){
+                isFirst=false;
                 return true;
             }
-        }
-    }
     return false;
 }
 
@@ -125,26 +134,26 @@ void Ghost::updateMovements(sf::Sprite &pack){
 void Ghost::updateMovementsNoVisionPack(sf::Sprite &pack){
     if (isWall){
         switch (updateDecision()){
-        case 0:
-            isLeft = true;
-            break;
-        
-        case 1:
-            isTop = true;
-            break;
-        
-        case 2:
-            isBottom = true;
-            break;
-        
-        case 3:
-            isRight = true;
-            break;
+            case 0:
+                isLeft = true;
+                break;
+            
+            case 1:
+                isTop = true;
+                break;
+            
+            case 2:
+                isBottom = true;
+                break;
+            
+            case 3:
+                isRight = true;
+                break;
         }
     }
 }
 int Ghost::updateDecision(){
-    int outcome;//It's for contain a answer about which way to choose
+    //INIT SENSORS FOR DETECT FREE DIRECTIONS(NEW F-TION)
     int options = 4;
     sf::FloatRect sens[4];//Declare our sensor for detecting surrounding
     for (auto &i : sens){
@@ -164,11 +173,18 @@ int Ghost::updateDecision(){
     sens[3].left = sprite.getPosition().x - sens[3].width;
     sens[3].top = sprite.getPosition().y + 2;
 
+
+    //DEFINE WHICH DIRECTION THEY COULD CHOOSE(NEW F-TION)
+    if(isBottom) outcome=1;
+    if(isTop)  outcome=2;
+    if(isLeft) outcome=3;
+    if(isRight) outcome=0;
+
     isLeft=isRight=isBottom=isTop=true;// We suppose that ghost can move to any directions
     for (const auto &i : *tiles){
         for (const auto &j : i){
             if (sens[0].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
-                isTop=false;//now we cant move to up
+                isTop=false;
                 options--;
             }
             if (sens[1].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
@@ -185,54 +201,77 @@ int Ghost::updateDecision(){
             }
         }
     }
+
+
+    //DEFINE WHICH DIRECTION THEY WILL CHOOSE(NEW F-TION)
     switch (options){
-    case 2:{
-        int rand_num = rand()%2;
-        if (!isTop && !isRight){
-            if (rand_num == 1) outcome = 0;
-            else outcome = 2;
+        case 1:{
+            if (isLeft) outcome=0;
+            if (isRight) outcome=3;
+            if (isTop) outcome=1;
+            if (isBottom) outcome=2;
+            isLeft=isRight=isBottom=isTop=false; 
+            break;
         }
-        if (!isBottom && !isRight){ 
-            if (rand_num == 1) outcome = 0;
-            else outcome = 1;
+        case 2:{
+            if (!isTop && !isRight  && outcome == 0){
+                outcome = 2;
+            }
+            else if (!isTop && !isRight  && outcome == 2){
+                outcome = 0;
+            }
+
+
+            if (!isBottom && !isRight && outcome == 0){ 
+                outcome = 1;
+            }
+            else if (!isBottom && !isRight && outcome == 1){ 
+                outcome = 0;
+            }
+
+
+            if (!isBottom && !isLeft && outcome == 1){ 
+                outcome = 3;
+            }
+            else if (!isBottom && !isLeft && outcome == 3){ 
+                outcome = 1;
+            }
+
+
+            if (!isTop && !isLeft && outcome == 2){
+                outcome = 3;
+            }
+            else if (!isTop && !isLeft && outcome == 3){
+                outcome = 2;
+            }
+
+            isLeft=isRight=isBottom=isTop=false; 
+            break;
         }
-        if (!isBottom && !isLeft){ 
-            if (rand_num == 1) outcome = 1;
-            else outcome = 3;
+        case 3:{
+            int rand_num = rand()%2;
+            if (!isTop){
+                if (rand_num == 0) outcome = 0;
+                else outcome = 3;
+            }
+            else if (!isBottom){ 
+                if (rand_num == 0) outcome = 0;
+                else outcome = 3;
+            }
+            if (!isLeft){ 
+                if (rand_num == 0) outcome = 1;
+                else outcome = 2;
+            }
+            else if (!isRight){ 
+                if (rand_num == 0) outcome = 1;
+                else outcome = 2;
+            }
+            isLeft=isRight=isBottom=isTop=false; 
+            break;
         }
-        if (!isTop && !isLeft){
-            if (rand_num == 1) outcome = 2;
-            else outcome = 3;
-        }
-        isLeft=isRight=isBottom=isTop=false; 
-        break;
     }
-    case 3:{
-        int rand_num = rand()%3;
-        if (!isTop){
-            if (rand_num == 0) outcome = 0;
-            else if (rand_num == 1) outcome = 2;
-            else outcome = 3;
-        }
-        if (!isBottom){ 
-            if (rand_num == 0) outcome = 0;
-            else if (rand_num == 1) outcome = 1;
-            else outcome = 3;
-        }
-        if (!isLeft){ 
-            if (rand_num == 0) outcome = 1;
-            else if (rand_num == 1) outcome = 2;
-            else outcome = 3;
-        }
-        if (!isRight){ 
-            if (rand_num == 0) outcome = 0;
-            else if (rand_num == 1) outcome = 1;
-            else outcome = 2;
-        }
-        isLeft=isRight=isBottom=isTop=false; 
-        break;
-    }
-    }
+    option=options;//DEL
+
 
     return outcome;
 }
@@ -246,7 +285,7 @@ void Ghost::updateCorrectMovements(){
     int remain_x = pos_x%25;
     
     //left-right direction
-    if ((isRight || isLeft) && (!isTop) && (isFirst)){
+    if ((isRight || isLeft) && (!isTop) && (fixPos)){
         if (remain_y >= 12.5){
             pos_y += 25 - remain_y;
         }
@@ -254,10 +293,10 @@ void Ghost::updateCorrectMovements(){
             pos_y -= remain_y;
         }
         sprite.setPosition(pos_x,pos_y);
-        isFirst=false;
+        fixPos=false;
     }
     //top-down direction
-    if ((!isRight) && (isTop || isBottom) && (isFirst)){
+    if ((!isRight) && (isTop || isBottom) && (fixPos)){
         if (remain_x >= 12.5){
             pos_x += 25 - remain_x;
         }
@@ -265,7 +304,7 @@ void Ghost::updateCorrectMovements(){
             pos_x -= remain_x;
         }
         sprite.setPosition(pos_x,pos_y);
-        isFirst=false;
+        fixPos=false;
     }
     
 }

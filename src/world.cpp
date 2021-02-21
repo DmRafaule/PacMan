@@ -51,11 +51,10 @@ void World::initMap(){
 void World::initGhost(){
     ghost = new Ghost[4];
 
-    //Why so not buity numbers? Because  I want to be sure that ghost will not touch walls on start
-    ghost[0].setPos(26,26);
-    ghost[1].setPos(749,49);
-    ghost[2].setPos(725,526);
-    ghost[3].setPos(26,549);
+    ghost[0].setPos(25,25);
+    ghost[1].setPos(675,50);
+    ghost[2].setPos(750,350);
+    ghost[3].setPos(175,425);
 }
 
 /*Update f*/
@@ -67,7 +66,7 @@ void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprit
     for (int i = 0; i != 4; ++i){
         ghost[i].__update(win,tiles,pack);
     }
-    //ghost[1].showStat();
+    ghost[2].showStat();
 }
 void World::updateMap(){
     
