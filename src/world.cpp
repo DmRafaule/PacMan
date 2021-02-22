@@ -66,7 +66,7 @@ void World::updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprit
     for (int i = 0; i != 4; ++i){
         ghost[i].__update(win,tiles,pack);
     }
-    //ghost[0].showStat();
+    //ghost[0].showStat();//TEMP REMOVE 
 }
 void World::updateMap(){
     
@@ -85,7 +85,7 @@ void World::renderMap(sf::RenderTarget &win){
 }
 void World::renderGhost(sf::RenderTarget &win){
     for (int i = 0; i != 4; ++i){
-        ghost[i].__render(win);
+        ghost[i].__render();
     }
 }
 std::vector<std::vector<sf::Sprite>> &World::_getTiles(){
