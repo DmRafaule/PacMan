@@ -59,7 +59,7 @@ private:
 
     sf::Texture texture;
     sf::Sprite sprite;
-    sf::RectangleShape *vision;//for detcting a surroundig on distanse
+    sf::RectangleShape *vision;//for detcting a surroundig on distanse//NOW IT'S OFF
     enum Colors:int{//Type of ghost
         red,
         green,
@@ -68,7 +68,10 @@ private:
     };
     sf::Vector2f packPos;//for remember a coordinate of pack
 private:
-    bool isRight=false,isLeft=false,isTop=true,isBottom=false;//for directions of  moves
+    bool isRight=true,isLeft=false,isTop=false,isBottom=false;//for directions of  moves
+    bool r=false,l=false,b=false,t=false;
+    int option;
+    bool once = true;
     bool wherePack[4]{false};//for detecting pack
     bool fixPos=true;//this is need for correct position only once(look at updateCorrectMovements())
     bool isWall;//this is neen for detect a walls
@@ -77,5 +80,4 @@ private:
     float dir_y = 0;//speed of ghost on OY
     float frame = 0;//for animation
     int outcome;//It's for contain a answer about which way to choose
-    int option,k=0;//DEL
 };

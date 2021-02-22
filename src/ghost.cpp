@@ -3,15 +3,25 @@
 
 Ghost::Ghost(){
     initTexture();
-    initVision();
+    //initVision();
 }
 Ghost::~Ghost(){
-    delete vision;
+    //delete vision;
 }
 sf::Sprite &Ghost::_getGhostSprite(){
     return sprite;
 }
-
+void Ghost::showStat(){
+    if (isWall){
+        system("clear");
+        std::cout << "left \t\t" << l <<std::endl;
+        std::cout << "right \t\t" << r <<std::endl;
+        std::cout << "top \t\t" << t <<std::endl;
+        std::cout << "bottom \t\t" << b <<std::endl<<std::endl;
+        std::cout << "option \t\t" << option <<std::endl<<std::endl;
+        std::cout << "outcome \t" << outcome <<std::endl;
+    }
+}
 /*update f-tion*/
 void Ghost::updateAnimation(){
     frame+=0.06;
@@ -36,13 +46,12 @@ void Ghost::updateTime(){
     time = clock.getElapsedTime();
     if (time.asSeconds() >= 0.2){
         fixPos=true;
-        //isFirst=true;
         clock.restart();
     }
 }
 void Ghost::__update(sf::RenderTarget &win,std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack){
     updateTiles(tiles);
-    updateVision();
+    //updateVision();
     updateTime();
 
     updateCollisions(win);
@@ -54,9 +63,9 @@ void Ghost::__update(sf::RenderTarget &win,std::vector<std::vector<sf::Sprite>> 
 /*Render f-tion*/
 void Ghost::__render(sf::RenderTarget &win){
     win.draw(sprite);
-    for (int i = 0; i != 4 ; ++i){
-        win.draw(*vision);
-    }
+    //for (int i = 0; i != 4 ; ++i){
+    //    //win.draw(*vision);
+    //}
 }
 /*init f-tion*/
 void Ghost::initTexture(){
@@ -86,7 +95,7 @@ void Ghost::initTexture(){
 }
 void Ghost::setPos(float x, float y){
     sprite.setPosition(x,y);
-    vision->setPosition(x,y);        
+    //vision->setPosition(x,y);        
 }
 void Ghost::initVision(){
     vision = new sf::RectangleShape;
@@ -97,18 +106,6 @@ void Ghost::initVision(){
 /*about collisions*/
 void Ghost::updateCollisions(sf::RenderTarget &win){
     isWall = updateCollisionWalls(win);
-}
-void Ghost::showStat(){
-    if (isWall){
-    std::cout << "it is wall"<< std::endl;
-    std::cout << "options = "<<option<<std::endl;
-    std::cout << "outcome = "<<outcome<<std::endl<<std::endl<<std::endl;
-    std::cout << "l sensor = "<<isLeft<<std::endl;
-    std::cout << "r sensor = "<<isRight<<std::endl;
-    std::cout << "t sensor = "<<isTop<<std::endl;
-    std::cout << "b sensor = "<<isBottom<<std::endl;
-
-    }
 }
 bool Ghost::updateCollisionWalls(sf::RenderTarget &win){
     for (const auto &i : *tiles)
@@ -126,13 +123,15 @@ void Ghost::updateMovements(sf::Sprite &pack){
     updateMovementsYesVisionPack();
 
     updateCorrectMovements();
-    updateVisionPack(pack);
+    //updateVisionPack(pack);
     
     updateChangingMovements();
     sprite.move(sf::Vector2f(dir_x,dir_y));
 }
 void Ghost::updateMovementsNoVisionPack(sf::Sprite &pack){
-    if (isWall){
+    if (isWall){//HERE F-TION updateCollisionWalls
+    //INSTEAD OF NUMBERS CREATE enum or unit...???
+        isFirst=true;
         switch (updateDecision()){
             case 0:
                 isLeft = true;
@@ -155,114 +154,115 @@ void Ghost::updateMovementsNoVisionPack(sf::Sprite &pack){
 int Ghost::updateDecision(){
     //INIT SENSORS FOR DETECT FREE DIRECTIONS(NEW F-TION)
     int options = 4;
+    bool l_s = true,r_s = true,t_s = true,b_s = true;
     sf::FloatRect sens[4];//Declare our sensor for detecting surrounding
     for (auto &i : sens){
-        i.height = 20;
-        i.width = 20;
+        i.height = 5;
+        i.width = 5;
     }
     //Top sensor
-    sens[0].left = sprite.getPosition().x + 2;
+    sens[0].left = sprite.getPosition().x + 10;
     sens[0].top = sprite.getPosition().y - sens[0].height;
     //Bottom sensor
-    sens[1].left = sprite.getPosition().x + 2;
-    sens[1].top = sprite.getPosition().y + sens[1].height * 1.25;
+    sens[1].left = sprite.getPosition().x + 10;
+    sens[1].top = sprite.getPosition().y + sens[1].height * 5;
     //Right sensor
-    sens[2].left = sprite.getPosition().x + sens[2].width * 1.25;
-    sens[2].top = sprite.getPosition().y + 2;
+    sens[2].left = sprite.getPosition().x + sens[2].width * 5;
+    sens[2].top = sprite.getPosition().y + 10;
     //Left sensor
     sens[3].left = sprite.getPosition().x - sens[3].width;
-    sens[3].top = sprite.getPosition().y + 2;
+    sens[3].top = sprite.getPosition().y + 10;
 
 
-    //DEFINE WHICH DIRECTION THEY COULD CHOOSE(NEW F-TION)
-    if(isBottom) outcome=1;
-    if(isTop)  outcome=2;
-    if(isLeft) outcome=3;
-    if(isRight) outcome=0;
-
-    isLeft=isRight=isBottom=isTop=true;// We suppose that ghost can move to any directions
+    l=r=b=t=false;
     for (const auto &i : *tiles){
         for (const auto &j : i){
             if (sens[0].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
-                isTop=false;
+                t=true;
+                t_s=false;
                 options--;
             }
             if (sens[1].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
-                isBottom=false;
+                b=true;
+                b_s=false;
                 options--;
             }
             if (sens[2].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
-                isRight=false;
+                r=true;
+                r_s=false;
                 options--;
             }
             if (sens[3].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){
-                isLeft=false;
+                l=true;
+                l_s=false;
                 options--;
             }
         }
     }
-
-
+    option = options;
     //DEFINE WHICH DIRECTION THEY WILL CHOOSE(NEW F-TION)
+                //sprite.setPosition(sprite.getGlobalBounds().left, sprite.getGlobalBounds().top + 1);//Если верхний датчик
+                //sprite.setPosition(sprite.getGlobalBounds().left, sprite.getGlobalBounds().top - 1);//Если нижний датчик
+                //sprite.setPosition(sprite.getGlobalBounds().left - 1, sprite.getGlobalBounds().top);//Если правый датчик
+                //sprite.setPosition(sprite.getGlobalBounds().left + 1, sprite.getGlobalBounds().top);//Если левый датчик
     switch (options){
         case 1:{
-            if (isLeft) outcome=0;
-            if (isRight) outcome=3;
-            if (isTop) outcome=1;
-            if (isBottom) outcome=2;
+            if (!l_s) outcome=3;
+            if (!r_s) outcome=0;
+            if (!t_s) outcome=2;
+            if (!b_s) outcome=1;
             isLeft=isRight=isBottom=isTop=false; 
             break;
         }
         case 2:{
-            if (!isTop && !isRight  && outcome == 0){
+            if (!t_s && !r_s  && isRight){
                 outcome = 2;
             }
-            else if (!isTop && !isRight  && outcome == 2){
+            else if (!t_s && !r_s  && isTop){
                 outcome = 0;
             }
 
 
-            if (!isBottom && !isRight && outcome == 0){ 
+            if (!b_s && !r_s && isRight){ 
                 outcome = 1;
             }
-            else if (!isBottom && !isRight && outcome == 1){ 
+            else if (!b_s && !r_s && isBottom){ 
                 outcome = 0;
             }
 
 
-            if (!isBottom && !isLeft && outcome == 1){ 
+            if (!b_s && !l_s && isBottom){ 
                 outcome = 3;
             }
-            else if (!isBottom && !isLeft && outcome == 3){ 
+            else if (!b_s && !l_s && isLeft){ 
                 outcome = 1;
             }
 
 
-            if (!isTop && !isLeft && outcome == 2){
+            if (!t_s && !l_s && isTop){
                 outcome = 3;
             }
-            else if (!isTop && !isLeft && outcome == 3){
+            else if (!t_s && !l_s && isLeft){
                 outcome = 2;
             }
-
             isLeft=isRight=isBottom=isTop=false; 
             break;
         }
         case 3:{
             int rand_num = rand()%2;
-            if (!isTop){
+            if (!t_s){
                 if (rand_num == 0) outcome = 0;
                 else outcome = 3;
             }
-            else if (!isBottom){ 
+            else if (!b_s){ 
                 if (rand_num == 0) outcome = 0;
                 else outcome = 3;
             }
-            if (!isLeft){ 
+            if (!l_s){ 
                 if (rand_num == 0) outcome = 1;
                 else outcome = 2;
             }
-            else if (!isRight){ 
+            else if (!r_s){ 
                 if (rand_num == 0) outcome = 1;
                 else outcome = 2;
             }
@@ -270,9 +270,6 @@ int Ghost::updateDecision(){
             break;
         }
     }
-    option=options;//DEL
-
-
     return outcome;
 }
 void Ghost::updateMovementsYesVisionPack(){
@@ -306,7 +303,6 @@ void Ghost::updateCorrectMovements(){
         sprite.setPosition(pos_x,pos_y);
         fixPos=false;
     }
-    
 }
 void Ghost::updateVisionPack(sf::Sprite &pack){
     if (vision->getGlobalBounds().intersects(pack.getGlobalBounds())){
