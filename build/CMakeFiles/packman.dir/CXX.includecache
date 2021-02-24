@@ -6,6 +6,14 @@
 
 #IncludeRegexTransform: 
 
+../dep/GUI.hpp
+SFML/Graphics.hpp
+-
+sstream
+-
+menu.hpp
+../dep/menu.hpp
+
 ../dep/SFML/include/SFML/Audio.hpp
 SFML/System.hpp
 -
@@ -989,6 +997,8 @@ SFML/Graphics.hpp
 ../dep/menu.hpp
 SFML/Graphics.hpp
 -
+sstream
+-
 
 ../dep/pack.hpp
 iostream
@@ -1011,8 +1021,8 @@ pack.hpp
 ../dep/pack.hpp
 world.hpp
 ../dep/world.hpp
-menu.hpp
-../dep/menu.hpp
+GUI.hpp
+../dep/GUI.hpp
 
 ../dep/world.hpp
 vector
@@ -1032,9 +1042,9 @@ map.hpp
 ghost.hpp
 ../dep/ghost.hpp
 
-/home/dimond/Projects/Repositories/PacMan/src/ghost.cpp
-ghost.hpp
-/home/dimond/Projects/Repositories/PacMan/src/ghost.hpp
+/home/dimond/Projects/Repositories/PacMan/src/GUI.cpp
+GUI.hpp
+/home/dimond/Projects/Repositories/PacMan/src/GUI.hpp
 iostream
 -
 
@@ -1044,19 +1054,11 @@ ctime
 pack_E.hpp
 /home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 
-/home/dimond/Projects/Repositories/PacMan/src/pack.cpp
-pack.hpp
-/home/dimond/Projects/Repositories/PacMan/src/pack.hpp
-sstream
--
+/home/dimond/Projects/Repositories/PacMan/src/menu.cpp
+menu.hpp
+/home/dimond/Projects/Repositories/PacMan/src/menu.hpp
 
 /home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp
 pack_E.hpp
 /home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
-
-/home/dimond/Projects/Repositories/PacMan/src/world.cpp
-world.hpp
-/home/dimond/Projects/Repositories/PacMan/src/world.hpp
-iostream
--
 

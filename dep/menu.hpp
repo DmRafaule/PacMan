@@ -1,16 +1,17 @@
 #pragma once
  
 #include <SFML/Graphics.hpp>
+#include <sstream>
 
 class Menu{
 private:
-    sf::RenderWindow *win;
-    sf::Texture *texture;
     sf::Sprite *sprite;
-
+    std::stringstream *ss;
+    sf::Text *text;
+    sf::Vector2f *posOnScreen;
 public:
-    Menu(sf::RenderWindow &window);
+    Menu(sf::Sprite&,std::stringstream&,sf::Vector2f&,sf::Text&);
     ~Menu();
-    void _render(const bool &isMenu);
-    void _update(const bool &isMenu, sf::RenderWindow &window);
+    void _render(sf::RenderTarget &win);
+    void _update(sf::RenderTarget &win);
 };

@@ -26,36 +26,39 @@ void Game::run(){
     }
 }
 void Game::update(){
+
     globalTime = globalClock.getElapsedTime();
     while (window->pollEvent(*event)){
         if (event->type == sf::Event::Closed){
             window->close();
         }
-        if (event->type == sf::Event::KeyPressed && !isMenu){
-            if (event->key.code == sf::Keyboard::G){//For open menu
-                isMenu=true;
-                menu = new Menu(*window);
+        if (event->type == sf::Event::KeyPressed && !isGUI){
+            if (event->key.code == sf::Keyboard::Escape){//For open GUI
+                isGUI=true;
+                whichGUI[0] = true;
+                gui = new GUI(whichGUI);
             }
         }
-        else if (event->type == sf::Event::KeyPressed && isMenu){
-            if (event->key.code == sf::Keyboard::G){//for close menu
-                isMenu=false;
-                delete menu;
+        else if (event->type == sf::Event::KeyPressed && isGUI){
+            if (event->key.code == sf::Keyboard::Escape){//for close GUI
+                isGUI=false;
+                delete gui;
+                whichGUI[0] = false;
             }
         }
     }
-    if (!isMenu){//pop up menu/pausa 
+    if (!isGUI){//pop up GUI/pausa 
         pack->_update(*event, *window, world->_getTiles(),world->_getGhost(),globalTime);
         world->_update(*window,world->_getTiles(),pack->_getPack());
     }
-    menu->_update(isMenu,*window);
+    gui->_update(isGUI,*window);
 }
 void Game::render(){
     window->clear();
     
     world->_render(*window);
     pack->_render(window);
-    menu->_render(isMenu);
-    
+    gui->_render(*window,isGUI);
+
     window->display();
 }

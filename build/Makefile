@@ -123,6 +123,33 @@ packman/fast:
 	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/build
 .PHONY : packman/fast
 
+src/GUI.o: src/GUI.cpp.o
+
+.PHONY : src/GUI.o
+
+# target to build an object file
+src/GUI.cpp.o:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/GUI.cpp.o
+.PHONY : src/GUI.cpp.o
+
+src/GUI.i: src/GUI.cpp.i
+
+.PHONY : src/GUI.i
+
+# target to preprocess a source file
+src/GUI.cpp.i:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/GUI.cpp.i
+.PHONY : src/GUI.cpp.i
+
+src/GUI.s: src/GUI.cpp.s
+
+.PHONY : src/GUI.s
+
+# target to generate assembly for a file
+src/GUI.cpp.s:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/GUI.cpp.s
+.PHONY : src/GUI.cpp.s
+
 src/ghost.o: src/ghost.cpp.o
 
 .PHONY : src/ghost.o
@@ -321,6 +348,9 @@ help:
 	@echo "... rebuild_cache"
 	@echo "... packman"
 	@echo "... edit_cache"
+	@echo "... src/GUI.o"
+	@echo "... src/GUI.i"
+	@echo "... src/GUI.s"
 	@echo "... src/ghost.o"
 	@echo "... src/ghost.i"
 	@echo "... src/ghost.s"
