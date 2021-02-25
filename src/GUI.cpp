@@ -3,6 +3,7 @@
 
 GUI::GUI(const bool *whichGUI){
    isMenu = whichGUI[0];
+   isStartMenu = whichGUI[3];
    isBadEndGame = whichGUI[1];
    isGoodEndGame = whichGUI[2];
    if (isMenu){
@@ -11,12 +12,15 @@ GUI::GUI(const bool *whichGUI){
    if (isBadEndGame || isGoodEndGame){
       initEndGame();
    }
+   if (isStartMenu){
+      initStartMenu();
+   }
 }
-
 GUI::~GUI(){
       isMenu=false;
       isBadEndGame=false;
       isGoodEndGame=false;
+      isStartMenu=false;
       delete texture;
       delete sprite;
       delete ss;
@@ -29,6 +33,7 @@ void GUI::_update(const bool isGUI, sf::RenderTarget &win){
    if (isGUI){
       if (isMenu) updateMenu(win);
       if (isBadEndGame || isGoodEndGame) updateEndGame(win);
+      if (isStartMenu) updateStartMenu(win);
    }
 }
 void GUI::updateEndGame(sf::RenderTarget &win){
@@ -66,11 +71,26 @@ void GUI::updateMenu(sf::RenderTarget &win){
    text->setPosition(posOnScreen->x + 30,
                      posOnScreen->y + 30);
 }
-   
+void GUI::updateStartMenu(sf::RenderTarget &win){
+   posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
+   posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
+
+   *ss << " Start\n\nSettings\n\n  Quit";
+   text->setString(ss->str());
+   ss->str("");
+
+   sprite->setPosition(posOnScreen->x + 40,
+                       posOnScreen->y - 200);
+   text->setPosition(posOnScreen->x + 100,
+                     posOnScreen->y);
+}
+
+
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
    if (isGUI){
       if (isMenu) renderMenu(win);
       if (isBadEndGame || isGoodEndGame) renderEndGame(win);
+      if (isStartMenu) renderStartMenu(win);
    }
 }
 void GUI::renderEndGame(sf::RenderTarget &win){
@@ -80,6 +100,31 @@ void GUI::renderEndGame(sf::RenderTarget &win){
 void GUI::renderMenu(sf::RenderTarget &win){
    win.draw(*sprite);
    win.draw(*text);
+}
+void GUI::renderStartMenu(sf::RenderTarget &win){
+   win.draw(*sprite);
+   win.draw(*text);
+}
+
+void GUI::initStartMenu(){
+   texture = new sf::Texture();
+   texture->loadFromFile("../texture/startMenu.jpg");
+   sprite = new sf::Sprite(*texture);
+   sprite->scale(0.5,0.5);
+   ss = new std::stringstream();
+   
+   posOnScreen = new sf::Vector2f();
+   
+   font = new sf::Font();
+   font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
+   
+   text = new sf::Text();
+   text->setFont(*font);
+   text->setFillColor(sf::Color::White);
+   text->setCharacterSize(60);
+   text->setStyle(sf::Text::Style::Bold);
+   text->setOutlineColor(sf::Color::Blue);
+   text->setOutlineThickness(1);
 }
 void GUI::initEndGame(){
    texture = new sf::Texture();

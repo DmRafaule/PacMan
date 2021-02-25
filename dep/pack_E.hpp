@@ -27,13 +27,13 @@ private:
         BAD_END,
         GOOD_END
     };
-    short isEndGame = 0;
-    bool isGUI = false;
+    short isEndGame = 0;//Types of end game
     bool whichGUI[5]{false};//[0] - MENU  
                             //[1] - bad end
                             //[2] - goog end  
-    bool callOnce = true;//For save from segmentation fault
-    
+    bool isGUI = true;
+    bool isStartGame = false;
+    bool callOnce = true;//For allocate memmory  in stage game end
 public:
     
     void run();//main infinity loop
