@@ -22,9 +22,16 @@ private:
     sf::Clock globalClock;
     sf::Time globalTime;
 private:
+    enum TypeOfEnd{
+        NOT_END,
+        BAD_END,
+        GOOD_END
+    };
+    short isEndGame = 0;
     bool isGUI = false;
-    bool whichGUI[5]{false};//[0] - MENU    
-    bool isEndGame = false;
+    bool whichGUI[5]{false};//[0] - MENU  
+                            //[1] - bad end
+                            //[2] - goog end  
     bool callOnce = true;//For save from segmentation fault
     
 public:

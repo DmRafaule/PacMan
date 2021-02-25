@@ -60,7 +60,7 @@ void Hero_pack::_render(sf::RenderTarget *window){
         window->draw(*textHealth);
     }
 }
-void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime, bool& isEndGame){
+void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime, short& isEndGame){
     updateTiles(tiles);
     updateCollisions(window,ghost);
     updateAnimation();
@@ -104,11 +104,14 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
 void Hero_pack::updateTime(){
     *localTime = clock->getElapsedTime();
 }
-bool Hero_pack::updateEndGame(){
-    if (sizeHealthBar == 0){
-        return true; 
+short Hero_pack::updateEndGame(){
+    if (sizeHealthBar == 0){//For bad end
+        return 1; 
     }
-    return false;
+    else if (score == 300){//For good end
+        return 2;
+    }
+    return 0;
 }
 void Hero_pack::updateAnimation(){
     frame+=0.06;
@@ -225,8 +228,8 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
                     map.erase(map.begin()+j);
                     score++;
                 }
-                /*Why not here?? Because score too fast growing*/
             }
+                /*Why not here?? Because score too fast growing*/
         }
     }
     

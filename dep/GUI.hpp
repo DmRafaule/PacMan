@@ -20,7 +20,8 @@ private:
    float frame=0;
 
    bool isMenu = false;
-   bool isEndGame = false;
+   bool isBadEndGame = false;
+   bool isGoodEndGame = false;
 private:
    void initMenu();
    void initEndGame();
