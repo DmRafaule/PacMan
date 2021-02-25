@@ -17,6 +17,8 @@ private:
    sf::Text *text;
    sf::Vector2f *posOnScreen;
 
+   float frame=0;
+
    bool isMenu = false;
    bool isEndGame = false;
 private:

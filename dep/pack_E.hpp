@@ -25,7 +25,7 @@ private:
     bool isGUI = false;
     bool whichGUI[5]{false};//[0] - MENU    
     bool isEndGame = false;
-    //bool freeOnce = true;//For save from segmentation fault
+    bool callOnce = true;//For save from segmentation fault
     
 public:
     
