@@ -2,41 +2,64 @@
 #include <iostream>
 
 GUI::GUI(const bool *whichGUI){
-   this->isMenu = new bool;
-   this->isStatusBar = new bool;
+   isMenu=whichGUI[0];
+   if (isMenu == true){
+      initMenu();
+   }
 
-   *this->isMenu = whichGUI[0];
-   *this->isStatusBar = whichGUI[1];
-
-   if (*this->isMenu) initMenu();
-   if (*this->isStatusBar) initStatusBar();
 }
 
 GUI::~GUI(){
-   if (*this->isMenu || *this->isStatusBar){
+   if (isMenu == true){
+      isMenu=false;
+      std::cout << "free memory"  << std::endl;
       delete texture;
       delete sprite;
-      delete posOnScreen;
       delete ss;
+      delete posOnScreen;
       delete font;
       delete text;
-      
-      if (*this->isMenu) delete menu;
    }
 }
 
 void GUI::_update(const bool isGUI, sf::RenderTarget &win){
    if (isGUI){
-      if (*this->isMenu) menu->_update(win);
+      if (isMenu) updateMenu(win);
    }
 }
+void GUI::updateEndGame(sf::RenderTarget &win){
+
+}
+void GUI::updateMenu(sf::RenderTarget &win){
+   posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
+   posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
+    
+   *ss << "Menu\t\tHelp\n\nSettings\tQuit";
+   text->setString(ss->str());
+   ss->str("");
+    
+   sprite->setPosition(*posOnScreen);
+   text->setPosition(posOnScreen->x + 30,
+                     posOnScreen->y + 30);
+}
+   
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
    if (isGUI){
-      if (*this->isMenu) menu->_render(win);
+      if (isMenu) renderMenu(win);
    }
 }
+void GUI::renderEndGame(sf::RenderTarget &win){
+   
+}
+void GUI::renderMenu(sf::RenderTarget &win){
+   win.draw(*sprite);
+   win.draw(*text);
+}
+void GUI::initEndGame(){
 
+}
 void GUI::initMenu(){
+   std::cout << "alloc mem"  << std::endl;
    texture = new sf::Texture();
    texture->loadFromFile("../texture/menu.png");
    sprite = new sf::Sprite(*texture);
@@ -52,11 +75,6 @@ void GUI::initMenu(){
    text->setFillColor(sf::Color::White);
    text->setCharacterSize(40);
    text->setStyle(sf::Text::Style::Bold);
-   text->setOutlineColor(sf::Color::Magenta);
+   text->setOutlineColor(sf::Color::Blue);
    text->setOutlineThickness(1);
-
-   menu = new Menu(*sprite,*ss,*posOnScreen,*text);
-}
-void GUI::initStatusBar(){
-
 }

@@ -38,7 +38,7 @@ void Hero_pack::initStatus_Bar(sf::Event &event){
 
         textHealth = new sf::Text(); 
         textHealth->setFont(*font);
-        textHealth->setCharacterSize(50);
+        textHealth->setCharacterSize(45);
         textHealth->setFillColor(sf::Color::Red);
 
     }
@@ -60,12 +60,13 @@ void Hero_pack::_render(sf::RenderTarget *window){
         window->draw(*textHealth);
     }
 }
-void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime){
+void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime, bool& isEndGame){
     updateTiles(tiles);
     updateCollisions(window,ghost);
     updateAnimation();
     updateMovements(event);
     updateTime();
+    isEndGame = updateEndGame();
     initStatus_Bar(event);
     if (isBar)
         updateStatus_Bar(window,globalTime);
@@ -77,7 +78,7 @@ void Hero_pack::updateTiles(std::vector<std::vector<sf::Sprite>> &tiles){
 void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime){
     std::stringstream ss;
     /*Player score and game time*/
-    ss << "Score: " << score << "\t\t\t\t\tHealth: " << "\n\nTime: " << static_cast<int>(globalTime.asSeconds());
+    ss << "\nScore: " << score << "\nTime: " << static_cast<int>(globalTime.asSeconds());
     textScore->setString(ss.str());
     /*Player lives*/
     ss.str("");//Clear stream
@@ -94,7 +95,7 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
                                 window.getSize().y - sprite_bar->getGlobalBounds().height);
     }
     textScore->setPosition(sprite_bar->getPosition().x + 20, sprite_bar->getPosition().y + 20);
-    textHealth->setPosition(sprite_bar->getPosition().x + sprite_bar->getGlobalBounds().width - textHealth->getGlobalBounds().width -30,
+    textHealth->setPosition(sprite_bar->getPosition().x + sprite_bar->getGlobalBounds().width - textHealth->getGlobalBounds().width -17,
                             sprite_bar->getPosition().y + 7);
 
 
@@ -103,7 +104,12 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
 void Hero_pack::updateTime(){
     *localTime = clock->getElapsedTime();
 }
-
+bool Hero_pack::updateEndGame(){
+    if (sizeHealthBar == 0){
+        return true; 
+    }
+    return false;
+}
 void Hero_pack::updateAnimation(){
     frame+=0.06;
     if (frame < 4){  

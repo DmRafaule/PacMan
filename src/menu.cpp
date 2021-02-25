@@ -1,13 +1,5 @@
 #include "menu.hpp"
 
-Menu::Menu(sf::Sprite &sprite,std::stringstream &ss,sf::Vector2f &posOnScreen,sf::Text &text){
-    this->sprite = &sprite;
-    this->ss = &ss;
-    this->posOnScreen = &posOnScreen;
-    this->text = &text;
-}
-Menu::~Menu(){
-}
 
 
 void Menu::_render(sf::RenderTarget &win){
@@ -22,7 +14,5 @@ void Menu::_update(sf::RenderTarget &window){
     text->setString(ss->str());
     ss->str("");
     
-    sprite->setPosition(*posOnScreen);
-    text->setPosition(posOnScreen->x + 30,
-                      posOnScreen->y + 30);
+    
 }

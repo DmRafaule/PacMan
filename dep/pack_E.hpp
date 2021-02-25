@@ -23,9 +23,10 @@ private:
     sf::Time globalTime;
 private:
     bool isGUI = false;
-    bool whichGUI[2]{false};//It's array for contain which screen is rendering
-                            //[0] for menu
-                            //[1] for status bar
+    bool whichGUI[5]{false};//[0] - MENU    
+    bool isEndGame = false;
+    //bool freeOnce = true;//For save from segmentation fault
+    
 public:
     
     void run();//main infinity loop

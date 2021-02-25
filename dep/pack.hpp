@@ -34,7 +34,7 @@ private:
     /*for directions of moves*/
     float dir_x = 0, dir_y = 1;
     /*for status bar*/
-    int score = 0, sizeHealthBar = 6;
+    int score = 0, sizeHealthBar = 1;//Come back to 6
     float frame = 0;
     char *healthBar;//contain ****** as default
     bool isWall=false;//logical(it isn't wall)
@@ -66,6 +66,7 @@ private:
     void updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime);
     /*update local time*/
     void updateTime();
+    bool updateEndGame();
     void updateAnimation();
 public:
     /*init character pack*/
@@ -76,7 +77,7 @@ public:
     /*for render on main window*/
     void _render(sf::RenderTarget *);
     /*for all updating events to pack*/
-    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>> &, Ghost &,sf::Time &globalTime);
+    void _update(sf::Event &, sf::RenderTarget &, std::vector<std::vector<sf::Sprite>> &, Ghost &,sf::Time &globalTime, bool& isEndGame);
 };
 
 #endif

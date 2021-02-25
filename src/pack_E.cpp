@@ -13,9 +13,10 @@ Game::Game(){
     event = new sf::Event;
 }
 Game::~Game(){
-    delete event;
+    if (isGUI) delete gui;//If player forgot to close a menu, just free
     delete pack;
     delete world;
+    delete event;
     delete window;  
 }
 
@@ -42,22 +43,26 @@ void Game::update(){
         else if (event->type == sf::Event::KeyPressed && isGUI){
             if (event->key.code == sf::Keyboard::Escape){//for close GUI
                 isGUI=false;
-                delete gui;
                 whichGUI[0] = false;
+                delete gui;
             }
         }
     }
-    if (!isGUI){//pop up GUI/pausa 
-        pack->_update(*event, *window, world->_getTiles(),world->_getGhost(),globalTime);
-        world->_update(*window,world->_getTiles(),pack->_getPack());
+    if (!isGUI){//pop up GUI/pausa //HERE add menu and end to game//REMOVE CLASS menu(all gui have to be in GUI)
+        if (!isEndGame){
+            pack->_update(*event, *window, world->_getTiles(),world->_getGhost(),globalTime,isEndGame);
+            world->_update(*window,world->_getTiles(),pack->_getPack());
+        }
     }
     gui->_update(isGUI,*window);
 }
 void Game::render(){
     window->clear();
     
-    world->_render(*window);
-    pack->_render(window);
+    if (!isEndGame){
+        world->_render(*window);
+        pack->_render(window);
+    }
     gui->_render(*window,isGUI);
 
     window->display();
