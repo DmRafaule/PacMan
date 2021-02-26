@@ -8,7 +8,6 @@ set(CMAKE_DEPENDS_CHECK_CXX
   "/home/dimond/Projects/Repositories/PacMan/src/ghost.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/ghost.cpp.o"
   "/home/dimond/Projects/Repositories/PacMan/src/main.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/main.cpp.o"
   "/home/dimond/Projects/Repositories/PacMan/src/map.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/map.cpp.o"
-  "/home/dimond/Projects/Repositories/PacMan/src/menu.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/menu.cpp.o"
   "/home/dimond/Projects/Repositories/PacMan/src/pack.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/pack.cpp.o"
   "/home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/pack_E.cpp.o"
   "/home/dimond/Projects/Repositories/PacMan/src/world.cpp" "/home/dimond/Projects/Repositories/PacMan/build/CMakeFiles/packman.dir/src/world.cpp.o"

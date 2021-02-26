@@ -11,8 +11,6 @@ SFML/Graphics.hpp
 -
 sstream
 -
-menu.hpp
-../dep/menu.hpp
 
 ../dep/SFML/include/SFML/Config.hpp
 TargetConditionals.h
@@ -683,12 +681,6 @@ SFML/Config.hpp
 -
 
 ../dep/SFML/include/SFML/Window/WindowStyle.hpp
-
-../dep/menu.hpp
-SFML/Graphics.hpp
--
-sstream
--
 
 /home/dimond/Projects/Repositories/PacMan/src/GUI.cpp
 GUI.hpp

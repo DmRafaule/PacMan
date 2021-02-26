@@ -127,7 +127,7 @@ void Hero_pack::updateAnimation(){
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
         updateCh_movements(event);
-    pack.move(dir_x,dir_y);
+    pack.move(dir_x,dir_y);//Make dependense from time
 }
 void Hero_pack::updateCh_movements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed && !isWall){

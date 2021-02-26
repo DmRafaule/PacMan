@@ -63,13 +63,20 @@ void GUI::updateMenu(sf::RenderTarget &win){
    posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
    posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
     
-   *ss << "Menu\t\tHelp\n\nSettings\tQuit";
+   *ss << "Menu\t\t\tHelp\n\nSettings\t\tQuit";
    text->setString(ss->str());
    ss->str("");
     
    sprite->setPosition(*posOnScreen);
-   text->setPosition(posOnScreen->x + 30,
+   text->setPosition(posOnScreen->x + 100,
                      posOnScreen->y + 30);
+
+}
+sf::CircleShape& GUI::updateMenuArrow(){
+   return *arrow;
+}
+const sf::Sprite& GUI::getMenuArrow() const{
+   return *sprite;
 }
 void GUI::updateStartMenu(sf::RenderTarget &win){
    posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
@@ -81,10 +88,9 @@ void GUI::updateStartMenu(sf::RenderTarget &win){
 
    sprite->setPosition(posOnScreen->x + 40,
                        posOnScreen->y - 200);
-   text->setPosition(posOnScreen->x + 100,
+   text->setPosition(posOnScreen->x + 150,
                      posOnScreen->y);
 }
-
 
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
    if (isGUI){
@@ -100,6 +106,7 @@ void GUI::renderEndGame(sf::RenderTarget &win){
 void GUI::renderMenu(sf::RenderTarget &win){
    win.draw(*sprite);
    win.draw(*text);
+   win.draw(*arrow);
 }
 void GUI::renderStartMenu(sf::RenderTarget &win){
    win.draw(*sprite);
@@ -158,6 +165,13 @@ void GUI::initMenu(){
    texture = new sf::Texture();
    texture->loadFromFile("../texture/menu.png");
    sprite = new sf::Sprite(*texture);
+
+   arrow = new sf::CircleShape(20,3);
+   arrow->setRotation(90);
+   arrow->setPosition(200,320);
+   arrow->setOutlineColor(sf::Color::Blue);
+   arrow->setOutlineThickness(1);
+   
    ss = new std::stringstream();
    
    posOnScreen = new sf::Vector2f();

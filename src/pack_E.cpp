@@ -2,7 +2,7 @@
 		  
 
 Game::Game(){
-    window = new sf::RenderWindow(sf::VideoMode(800,600),"PacMan",sf::Style::Default);
+    window = new sf::RenderWindow(sf::VideoMode(800,600),"PacMan",sf::Style::Close | sf::Style::Titlebar);
     window->setFramerateLimit(120);
     window->setPosition(sf::Vector2i(sf::VideoMode().getDesktopMode().width/2 - window->getSize().x/2,
                                      sf::VideoMode().getDesktopMode().height/2 - window->getSize().y/2));
@@ -43,6 +43,8 @@ void Game::update(){
         if (event->type == sf::Event::Closed){
             window->close();
         }
+        
+        //Menu GUI
         if (event->type == sf::Event::KeyPressed && !isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){//Push up menu if it's alredy up and it's not end game
             if (event->key.code == sf::Keyboard::Escape){//For open GUI
                 isGUI=true;
@@ -55,9 +57,23 @@ void Game::update(){
                 isGUI=false;
                 whichGUI[0] = false;
                 delete gui;
-            }
+            }//if in this moment push enter you will exit SOLVE
+            if (event->key.code == sf::Keyboard::Up)
+                gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
+                                                   gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/5);
+            if (event->key.code == sf::Keyboard::Down)
+                gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
+                                                    gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/1.75);
+            if (event->key.code == sf::Keyboard::Left)
+                gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/7,
+                                                   gui->updateMenuArrow().getPosition().y);
+            if (event->key.code == sf::Keyboard::Right)
+                gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/1.5,
+                                                   gui->updateMenuArrow().getPosition().y);
         }
-        if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//Start plaing in game
+        
+        //Begin game
+        if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//Start play in game
             if (event->key.code == sf::Keyboard::Enter){
                 world = new World(window->getSize().x,window->getSize().y);
                 pack = new Hero_pack();
@@ -65,6 +81,18 @@ void Game::update(){
                 whichGUI[3] = false;
                 isStartGame = true;
                 delete gui;
+            }
+        }
+        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//Back to main menu
+            if (event->key.code == sf::Keyboard::Enter){
+                delete gui;
+                for (bool &i : whichGUI)
+                    i=false;
+                whichGUI[3]=true;
+                isStartGame = false;
+                isEndGame = TypeOfEnd::NOT_END;
+                callOnce = true;
+                gui = new GUI(whichGUI);
             }
         }
     }
