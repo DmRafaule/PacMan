@@ -1,4 +1,7 @@
 #pragma once 
+/*
+This class will implement all related with world(ghost, map)
+*/
 
 #include <vector>
 #include <SFML/Window.hpp>
@@ -9,7 +12,7 @@
 
 #include "map.hpp"
 #include "ghost.hpp"
-/*This class will implement all related with world(i.e. enemies, bg , interact , obj etc)*/
+
 
 
 class World{

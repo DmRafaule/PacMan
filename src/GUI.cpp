@@ -1,5 +1,4 @@
 #include "GUI.hpp"
-#include <iostream>
 
 GUI::GUI(const bool *whichGUI){
    isMenu = whichGUI[0];
@@ -27,6 +26,7 @@ GUI::~GUI(){
       delete posOnScreen;
       delete font;
       delete text;
+      if (isMenu || isStartMenu) delete arrow;
 }
 
 void GUI::_update(const bool isGUI, sf::RenderTarget &win){
@@ -71,8 +71,10 @@ void GUI::updateMenu(sf::RenderTarget &win){
    sprite->setPosition(*posOnScreen);
    text->setPosition(posOnScreen->x + 100,
                      posOnScreen->y + 30);
-
-}
+   //it should executing only once
+   if (arrow->getPosition().x < text->getPosition().x && arrow->getPosition().y < text->getPosition().y)
+      arrow->setPosition(text->getPosition().x - 15,text->getPosition().y + 10);// 15 and 10 it's value of neccessary shift(not good calculation)
+}                                                                               // this is neccessary put them here because  I want interact with menu imediatly
 sf::CircleShape& GUI::updateMenuArrow(){
    return *arrow;
 }
@@ -91,6 +93,9 @@ void GUI::updateStartMenu(sf::RenderTarget &win){
                        posOnScreen->y - 200);
    text->setPosition(posOnScreen->x + 150,
                      posOnScreen->y);
+   //it should executing only once
+   if (arrow->getPosition().x < text->getPosition().x && arrow->getPosition().y < text->getPosition().y)
+      arrow->setPosition(text->getPosition().x,text->getPosition().y);
 }
 
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
@@ -112,6 +117,7 @@ void GUI::renderMenu(sf::RenderTarget &win){
 void GUI::renderStartMenu(sf::RenderTarget &win){
    win.draw(*sprite);
    win.draw(*text);
+   win.draw(*arrow);
 }
 
 void GUI::initStartMenu(){
@@ -119,6 +125,12 @@ void GUI::initStartMenu(){
    texture->loadFromFile("../texture/startMenu.jpg");
    sprite = new sf::Sprite(*texture);
    sprite->scale(0.5,0.5);
+
+   arrow = new sf::CircleShape(40,3);
+   arrow->setRotation(90);
+   arrow->setOutlineColor(sf::Color::Blue);
+   arrow->setOutlineThickness(1);
+
    ss = new std::stringstream();
    
    posOnScreen = new sf::Vector2f();
@@ -169,7 +181,6 @@ void GUI::initMenu(){
 
    arrow = new sf::CircleShape(20,3);
    arrow->setRotation(90);
-   arrow->setPosition(-1000,-1000);
    arrow->setOutlineColor(sf::Color::Blue);
    arrow->setOutlineThickness(1);
    

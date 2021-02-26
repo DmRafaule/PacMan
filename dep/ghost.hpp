@@ -1,6 +1,9 @@
 #pragma once 
 
-#include <array>
+/*
+    Class about ghost(how it's move, how it's thinking, how it's interact with pac)
+*/
+
 #include <SFML/Graphics.hpp>
 
 class Ghost{

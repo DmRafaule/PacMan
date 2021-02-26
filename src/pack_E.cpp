@@ -11,17 +11,17 @@ Game::Game(){
     
     isGUI = true;
     whichGUI[3] = true;
-    gui = new GUI(whichGUI);//REMAIN ONLY THIS
+    gui = new GUI(whichGUI);
 }
 Game::~Game(){
-    if (isStartGame){
+    if (isStartGame){//If in game session player make desition to quit free memmory
         if (isGUI) delete gui;//If player forgot to close a menu, just free
-        if (isEndGame == TypeOfEnd::NOT_END){
+        if (isEndGame == TypeOfEnd::NOT_END){//If player make desition exit immediately
             delete pack;
             delete world;
         }
     }
-    else{//if player make decision exit now
+    else{//if player make decision exit from Main menu
         delete gui;
     }
 
@@ -45,14 +45,16 @@ void Game::update(){
         }
         
         //Menu GUI
-        if (event->type == sf::Event::KeyPressed && !isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){//Push up menu if it's alredy up and it's not end game
+        //Open menu if it's closed and you do not reach end game
+        if (event->type == sf::Event::KeyPressed && !isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){
             if (event->key.code == sf::Keyboard::Escape){//For open GUI
                 isGUI=true;
                 whichGUI[0] = true;
                 gui = new GUI(whichGUI);
             }
         }
-        else if (event->type == sf::Event::KeyPressed && isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){//Pop up menu if it's alredy push up and it's not end game
+        //Close menu if it's open and you do not reach end game and moving arrows
+        else if (event->type == sf::Event::KeyPressed && isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){
             if (event->key.code == sf::Keyboard::Escape){//for close GUI
                 isGUI=false;
                 whichGUI[0] = false;
@@ -75,20 +77,34 @@ void Game::update(){
                                                    gui->updateMenuArrow().getPosition().y);
             }
         }
-        
-        //Begin game and Interact with menu
-        if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//Start play in game
+
+        //Interact with menu, before start actual game, after end of game(all kind of endings)
+        if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//For interact with game before start actual game
             if (event->key.code == sf::Keyboard::Enter){
-                world = new World(window->getSize().x,window->getSize().y);
-                pack = new Hero_pack();
-                isGUI = false;
-                whichGUI[3] = false;
-                isStartGame = true;
-                delete gui;
+                if (gui->updateMenuArrow().getPosition().y <= 230 ){//Starting game
+                    world = new World(window->getSize().x,window->getSize().y);
+                    pack = new Hero_pack();
+                    isGUI = false;
+                    whichGUI[3] = false;
+                    isStartGame = true;
+                    delete gui;
+                }
+                if (gui->updateMenuArrow().getPosition().y <= 330 && gui->updateMenuArrow().getPosition().y > 230 ){//Open window with settings
+                    printf("settings\n");
+                }
+                if (gui->updateMenuArrow().getPosition().y > 330 ){//Quit from the game
+                    window->close();
+                }
+            }
+            if (event->key.code == sf::Keyboard::Up && gui->updateMenuArrow().getPosition().y >= 200){//For moving arrow up
+                gui->updateMenuArrow().move(0,-120);
+            }
+            if (event->key.code == sf::Keyboard::Down && gui->updateMenuArrow().getPosition().y <= 330){//For moving arrow down
+                gui->updateMenuArrow().move(0,120);
             }
         }
-        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//Back to main menu or use menu
-            if (event->key.code == sf::Keyboard::Enter && !whichGUI[0]){//For exit to main menu from gameover
+        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//For interact with menu and interact with game on stage game over
+            if (event->key.code == sf::Keyboard::Enter && !whichGUI[0]){//For exit to main menu after game over(any type)
                 delete gui;
                 for (bool &i : whichGUI)
                     i=false;
@@ -98,7 +114,7 @@ void Game::update(){
                 callOnce = true;
                 gui = new GUI(whichGUI);
             }
-            if (event->key.code == sf::Keyboard::Enter && whichGUI[0]){//for interact with menu
+            if (event->key.code == sf::Keyboard::Enter && whichGUI[0]){//for interact with menu 
                 //this is menu
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 185 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
                     delete gui;
@@ -122,16 +138,17 @@ void Game::update(){
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 500 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 314){
                     window->close();     
                 }                
+                //Why I use this magic number? because I want not make another uniqe f-tion only for this part of code ... so
             }
         }
     }
     if (isStartGame){
-        if (!isGUI){//pop up GUI/pausa //HERE add menu and end to game//REMOVE CLASS menu(all gui have to be in GUI)
-            if (isEndGame == TypeOfEnd::NOT_END){//Update only then it's not end gam
+        if (!isGUI){//If esc is pressed game menu open (also make some pausa)
+            if (isEndGame == TypeOfEnd::NOT_END){//For updating game till it's not end game
                 pack->_update(*event, *window, world->_getTiles(),world->_getGhost(),globalTime,isEndGame);
                 world->_update(*window,world->_getTiles(),pack->_getPack());
             }
-            if (isEndGame == TypeOfEnd::BAD_END && callOnce){//Call only once when game end(free memory and display Some new GUI)
+            if (isEndGame == TypeOfEnd::BAD_END && callOnce){//Call only once when game end(bad end)(free memory and display new "window")
                 isGUI=true;
                 whichGUI[1] = true;
                 delete pack;
@@ -139,7 +156,7 @@ void Game::update(){
                 callOnce = false;
                 gui = new GUI(whichGUI);
             }
-            if (isEndGame == TypeOfEnd::GOOD_END && callOnce){
+            if (isEndGame == TypeOfEnd::GOOD_END && callOnce){//As  bad end but whith  other displaying "window" and text
                 isGUI=true;
                 whichGUI[2] = true;
                 delete pack;
@@ -147,10 +164,11 @@ void Game::update(){
                 callOnce = false;
                 gui = new GUI(whichGUI);
             }
+            //MORE ENDINGS IN THE FUTURE
         }
         gui->_update(isGUI,*window);
     }
-    else{
+    else{//For update start menu
         gui->_update(isGUI,*window);
     }
 }
@@ -164,8 +182,9 @@ void Game::render(){
         }
         gui->_render(*window,isGUI);
     }
-    else{
+    else{//For render start menu
        gui->_render(*window,isGUI);
     }
+    
     window->display();
 }

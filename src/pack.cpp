@@ -94,7 +94,7 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
         sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,
                                 window.getSize().y - sprite_bar->getGlobalBounds().height);
     }
-    textScore->setPosition(sprite_bar->getPosition().x + 20, sprite_bar->getPosition().y + 20);
+    textScore->setPosition(sprite_bar->getPosition().x + 10, sprite_bar->getPosition().y + 20);
     textHealth->setPosition(sprite_bar->getPosition().x + sprite_bar->getGlobalBounds().width - textHealth->getGlobalBounds().width -17,
                             sprite_bar->getPosition().y + 7);
 

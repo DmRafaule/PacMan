@@ -1,9 +1,15 @@
 #pragma once
 
+/*
+    Class about loading(IN THE FUTURE) maps(levels)
+    and return it world
+*/
+
 #include "SFML/Graphics.hpp"
 
 class Map{
 private:
+    //Container for holding map
     sf::String map1[24]{{"################################"},
                        {"##_________#_#_#______#___##_#__"},
                        {"##__#_#_##_#___#_#_#____________"},
@@ -33,5 +39,6 @@ private:
 public:
     Map();
     ~Map();
+    //Returning a type of character
     const char get_map(size_t iterator_x,size_t itertor_y) const;
 };

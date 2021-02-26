@@ -1,20 +1,21 @@
 #ifndef PACK_E_HPP
 #define PACK_E_HPP
+
 /*
-Class for handling other class and connect them (Hero_pack,Enemy_goust,Map)
+Class for handling other class and connect them (pack,ghost,Map, world)
 */
 
 
-#include "pack.hpp"
-#include "world.hpp"
-#include "GUI.hpp"
+#include "pack.hpp"//Class about user and interacion with game session
+#include "world.hpp"//Class about ghost map world titles points ...
+#include "GUI.hpp"//Class about any kind of graphics user interfase in game (exeption is status bar in class pack(I'm just too lazy for recoding this))
 
 class Game{
 private:
     sf::RenderWindow *window;
     sf::Event *event;
     
-    Hero_pack *pack;//Class about user and interacion with game
+    Hero_pack *pack;
     World *world;
     GUI *gui;
 
@@ -27,13 +28,14 @@ private:
         BAD_END,
         GOOD_END
     };
-    short isEndGame = 0;//Types of end game
-    bool whichGUI[5]{false};//[0] - MENU  
+    short isEndGame = 0;//Types of endings game
+    bool whichGUI[5]{false};//[0] - menu in game session  
                             //[1] - bad end
-                            //[2] - goog end  
-    bool isGUI = true;
-    bool isStartGame = false;
-    bool callOnce = true;//For allocate memmory  in stage game end
+                            //[2] - goog end
+                            //[3] - main menu 
+    bool isGUI = true;//True if some gui are rendering
+    bool isStartGame = false;//This tell that game is not start yet
+    bool callOnce = true;//For allocate memmory only onse after player has reached any kind of endings game
 public:
     
     void run();//main infinity loop

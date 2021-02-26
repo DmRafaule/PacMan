@@ -5,8 +5,6 @@
 Class about packman(player) and interaction with world, enemies
 */
 
-#include <iostream>
-
 #include <SFML/System.hpp>
 #include <SFML/Window.hpp>
 #include <SFML/Graphics.hpp>
