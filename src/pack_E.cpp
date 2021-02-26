@@ -57,22 +57,26 @@ void Game::update(){
                 isGUI=false;
                 whichGUI[0] = false;
                 delete gui;
-            }//if in this moment push enter you will exit SOLVE
-            if (event->key.code == sf::Keyboard::Up)
+            }
+            if (event->key.code == sf::Keyboard::Up){//For moveing arrow up
                 gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
                                                    gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/5);
-            if (event->key.code == sf::Keyboard::Down)
+            }
+            if (event->key.code == sf::Keyboard::Down){//For moveing arrow down
                 gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
                                                     gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/1.75);
-            if (event->key.code == sf::Keyboard::Left)
+            }
+            if (event->key.code == sf::Keyboard::Left){//For moveing arrow left
                 gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/7,
                                                    gui->updateMenuArrow().getPosition().y);
-            if (event->key.code == sf::Keyboard::Right)
+            }
+            if (event->key.code == sf::Keyboard::Right){//For moveing arrow right
                 gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/1.5,
                                                    gui->updateMenuArrow().getPosition().y);
+            }
         }
         
-        //Begin game
+        //Begin game and Interact with menu
         if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//Start play in game
             if (event->key.code == sf::Keyboard::Enter){
                 world = new World(window->getSize().x,window->getSize().y);
@@ -83,8 +87,8 @@ void Game::update(){
                 delete gui;
             }
         }
-        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//Back to main menu
-            if (event->key.code == sf::Keyboard::Enter){
+        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//Back to main menu or use menu
+            if (event->key.code == sf::Keyboard::Enter && !whichGUI[0]){//For exit to main menu from gameover
                 delete gui;
                 for (bool &i : whichGUI)
                     i=false;
@@ -93,6 +97,31 @@ void Game::update(){
                 isEndGame = TypeOfEnd::NOT_END;
                 callOnce = true;
                 gui = new GUI(whichGUI);
+            }
+            if (event->key.code == sf::Keyboard::Enter && whichGUI[0]){//for interact with menu
+                //this is menu
+                if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 185 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
+                    delete gui;
+                    for (bool &i : whichGUI)
+                        i=false;
+                    whichGUI[3]=true;
+                    isStartGame = false;
+                    isEndGame = TypeOfEnd::NOT_END;
+                    callOnce = true;
+                    gui = new GUI(whichGUI); 
+                }                    
+                //this is settings
+                if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 185 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 314){
+
+                }
+                //this is help
+                if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 500 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
+
+                }
+                //this is quit
+                if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 500 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 314){
+                    window->close();     
+                }                
             }
         }
     }

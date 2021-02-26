@@ -62,7 +62,8 @@ void GUI::updateEndGame(sf::RenderTarget &win){
 void GUI::updateMenu(sf::RenderTarget &win){
    posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
    posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
-    
+
+
    *ss << "Menu\t\t\tHelp\n\nSettings\t\tQuit";
    text->setString(ss->str());
    ss->str("");
@@ -168,14 +169,14 @@ void GUI::initMenu(){
 
    arrow = new sf::CircleShape(20,3);
    arrow->setRotation(90);
-   arrow->setPosition(200,320);
+   arrow->setPosition(-1000,-1000);
    arrow->setOutlineColor(sf::Color::Blue);
    arrow->setOutlineThickness(1);
    
    ss = new std::stringstream();
    
    posOnScreen = new sf::Vector2f();
-   
+
    font = new sf::Font();
    font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
    
