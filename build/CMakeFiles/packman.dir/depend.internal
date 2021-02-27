@@ -494,8 +494,11 @@ CMakeFiles/packman.dir/src/pack.cpp.o
  ../dep/SFML/include/SFML/Window/Window.hpp
  ../dep/SFML/include/SFML/Window/WindowHandle.hpp
  ../dep/SFML/include/SFML/Window/WindowStyle.hpp
+ ../dep/audio.hpp
  ../dep/ghost.hpp
+ ../dep/map.hpp
  ../dep/pack.hpp
+ ../dep/world.hpp
  /home/dimond/Projects/Repositories/PacMan/src/pack.cpp
 CMakeFiles/packman.dir/src/pack_E.cpp.o
  ../dep/GUI.hpp

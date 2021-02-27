@@ -132,6 +132,8 @@ void Game::update(){
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 185 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
                     audio->loadSound("../audio/opening.wav");
                     audio->playSound();
+                    delete pack;
+                    delete world;
                     delete gui;
                     for (bool &i : whichGUI)
                         i=false;

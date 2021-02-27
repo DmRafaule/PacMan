@@ -493,8 +493,11 @@ CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/SFML/include/SFML/Window/VideoMode
 CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/SFML/include/SFML/Window/Window.hpp
 CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/SFML/include/SFML/Window/WindowHandle.hpp
 CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/SFML/include/SFML/Window/WindowStyle.hpp
+CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/audio.hpp
 CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/ghost.hpp
+CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/map.hpp
 CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/pack.hpp
+CMakeFiles/packman.dir/src/pack.cpp.o: ../dep/world.hpp
 CMakeFiles/packman.dir/src/pack.cpp.o: ../src/pack.cpp
 
 CMakeFiles/packman.dir/src/pack_E.cpp.o: ../dep/GUI.hpp

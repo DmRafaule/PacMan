@@ -15,11 +15,14 @@ Hero_pack::Hero_pack(){
 
     clock = new sf::Clock();
     localTime = new sf::Time();
+    audio = new Audio;//But I can't segm fault WHY???
+    audio->loadSound("../audio/eating.ogg");
 }
 Hero_pack::~Hero_pack(){
     delete[] healthBar;
     delete clock;
     delete localTime;
+    delete audio;//But I can't segm fault WHY???
 }
 void Hero_pack::initStatus_Bar(sf::Event &event){
     if (event.key.code == sf::Keyboard::Tab && !isBar) {//allocate memory for status bar
@@ -115,7 +118,7 @@ short Hero_pack::updateEndGame(){
 }
 void Hero_pack::updateAnimation(){
     frame+=0.06;
-    if (frame < 4){  
+    if (frame < 4){ 
         if (dir_x == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),47,50,50));//Animation for leftward
         else if (dir_x == 1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),95,50,50));//Animation for rightward
         if (dir_y == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),193,50,50));//Animation for upward
@@ -214,20 +217,32 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
                 (map[j].getScale().x <= 0.15)){
                 if (dir_x == 1 && pack.getPosition().x+5 >= map[j].getPosition().x){
                     map.erase(map.begin()+j);
+                    audio->loadSound("../audio/eating.ogg");
+                    audio->playSound();
                     score++;
                 }
                 else if (dir_x == -1 && pack.getPosition().x+5 <= map[j].getPosition().x){
                     map.erase(map.begin()+j);
+                    audio->loadSound("../audio/eating.ogg");
+                    audio->playSound();
                     score++;
                 }
                 if (dir_y == 1 && pack.getPosition().y+5 >= map[j].getPosition().y){
                     map.erase(map.begin()+j);
+                    audio->loadSound("../audio/eating.ogg");
+                    audio->playSound();
                     score++;
                 }
                 else if (dir_y == -1 && pack.getPosition().y+5 <= map[j].getPosition().y){
                     map.erase(map.begin()+j);
+                    audio->loadSound("../audio/eating.ogg");
+                    audio->playSound();
                     score++;
                 }
+                
+
+                if (map[j].getTextureRect().left == 1000)//In this case multihit so you will get much more then 1
+                    score+=1;
             }
                 /*Why not here?? Because score too fast growing*/
         }
@@ -240,6 +255,9 @@ void Hero_pack::updateCollisionGhost(Ghost &ghost){
             (*clock).restart();
             isGhost=true;
             sizeHealthBar--;
+            audio->stopSound();
+            audio->loadSound("../audio/damage.wav");
+            audio->playSound();
         }
         if (isGhost){
             isGhost=false;

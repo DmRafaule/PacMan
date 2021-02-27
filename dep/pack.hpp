@@ -12,6 +12,7 @@ Class about packman(player) and interaction with world, enemies
 #include <SFML/Network.hpp>
 #include "ghost.hpp"
 #include "audio.hpp"
+#include "world.hpp"
 
 class Hero_pack{
 private:
@@ -29,6 +30,8 @@ private:
     sf::Sprite *sprite_bar;
     sf::Font *font;
     sf::Text *textScore,*textHealth;
+
+    Audio *audio;
     
     /*for directions of moves*/
     float dir_x = 0, dir_y = 1;

@@ -18,6 +18,7 @@ public:
    void playSound();
    void stopSound();
    void loadSound(const char*);
+   void loopSound();
    Audio();
    ~Audio();
 };

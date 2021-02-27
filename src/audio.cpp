@@ -4,6 +4,7 @@
 Audio::Audio(){
    buffer = new sf::SoundBuffer;
    sound = new sf::Sound;
+   sound->setVolume(10.f);
 }
 Audio::~Audio(){
    delete buffer;
@@ -22,4 +23,7 @@ void Audio::playSound(){
 }
 void Audio::stopSound(){
    sound->stop();
+}
+void Audio::loopSound(){
+   sound->setLoop(true);
 }

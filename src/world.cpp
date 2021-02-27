@@ -35,10 +35,19 @@ void World::initMap(){
     std::vector<sf::Sprite> row;
     for (size_t i = 0; i < winHeight/25; ++i){
         for (size_t j = 0; j < winWidth/25; ++j){
-            if (map->get_map(i,j) == '#'){
+            if (map->get_map(i,j) == '#'){//Just walls
                 row.push_back(spriteMap);
             }
-            if (map->get_map(i,j) == '_'){
+            if (map->get_map(i,j) == '_'){//Usual points
+                spriteP.setTextureRect(sf::IntRect(0,0,500,500));
+                row.push_back(spriteP);
+            }
+            if (map->get_map(i,j) == '*'){//Unusual points(just bigger)
+                spriteP.setTextureRect(sf::IntRect(1000,0,500,500));
+                row.push_back(spriteP);
+            }
+            if (map->get_map(i,j) == '+'){//health points
+                spriteP.setTextureRect(sf::IntRect(500,0,500,500));
                 row.push_back(spriteP);
             }
             spriteMap.setPosition(j*25,i*25);

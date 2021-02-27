@@ -20,6 +20,7 @@ private:
     Hero_pack *pack;
     World *world;
     Audio *audio;
+    
     GUI *gui;
 
 
