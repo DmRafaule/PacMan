@@ -22,19 +22,22 @@ private:
    bool isStartMenu = false;//Menu on the start game
    bool isBadEndGame = false;
    bool isGoodEndGame = false;
+   bool isHelp = false;
 private:
    void initMenu();
    void initEndGame();
    void initStartMenu();
+   void initHelp();
    
    void updateEndGame(sf::RenderTarget &win);
    void updateMenu(sf::RenderTarget &win);
    void updateStartMenu(sf::RenderTarget &win);
-
+   void updateHelp(sf::RenderTarget &win);
 
    void renderEndGame(sf::RenderTarget &win);
    void renderMenu(sf::RenderTarget &win);
    void renderStartMenu(sf::RenderTarget &win);
+   void renderHelp(sf::RenderTarget &win);
 public:
    GUI(const bool*);
    ~GUI();

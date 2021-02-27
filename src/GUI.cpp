@@ -5,6 +5,8 @@ GUI::GUI(const bool *whichGUI){
    isStartMenu = whichGUI[3];
    isBadEndGame = whichGUI[1];
    isGoodEndGame = whichGUI[2];
+   isHelp = whichGUI[4];
+   
    if (isMenu){
       initMenu();
    }
@@ -14,26 +16,32 @@ GUI::GUI(const bool *whichGUI){
    if (isStartMenu){
       initStartMenu();
    }
+   if (isHelp){
+      initHelp();
+   }
 }
 GUI::~GUI(){
-      isMenu=false;
-      isBadEndGame=false;
-      isGoodEndGame=false;
-      isStartMenu=false;
+      
+      
       delete texture;
       delete sprite;
       delete ss;
       delete posOnScreen;
       delete font;
       delete text;
-      if (isMenu || isStartMenu) delete arrow;
-}
+      if (isMenu || isStartMenu) delete arrow;//???
+      isMenu         =  false;
+      isBadEndGame   =  false;
+      isGoodEndGame  =  false;
+      isStartMenu    =  false;
+      isHelp         =  false;}
 
 void GUI::_update(const bool isGUI, sf::RenderTarget &win){
    if (isGUI){
-      if (isMenu) updateMenu(win);
-      if (isBadEndGame || isGoodEndGame) updateEndGame(win);
-      if (isStartMenu) updateStartMenu(win);
+      if (isMenu)                         updateMenu(win);
+      if (isBadEndGame || isGoodEndGame)  updateEndGame(win);
+      if (isStartMenu)                    updateStartMenu(win);
+      if (isHelp)                         updateHelp(win);
    }
 }
 void GUI::updateEndGame(sf::RenderTarget &win){
@@ -97,12 +105,28 @@ void GUI::updateStartMenu(sf::RenderTarget &win){
    if (arrow->getPosition().x < text->getPosition().x && arrow->getPosition().y < text->getPosition().y)
       arrow->setPosition(text->getPosition().x,text->getPosition().y);
 }
+void GUI::updateHelp(sf::RenderTarget &win){
+   posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
+   posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
+
+
+   *ss << "Arrows\t\t\tfor moves\nTab\t\t\t\tfor open status\nQ\t\t\t\t\tfor close status\nEsc\t\t\t\tfor open menu\n";
+   text->setString(ss->str());
+   *ss <<"\n\n\n\n\n\n\nPress escape for close this help";
+   text->setString(ss->str());
+   ss->str("");
+   sprite->setPosition(*posOnScreen);
+   text->setPosition(posOnScreen->x + 100,
+                     posOnScreen->y + 40);
+}
+
 
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
    if (isGUI){
-      if (isMenu) renderMenu(win);
-      if (isBadEndGame || isGoodEndGame) renderEndGame(win);
-      if (isStartMenu) renderStartMenu(win);
+      if (isMenu)                         renderMenu(win);
+      if (isBadEndGame || isGoodEndGame)  renderEndGame(win);
+      if (isStartMenu)                    renderStartMenu(win);
+      if (isHelp)                         renderHelp(win);
    }
 }
 void GUI::renderEndGame(sf::RenderTarget &win){
@@ -118,6 +142,10 @@ void GUI::renderStartMenu(sf::RenderTarget &win){
    win.draw(*sprite);
    win.draw(*text);
    win.draw(*arrow);
+}
+void GUI::renderHelp(sf::RenderTarget &win){
+   win.draw(*sprite);
+   win.draw(*text);
 }
 
 void GUI::initStartMenu(){
@@ -198,4 +226,22 @@ void GUI::initMenu(){
    text->setStyle(sf::Text::Style::Bold);
    text->setOutlineColor(sf::Color::Blue);
    text->setOutlineThickness(1);
+}
+void GUI::initHelp(){
+   texture = new sf::Texture();
+   texture->loadFromFile("../texture/menu.png");
+   sprite = new sf::Sprite(*texture);
+   sprite->setScale(1.32,3);
+ 
+   ss = new std::stringstream();
+   
+   posOnScreen = new sf::Vector2f();
+
+   font = new sf::Font();
+   font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
+   
+   text = new sf::Text();
+   text->setFont(*font);
+   text->setFillColor(sf::Color::White);
+   text->setCharacterSize(40);
 }

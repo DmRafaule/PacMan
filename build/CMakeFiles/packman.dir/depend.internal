@@ -78,6 +78,52 @@ CMakeFiles/packman.dir/src/GUI.cpp.o
  ../dep/SFML/include/SFML/Window/WindowHandle.hpp
  ../dep/SFML/include/SFML/Window/WindowStyle.hpp
  /home/dimond/Projects/Repositories/PacMan/src/GUI.cpp
+CMakeFiles/packman.dir/src/audio.cpp.o
+ ../dep/SFML/include/SFML/Audio.hpp
+ ../dep/SFML/include/SFML/Audio/AlResource.hpp
+ ../dep/SFML/include/SFML/Audio/Export.hpp
+ ../dep/SFML/include/SFML/Audio/InputSoundFile.hpp
+ ../dep/SFML/include/SFML/Audio/Listener.hpp
+ ../dep/SFML/include/SFML/Audio/Music.hpp
+ ../dep/SFML/include/SFML/Audio/OutputSoundFile.hpp
+ ../dep/SFML/include/SFML/Audio/Sound.hpp
+ ../dep/SFML/include/SFML/Audio/SoundBuffer.hpp
+ ../dep/SFML/include/SFML/Audio/SoundBufferRecorder.hpp
+ ../dep/SFML/include/SFML/Audio/SoundFileFactory.hpp
+ ../dep/SFML/include/SFML/Audio/SoundFileFactory.inl
+ ../dep/SFML/include/SFML/Audio/SoundFileReader.hpp
+ ../dep/SFML/include/SFML/Audio/SoundFileWriter.hpp
+ ../dep/SFML/include/SFML/Audio/SoundRecorder.hpp
+ ../dep/SFML/include/SFML/Audio/SoundSource.hpp
+ ../dep/SFML/include/SFML/Audio/SoundStream.hpp
+ ../dep/SFML/include/SFML/Config.hpp
+ ../dep/SFML/include/SFML/System.hpp
+ ../dep/SFML/include/SFML/System/Clock.hpp
+ ../dep/SFML/include/SFML/System/Err.hpp
+ ../dep/SFML/include/SFML/System/Export.hpp
+ ../dep/SFML/include/SFML/System/FileInputStream.hpp
+ ../dep/SFML/include/SFML/System/InputStream.hpp
+ ../dep/SFML/include/SFML/System/Lock.hpp
+ ../dep/SFML/include/SFML/System/MemoryInputStream.hpp
+ ../dep/SFML/include/SFML/System/Mutex.hpp
+ ../dep/SFML/include/SFML/System/NonCopyable.hpp
+ ../dep/SFML/include/SFML/System/Sleep.hpp
+ ../dep/SFML/include/SFML/System/String.hpp
+ ../dep/SFML/include/SFML/System/String.inl
+ ../dep/SFML/include/SFML/System/Thread.hpp
+ ../dep/SFML/include/SFML/System/Thread.inl
+ ../dep/SFML/include/SFML/System/ThreadLocal.hpp
+ ../dep/SFML/include/SFML/System/ThreadLocalPtr.hpp
+ ../dep/SFML/include/SFML/System/ThreadLocalPtr.inl
+ ../dep/SFML/include/SFML/System/Time.hpp
+ ../dep/SFML/include/SFML/System/Utf.hpp
+ ../dep/SFML/include/SFML/System/Utf.inl
+ ../dep/SFML/include/SFML/System/Vector2.hpp
+ ../dep/SFML/include/SFML/System/Vector2.inl
+ ../dep/SFML/include/SFML/System/Vector3.hpp
+ ../dep/SFML/include/SFML/System/Vector3.inl
+ ../dep/audio.hpp
+ /home/dimond/Projects/Repositories/PacMan/src/audio.cpp
 CMakeFiles/packman.dir/src/ghost.cpp.o
  ../dep/SFML/include/SFML/Config.hpp
  ../dep/SFML/include/SFML/Graphics.hpp
@@ -260,6 +306,7 @@ CMakeFiles/packman.dir/src/main.cpp.o
  ../dep/SFML/include/SFML/Window/Window.hpp
  ../dep/SFML/include/SFML/Window/WindowHandle.hpp
  ../dep/SFML/include/SFML/Window/WindowStyle.hpp
+ ../dep/audio.hpp
  ../dep/ghost.hpp
  ../dep/map.hpp
  ../dep/pack.hpp
@@ -555,6 +602,7 @@ CMakeFiles/packman.dir/src/pack_E.cpp.o
  ../dep/SFML/include/SFML/Window/Window.hpp
  ../dep/SFML/include/SFML/Window/WindowHandle.hpp
  ../dep/SFML/include/SFML/Window/WindowStyle.hpp
+ ../dep/audio.hpp
  ../dep/ghost.hpp
  ../dep/map.hpp
  ../dep/pack.hpp

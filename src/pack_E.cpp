@@ -12,6 +12,9 @@ Game::Game(){
     isGUI = true;
     whichGUI[3] = true;
     gui = new GUI(whichGUI);
+    audio = new Audio;
+    audio->loadSound("../audio/opening.wav");
+    audio->playSound();
 }
 Game::~Game(){
     if (isStartGame){//If in game session player make desition to quit free memmory
@@ -24,8 +27,7 @@ Game::~Game(){
     else{//if player make decision exit from Main menu
         delete gui;
     }
-
-
+    delete audio;
     delete event;
     delete window;  
 }
@@ -48,31 +50,39 @@ void Game::update(){
         //Open menu if it's closed and you do not reach end game
         if (event->type == sf::Event::KeyPressed && !isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){
             if (event->key.code == sf::Keyboard::Escape){//For open GUI
+                audio->loadSound("../audio/switch.wav");
                 isGUI=true;
                 whichGUI[0] = true;
+                whichGUI[4] = false;
                 gui = new GUI(whichGUI);
             }
         }
         //Close menu if it's open and you do not reach end game and moving arrows
         else if (event->type == sf::Event::KeyPressed && isGUI && isEndGame == TypeOfEnd::NOT_END && isStartGame){
+                
             if (event->key.code == sf::Keyboard::Escape){//for close GUI
+                audio->loadSound("../audio/opening.wav");
                 isGUI=false;
                 whichGUI[0] = false;
                 delete gui;
             }
             if (event->key.code == sf::Keyboard::Up){//For moveing arrow up
+                audio->playSound();
                 gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
                                                    gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/5);
             }
             if (event->key.code == sf::Keyboard::Down){//For moveing arrow down
+                audio->playSound();
                 gui->updateMenuArrow().setPosition(gui->updateMenuArrow().getPosition().x,
                                                     gui->getMenuArrow().getGlobalBounds().top + gui->getMenuArrow().getGlobalBounds().height/1.75);
             }
             if (event->key.code == sf::Keyboard::Left){//For moveing arrow left
+                audio->playSound();
                 gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/7,
                                                    gui->updateMenuArrow().getPosition().y);
             }
             if (event->key.code == sf::Keyboard::Right){//For moveing arrow right
+                audio->playSound();
                 gui->updateMenuArrow().setPosition(gui->getMenuArrow().getGlobalBounds().left + gui->getMenuArrow().getGlobalBounds().width/1.5,
                                                    gui->updateMenuArrow().getPosition().y);
             }
@@ -82,6 +92,7 @@ void Game::update(){
         if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//For interact with game before start actual game
             if (event->key.code == sf::Keyboard::Enter){
                 if (gui->updateMenuArrow().getPosition().y <= 230 ){//Starting game
+                    audio->stopSound();
                     world = new World(window->getSize().x,window->getSize().y);
                     pack = new Hero_pack();
                     isGUI = false;
@@ -103,8 +114,10 @@ void Game::update(){
                 gui->updateMenuArrow().move(0,120);
             }
         }
-        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){//For interact with menu and interact with game on stage game over
-            if (event->key.code == sf::Keyboard::Enter && !whichGUI[0]){//For exit to main menu after game over(any type)
+        //For interact with menu and interact with game on stage game over
+        else if (event->type == sf::Event::KeyPressed && isGUI && isStartGame){
+            if (event->key.code == sf::Keyboard::Enter && !whichGUI[0] && !whichGUI[4]){//For exit to main menu after game over(any type)
+                audio->playSound();
                 delete gui;
                 for (bool &i : whichGUI)
                     i=false;
@@ -117,6 +130,8 @@ void Game::update(){
             if (event->key.code == sf::Keyboard::Enter && whichGUI[0]){//for interact with menu 
                 //this is menu
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 185 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
+                    audio->loadSound("../audio/opening.wav");
+                    audio->playSound();
                     delete gui;
                     for (bool &i : whichGUI)
                         i=false;
@@ -132,7 +147,11 @@ void Game::update(){
                 }
                 //this is help
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 500 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 240){
-
+                    delete gui;//HERE SEGMENTATION FAULT
+                    for (bool &i : whichGUI)
+                        i=false;
+                    whichGUI[4] = true; 
+                    gui = new GUI(whichGUI);
                 }
                 //this is quit
                 if (static_cast<int>(gui->updateMenuArrow().getPosition().x) == 500 && static_cast<int>(gui->updateMenuArrow().getPosition().y) == 314){
@@ -149,6 +168,7 @@ void Game::update(){
                 world->_update(*window,world->_getTiles(),pack->_getPack());
             }
             if (isEndGame == TypeOfEnd::BAD_END && callOnce){//Call only once when game end(bad end)(free memory and display new "window")
+                audio->playSound();
                 isGUI=true;
                 whichGUI[1] = true;
                 delete pack;
@@ -157,6 +177,7 @@ void Game::update(){
                 gui = new GUI(whichGUI);
             }
             if (isEndGame == TypeOfEnd::GOOD_END && callOnce){//As  bad end but whith  other displaying "window" and text
+                audio->playSound();
                 isGUI=true;
                 whichGUI[2] = true;
                 delete pack;

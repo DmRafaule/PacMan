@@ -11,6 +11,7 @@ Class about packman(player) and interaction with world, enemies
 #include <SFML/Audio.hpp>
 #include <SFML/Network.hpp>
 #include "ghost.hpp"
+#include "audio.hpp"
 
 class Hero_pack{
 private:

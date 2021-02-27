@@ -9,6 +9,8 @@ Class for handling other class and connect them (pack,ghost,Map, world)
 #include "pack.hpp"//Class about user and interacion with game session
 #include "world.hpp"//Class about ghost map world titles points ...
 #include "GUI.hpp"//Class about any kind of graphics user interfase in game (exeption is status bar in class pack(I'm just too lazy for recoding this))
+#include "audio.hpp"
+
 
 class Game{
 private:
@@ -17,7 +19,9 @@ private:
     
     Hero_pack *pack;
     World *world;
+    Audio *audio;
     GUI *gui;
+
 
     /*Game time*/
     sf::Clock globalClock;
@@ -33,6 +37,7 @@ private:
                             //[1] - bad end
                             //[2] - goog end
                             //[3] - main menu 
+                            //[4] - help
     bool isGUI = true;//True if some gui are rendering
     bool isStartGame = false;//This tell that game is not start yet
     bool callOnce = true;//For allocate memmory only onse after player has reached any kind of endings game

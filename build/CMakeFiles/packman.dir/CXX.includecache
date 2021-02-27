@@ -6,6 +6,12 @@
 
 #IncludeRegexTransform: 
 
+../dep/GUI.hpp
+SFML/Graphics.hpp
+-
+sstream
+-
+
 ../dep/SFML/include/SFML/Audio.hpp
 SFML/System.hpp
 -
@@ -976,9 +982,17 @@ SFML/Config.hpp
 
 ../dep/SFML/include/SFML/Window/WindowStyle.hpp
 
+../dep/audio.hpp
+SFML/Audio.hpp
+-
+
 ../dep/ghost.hpp
 SFML/Graphics.hpp
 -
+
+../dep/map.hpp
+SFML/Graphics.hpp
+../dep/SFML/Graphics.hpp
 
 ../dep/pack.hpp
 SFML/System.hpp
@@ -994,9 +1008,35 @@ SFML/Network.hpp
 ghost.hpp
 ../dep/ghost.hpp
 
-/home/dimond/Projects/Repositories/PacMan/src/pack.cpp
+../dep/pack_E.hpp
 pack.hpp
-/home/dimond/Projects/Repositories/PacMan/src/pack.hpp
-sstream
+../dep/pack.hpp
+world.hpp
+../dep/world.hpp
+GUI.hpp
+../dep/GUI.hpp
+audio.hpp
+../dep/audio.hpp
+
+../dep/world.hpp
+vector
 -
+SFML/Window.hpp
+-
+SFML/System.hpp
+-
+SFML/Graphics.hpp
+-
+SFML/Audio.hpp
+-
+SFML/Network.hpp
+-
+map.hpp
+../dep/map.hpp
+ghost.hpp
+../dep/ghost.hpp
+
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp
+pack_E.hpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 

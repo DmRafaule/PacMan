@@ -150,6 +150,33 @@ src/GUI.cpp.s:
 	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/GUI.cpp.s
 .PHONY : src/GUI.cpp.s
 
+src/audio.o: src/audio.cpp.o
+
+.PHONY : src/audio.o
+
+# target to build an object file
+src/audio.cpp.o:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/audio.cpp.o
+.PHONY : src/audio.cpp.o
+
+src/audio.i: src/audio.cpp.i
+
+.PHONY : src/audio.i
+
+# target to preprocess a source file
+src/audio.cpp.i:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/audio.cpp.i
+.PHONY : src/audio.cpp.i
+
+src/audio.s: src/audio.cpp.s
+
+.PHONY : src/audio.s
+
+# target to generate assembly for a file
+src/audio.cpp.s:
+	$(MAKE) -f CMakeFiles/packman.dir/build.make CMakeFiles/packman.dir/src/audio.cpp.s
+.PHONY : src/audio.cpp.s
+
 src/ghost.o: src/ghost.cpp.o
 
 .PHONY : src/ghost.o
@@ -324,6 +351,9 @@ help:
 	@echo "... src/GUI.o"
 	@echo "... src/GUI.i"
 	@echo "... src/GUI.s"
+	@echo "... src/audio.o"
+	@echo "... src/audio.i"
+	@echo "... src/audio.s"
 	@echo "... src/ghost.o"
 	@echo "... src/ghost.i"
 	@echo "... src/ghost.s"
