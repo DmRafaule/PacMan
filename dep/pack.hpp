@@ -42,6 +42,7 @@ private:
     bool isWall=false;//logical(it isn't wall)
     bool isBar=false;//about question of existing status bar
     bool isGhost=false;//for detect a ghost
+    bool isFix=true;//For correction
 private: 
     /*INIT F.*/
     /*about some actions(like pop up score,health,settings or do something else)*/
@@ -49,8 +50,6 @@ private:
     /*UPDATE F.*/
     /*for detecting  a border of screen*/
     void updateCollisions(sf::RenderTarget &, Ghost &);
-        /*For detect colisions with border of screen*/
-        void updateCollisionBorders(sf::RenderTarget &);
         /*For detect colisions with tiles(walls) and points*/
         void updateCollisionWallsPoint(sf::RenderTarget &);
         /*For detect collisions with ghost*/

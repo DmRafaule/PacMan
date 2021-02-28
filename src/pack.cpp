@@ -164,8 +164,12 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
     int remain_y = pos_y%25;
     int remain_x = pos_x%25;
     
+    if (localTime->asSeconds() >= 1){//For avoiding stacking in walls
+        isFix=true;
+    }
+
     //left-right direction
-    if ((dir_x == 1 || dir_x == -1) && (dir_y == 0 )){
+    if ((dir_x == 1 || dir_x == -1) && (dir_y == 0 ) && isFix){
         if (remain_y >= 12.5){
             pos_y += 25 - remain_y;
         }
@@ -175,7 +179,7 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         pack.setPosition(pos_x,pos_y);
     }
     //top-down direction
-    if ((dir_x == 0) && (dir_y == -1 || dir_y == 1 )){
+    if ((dir_x == 0) && (dir_y == -1 || dir_y == 1 ) && isFix){
         if (remain_x >= 12.5){
             pos_x += 25 - remain_x;
         }
@@ -184,23 +188,13 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         }
         pack.setPosition(pos_x,pos_y);
     }
+    isFix=false;///For avoiding stacking in walls
 }
 
 
 void Hero_pack::updateCollisions(sf::RenderTarget &window, Ghost &ghost){
     updateCollisionWallsPoint(window);
-    updateCollisionBorders(window);
     updateCollisionGhost(ghost);
-}
-void Hero_pack::updateCollisionBorders(sf::RenderTarget &window){
-/*left*/ if(pack.getGlobalBounds().left < 0) 
-            dir_x = 1;
-/*right*/else if(pack.getGlobalBounds().left + pack.getGlobalBounds().width > window.getSize().x)
-            dir_x = -1;
-/*top*/  if(pack.getGlobalBounds().top < 0) 
-            dir_y = 1;
-/*botom*/else if(pack.getGlobalBounds().top + pack.getGlobalBounds().height > window.getSize().y)
-            dir_y = -1;
 }
 void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
     for (auto &map : *tiles){
@@ -240,9 +234,17 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
                     score++;
                 }
                 
-
-                if (map[j].getTextureRect().left == 1000)//In this case multihit so you will get much more then 1
+                if (map[j].getTextureRect().left == 500){//Collisions with health point
+                        audio->loadSound("../audio/eatpill.ogg");
+                        audio->playSound();
+                        if (sizeHealthBar < 6) 
+                            sizeHealthBar++;
+                }
+                if (map[j].getTextureRect().left == 1000){//In this case multihit so you will get much more then 1
+                    audio->loadSound("../audio/eatpill.ogg");
+                    audio->playSound();
                     score+=1;
+                }
             }
                 /*Why not here?? Because score too fast growing*/
         }
@@ -251,7 +253,7 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
 }
 void Hero_pack::updateCollisionGhost(Ghost &ghost){
     for (int i = 0; i != 4 ; ++i){
-        if (pack.getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 5){//Here it's ok MAKE  a global timer in Engine
+        if (pack.getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 3){//Here it's ok MAKE  a global timer in Engine
             (*clock).restart();
             isGhost=true;
             sizeHealthBar--;
