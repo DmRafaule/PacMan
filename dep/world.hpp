@@ -23,7 +23,11 @@ public:
     ~World();
     void _render(sf::RenderTarget &win);
     void _update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
+    
+    /*Getters*/
+    /*Return actual data about map*/
     std::vector<std::vector<sf::Sprite>> &_getTiles();
+    /*Return actual data about ghost*/
     Ghost &_getGhost();
 
 private:
@@ -40,15 +44,14 @@ private:
     void updateGhost(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void updateMap();
 private:
-    std::vector<std::vector<sf::Sprite>> tiles;
-    sf::Texture textureMap;
-    sf::Texture textureP;
-    sf::Sprite spriteMap;
-    sf::Sprite spriteP;
-    sf::Sprite pack;
+    std::vector<std::vector<sf::Sprite>>    *tiles;
+    sf::Texture                             *textureMap;
+    sf::Texture                             *textureP;
+    sf::Sprite                              *spriteMap;
+    sf::Sprite                              *spriteP;
 
-    unsigned int winHeight, winWidth;
-private:
-    Map *map;
-    Ghost *ghost;
+    unsigned int                            winHeight, winWidth;
+private:    
+    Map                                     *map;
+    Ghost                                   *ghost;
 };

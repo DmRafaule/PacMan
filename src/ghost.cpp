@@ -15,21 +15,14 @@ Ghost::~Ghost(){
 sf::Sprite &Ghost::_getGhostSprite(){
     return *sprite;
 }
-void Ghost::showStat(){
-    if (true){
-        system("clear");
-        std::cout << "ghost x pos" << sprite->getGlobalBounds().left <<std::endl;
-        std::cout << "ghost y pos" << sprite->getGlobalBounds().top <<std::endl;
-    }
-}
 /*update f-tion*/
 void Ghost::updateAnimation(){
     frame+=0.06;
     if (frame < 4){  
-        if (isLeft) sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for leftward
-        else if (isRight) sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for rightward
-        if (isTop) sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for upward
-        else if (isBottom) sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for downward
+        if      (isLeft)    sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for leftward
+        else if (isRight)   sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for rightward
+        if      (isTop)     sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for upward
+        else if (isBottom)  sprite->setTextureRect(sf::IntRect(500*static_cast<int>(frame),0,500,500));//Animation for downward
     }
     else frame = 0;
 }
@@ -81,9 +74,9 @@ void Ghost::__render(){
 }
 /*init f-tion*/
 void Ghost::initTexture(){
-    texture = new sf::Texture;
+    texture     = new sf::Texture;
     texture->loadFromFile("../texture/ghost.png");
-    sprite = new sf::Sprite(*texture);
+    sprite      = new sf::Sprite(*texture);
     int choise = rand()%4+0;
     switch (choise){//random generate types(by color, for future different behaviore)
         case red:{
@@ -154,8 +147,8 @@ void Ghost::updateMovementsNoVisionPack(){
 }
 int Ghost::updateDecision(){
     left_s = right_s = top_s = bottom_s = true;
-    sf::FloatRect sens[4];//Declare our sensor for detecting surrounding
-    for (auto &i : sens){//Set up size of sensors
+    sf::FloatRect sens[4];  //Declare our sensor for detecting surrounding
+    for (auto &i : sens){   //Set up size of sensors
         i.height = 5;
         i.width = 5;
     }
@@ -174,10 +167,10 @@ int Ghost::updateDecision(){
 
     switch (defineOptions(sens)){
         case 1:{//If ghost have only one way
-            if (!left_s) outcome=3;
-            if (!right_s) outcome=0;
-            if (!top_s) outcome=2;
-            if (!bottom_s) outcome=1;
+            if (!left_s)    outcome=3;
+            if (!right_s)   outcome=0;
+            if (!top_s)     outcome=2;
+            if (!bottom_s)  outcome=1;
             isLeft=isRight=isBottom=isTop=false; 
             break;
         }
@@ -218,12 +211,12 @@ int Ghost::updateDecision(){
         case 3:{//If ghost have 3 way to move
             int rand_num = rand()%2;
             if (!top_s || !bottom_s){
-                if (rand_num == 0) outcome = 0;
-                else outcome = 3;
+                if (rand_num == 0)   outcome = 0;
+                else                 outcome = 3;
             }
             else {
-                if (rand_num == 0) outcome = 1;
-                else outcome = 2;
+                if (rand_num == 0)  outcome = 1;
+                else                outcome = 2;
             }
             isLeft=isRight=isBottom=isTop=false; 
             break;
@@ -236,19 +229,19 @@ int Ghost::defineOptions(sf::FloatRect sens[]){
     for (const auto &i : *tiles){
         for (const auto &j : i){
             if (sens[0].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){//If top sensor touch the wall
-                top_s=false;
+                top_s       = false;
                 options--;
             }
             if (sens[1].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){//If bottom sensor touch the wall
-                bottom_s=false;
+                bottom_s    = false;
                 options--;
             }
             if (sens[2].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){//If right sensor touch the wall
-                right_s=false;
+                right_s     = false;
                 options--;
             }
             if (sens[3].intersects(j.getGlobalBounds()) && j.getScale().x == 0.25){//If left sensor touch the wall
-                left_s=false;
+                left_s      = false;
                 options--;
             }
         }
@@ -273,7 +266,7 @@ void Ghost::updateCorrectMovements(){
             pos_y -= remain_y;
         }
         sprite->setPosition(pos_x,pos_y);
-        fixPos=false;
+        fixPos = false;
     }
     //top-down direction
     if ((!isRight) && (isTop || isBottom) && (fixPos)){
@@ -284,7 +277,7 @@ void Ghost::updateCorrectMovements(){
             pos_x -= remain_x;
         }
         sprite->setPosition(pos_x,pos_y);
-        fixPos=false;
+        fixPos = false;
     }
 }
 void Ghost::updateVisionPack(){

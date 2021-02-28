@@ -2,61 +2,69 @@
 #include <sstream>
 
 Hero_pack::Hero_pack(){
-    texture.loadFromFile("../texture/pacman.png");
-    pack.setTexture(texture);
-    pack.setPosition(sf::Vector2f(350.f,300.f));
-    pack.setTextureRect(sf::IntRect(0,0,50,50));
-    pack.scale(0.5,0.5);
+    /*INit pack texture*/
+    texture     = new sf::Texture;
+    texture->loadFromFile("../texture/pacman.png");
+    
+    pack        = new sf::Sprite(*texture);
+    pack->setPosition(sf::Vector2f(350.f,300.f));
+    pack->setTextureRect(sf::IntRect(0,0,50,50));
+    pack->scale(0.5,0.5);
 
+    /*Init pack health*/
     healthBar = new char[sizeHealthBar];//init health
     for (int i =0; i != sizeHealthBar; ++i){
         healthBar[i]='*';
     }
 
-    clock = new sf::Clock();
-    localTime = new sf::Time();
-    audio = new Audio(10);//But I can't segm fault WHY???
+    /*Init time for pack*/
+    clock       = new sf::Clock();
+    localTime   = new sf::Time();
+    /*Init sound effect for pack*/
+    audio       = new Audio(10);
     audio->loadSound("../audio/eating.ogg");
 }
 Hero_pack::~Hero_pack(){
-    delete[] healthBar;
-    delete clock;
-    delete localTime;
-    delete audio;//But I can't segm fault WHY???
+    delete      pack;
+    delete      texture;
+    delete[]    healthBar;
+    delete      clock;
+    delete      localTime;
+    delete      audio;
 }
 void Hero_pack::initStatus_Bar(sf::Event &event){
     if (event.key.code == sf::Keyboard::Tab && !isBar) {//allocate memory for status bar
         //Window stuff
         isBar=true;
-        texture_bar = new sf::Texture();
+        texture_bar     = new sf::Texture();
         texture_bar->loadFromFile("../texture/status_bar.png");
-        sprite_bar = new sf::Sprite(*texture_bar);
+        sprite_bar      = new sf::Sprite(*texture_bar);
         //Text stuff
-        font = new sf::Font();
+        font            = new sf::Font();
         font->loadFromFile("../fonts/CodenameCoderFree4FBold.ttf");
         
-        textScore = new sf::Text(); 
+        textScore       = new sf::Text(); 
         textScore->setFont(*font);
         textScore->setCharacterSize(30);
 
-        textHealth = new sf::Text(); 
+        textHealth      = new sf::Text(); 
         textHealth->setFont(*font);
         textHealth->setCharacterSize(45);
         textHealth->setFillColor(sf::Color::Red);
 
     }
     if (event.key.code == sf::Keyboard::Q && isBar){//free memory for status bar
-        isBar = false;
-        delete texture_bar;
-        delete sprite_bar;
-        delete font;
-        delete textScore;
-        delete textHealth;
+        isBar   = false;
+        delete  texture_bar;
+        delete  sprite_bar;
+        delete  font;
+        delete  textScore;
+        delete  textHealth;
     }
 }
 
 void Hero_pack::_render(sf::RenderTarget *window){
-    window->draw(pack);
+    window->draw(*pack);
     if (isBar){
         window->draw(*sprite_bar);
         window->draw(*textScore);
@@ -90,39 +98,38 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
     }
     textHealth->setString(ss.str());
 
-    if (pack.getPosition().y >= window.getSize().y/2-100){//If pack on the top of window, display status bar on bottom
+    if (pack->getPosition().y >= window.getSize().y/2-100){//If pack on the top of window, display status bar on bottom
         sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,0);
     }
-    else{  //else display on top
+    else{                                                 //else display on top
         sprite_bar->setPosition(window.getSize().x/2 - sprite_bar->getGlobalBounds().width/2,
                                 window.getSize().y - sprite_bar->getGlobalBounds().height);
     }
+    
     textScore->setPosition(sprite_bar->getPosition().x + 10, sprite_bar->getPosition().y + 20);
     textHealth->setPosition(sprite_bar->getPosition().x + sprite_bar->getGlobalBounds().width - textHealth->getGlobalBounds().width -17,
                             sprite_bar->getPosition().y + 7);
-
-
-
 }
 void Hero_pack::updateTime(){
     *localTime = clock->getElapsedTime();
 }
 short Hero_pack::updateEndGame(){
-    if (sizeHealthBar == 0){//For bad end
+    //For bad end
+    if (sizeHealthBar == 0)
         return 1; 
-    }
-    else if (score >= 600){//For good end
+    //For good end
+    else if (score >= 600)
         return 2;
-    }
+    //For not end
     return 0;
 }
 void Hero_pack::updateAnimation(){
     frame+=0.06;
     if (frame < 4){ 
-        if (dir_x == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),47,50,50));//Animation for leftward
-        else if (dir_x == 1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),95,50,50));//Animation for rightward
-        if (dir_y == -1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),193,50,50));//Animation for upward
-        else if (dir_y == 1) pack.setTextureRect(sf::IntRect(50*static_cast<int>(frame),143,50,50));//Animation for downward
+        if      (dir_x == -1)   pack->setTextureRect(sf::IntRect(50*static_cast<int>(frame),47,50,50));   //Animation for leftward
+        else if (dir_x ==  1)    pack->setTextureRect(sf::IntRect(50*static_cast<int>(frame),95,50,50));  //Animation for rightward
+        if      (dir_y == -1)   pack->setTextureRect(sf::IntRect(50*static_cast<int>(frame),193,50,50));  //Animation for upward
+        else if (dir_y ==  1)    pack->setTextureRect(sf::IntRect(50*static_cast<int>(frame),143,50,50)); //Animation for downward
     }
     else frame = 0;
 }
@@ -130,7 +137,7 @@ void Hero_pack::updateAnimation(){
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
         updateCh_movements(event);
-    pack.move(dir_x,dir_y);//Make dependense from time
+    pack->move(dir_x,dir_y);//Make dependense from time
 }
 void Hero_pack::updateCh_movements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed && !isWall){
@@ -159,8 +166,8 @@ void Hero_pack::updateCh_movements(sf::Event &event){
 }
 void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
     
-    int pos_x = pack.getPosition().x;
-    int pos_y = pack.getPosition().y;
+    int pos_x = pack->getPosition().x;
+    int pos_y = pack->getPosition().y;
     int remain_y = pos_y%25;
     int remain_x = pos_x%25;
     
@@ -172,7 +179,7 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         else{
             pos_y -= remain_y;
         }
-        pack.setPosition(pos_x,pos_y);
+        pack->setPosition(pos_x,pos_y);
     }
     //top-down direction
     if ((dir_x == 0) && (dir_y == -1 || dir_y == 1 )){
@@ -182,7 +189,7 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         else{
             pos_x -= remain_x;
         }
-        pack.setPosition(pos_x,pos_y);
+        pack->setPosition(pos_x,pos_y);
     }
 }
 
@@ -194,35 +201,36 @@ void Hero_pack::updateCollisions(sf::RenderTarget &window, Ghost &ghost){
 void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
     for (auto &map : *tiles){
         for (long unsigned int j = 0; j < map.size(); ++j){
-            if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) && (map[j].getScale().x == 0.25)){
-                if (dir_y == 1) dir_y = -1;
-                else if (dir_y == -1) dir_y = 1;
-                if (dir_x == 1) dir_x = -1;
-                else if (dir_x == -1) dir_x = 1;
+            if ((pack->getGlobalBounds().intersects(map[j].getGlobalBounds())) && (map[j].getScale().x == 0.25)){
+                if      (dir_y == 1)    dir_y = -1;
+                else if (dir_y == -1)   dir_y = 1;
+                if      (dir_x == 1)    dir_x = -1;
+                else if (dir_x == -1)   dir_x = 1;
+                
                 isWall=true;
             }
-            if ((pack.getGlobalBounds().intersects(map[j].getGlobalBounds())) &&
+            if ((pack->getGlobalBounds().intersects(map[j].getGlobalBounds())) &&
                 (map[j].getScale().x >= 0.05) &&
                 (map[j].getScale().x <= 0.15)){
-                if (dir_x == 1 && pack.getPosition().x+5 >= map[j].getPosition().x){
+                if      (dir_x == 1 && pack->getPosition().x+5 >= map[j].getPosition().x){
                     map.erase(map.begin()+j);
                     audio->loadSound("../audio/eating.ogg");
                     audio->playSound();
                     score++;
                 }
-                else if (dir_x == -1 && pack.getPosition().x+5 <= map[j].getPosition().x){
+                else if (dir_x == -1 && pack->getPosition().x+5 <= map[j].getPosition().x){
                     map.erase(map.begin()+j);
                     audio->loadSound("../audio/eating.ogg");
                     audio->playSound();
                     score++;
                 }
-                if (dir_y == 1 && pack.getPosition().y+5 >= map[j].getPosition().y){
+                if      (dir_y == 1 && pack->getPosition().y+5 >= map[j].getPosition().y){
                     map.erase(map.begin()+j);
                     audio->loadSound("../audio/eating.ogg");
                     audio->playSound();
                     score++;
                 }
-                else if (dir_y == -1 && pack.getPosition().y+5 <= map[j].getPosition().y){
+                else if (dir_y == -1 && pack->getPosition().y+5 <= map[j].getPosition().y){
                     map.erase(map.begin()+j);
                     audio->loadSound("../audio/eating.ogg");
                     audio->playSound();
@@ -240,15 +248,13 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
                     audio->playSound();
                     score+=1;
                 }
-            }
-                /*Why not here?? Because score too fast growing*/
+            }           
         }
-    }
-    
+    }   
 }
 void Hero_pack::updateCollisionGhost(Ghost &ghost){
     for (int i = 0; i != 4 ; ++i){
-        if (pack.getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 3){//Here it's ok MAKE  a global timer in Engine
+        if (pack->getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 3){//Here it's ok MAKE  a global timer in Engine
             (*clock).restart();
             isGhost=true;
             sizeHealthBar--;
@@ -264,5 +270,5 @@ void Hero_pack::updateCollisionGhost(Ghost &ghost){
 
 /*Getters*/
 sf::Sprite &Hero_pack::_getPack(){
-    return pack;
+    return *pack;
 }

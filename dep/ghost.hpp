@@ -12,9 +12,9 @@ public:
     ~Ghost();
     void __update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
     void __render();
+
     void setPos(float x, float y);//set position of each ghost
     sf::Sprite &_getGhostSprite();
-    void showStat();//TEMP REMOVE NOW!!!
 private:
     /*Init f-tions*/
     //init ghost
@@ -59,31 +59,41 @@ private:
 private:
     // texture sprite time clock packPos
     /*For knowing by ghost where tiles and pack are*/
-    std::vector<std::vector<sf::Sprite>> *tiles;
-    sf::Sprite *pack;
-    sf::RenderTarget *win;
+    std::vector<std::vector<sf::Sprite>>    *tiles;
+    sf::Sprite                              *pack;
+    sf::RenderTarget                        *win;
     //Timer
-    sf::Clock *clock;
-    sf::Time time;
+    sf::Clock                               *clock;
+    sf::Time                                time;
 
-    sf::Texture *texture;
-    sf::Sprite *sprite;
-    sf::RectangleShape *vision;//for detcting a surroundig on distanse//NOW IT'S OFF
+    sf::Texture                             *texture;
+    sf::Sprite                              *sprite;
+    sf::RectangleShape                      *vision;//for detcting a surroundig on distanse//NOW IT'S OFF
     enum Colors:int{//Type of ghost
         red,
         green,
         blue,
         yellow
     };
-    sf::Vector2f packPos;//for remember a coordinate of pack
+    sf::Vector2f                            packPos;//for remember a coordinate of pack
 private:
-    bool isRight=true,isLeft=false,isTop=false,isBottom=false;//for directions of  moves
-    bool left_s = true,right_s = true,top_s = true,bottom_s = true;//Sensors for define free ways
-    bool wherePack[4]{false};//for detecting pack
-    bool fixPos=true;//this is need for correct position only once(look at updateCorrectMovements())
-    bool isFirst=true;//This is for touching a wall only once
-    float dir_x = 0;//speed of ghost on OX
-    float dir_y = 0;//speed of ghost on OY
-    float frame = 0;//for animation
-    int outcome;//It's for contain a answer about which way to choose
+    //for directions of  moves
+    bool    isRight     = true,
+            isLeft      = false,
+            isTop       = false,
+            isBottom    = false;
+    
+    //Sensors for define free ways
+    bool    left_s      = true,
+            right_s     = true,
+            top_s       = true,
+            bottom_s    = true;
+
+    bool    wherePack[4]{false};//for detecting pack
+    bool    fixPos      = true;//this is need for correct position only once(look at updateCorrectMovements())
+    bool    isFirst     = true;//This is for touching a wall only once
+    float   dir_x       = 0;//speed of ghost on OX
+    float   dir_y       = 0;//speed of ghost on OY
+    float   frame       = 0;//for animation
+    int     outcome;//It's for contain a answer about which way to choose
 };

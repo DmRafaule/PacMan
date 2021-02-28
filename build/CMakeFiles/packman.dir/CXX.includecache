@@ -1040,18 +1040,6 @@ map.hpp
 ghost.hpp
 ../dep/ghost.hpp
 
-/home/dimond/Projects/Repositories/PacMan/src/main.cpp
-ctime
--
-pack_E.hpp
-/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
-
-/home/dimond/Projects/Repositories/PacMan/src/pack.cpp
-pack.hpp
-/home/dimond/Projects/Repositories/PacMan/src/pack.hpp
-sstream
--
-
 /home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp
 pack_E.hpp
 /home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp

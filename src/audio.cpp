@@ -2,8 +2,8 @@
 
 
 Audio::Audio(float volume){
-   buffer = new sf::SoundBuffer;
-   sound = new sf::Sound;
+   buffer   = new sf::SoundBuffer;
+   sound    = new sf::Sound;
    sound->setVolume(volume);
 }
 Audio::~Audio(){
@@ -23,6 +23,6 @@ void Audio::playSound(){
 void Audio::stopSound(){
    sound->stop();
 }
-void Audio::loopSound(){
-   sound->setLoop(true);
+void Audio::loopSound(bool isloop){
+   sound->setLoop(isloop);
 }

@@ -3,23 +3,23 @@
 #include <SFML/Audio.hpp>
 /*
 
-   This class provide a sounds and musics(obiosly)
+   This class provide a sounds and musics(obviosly)
 
 */
 
 
 class Audio{
 private:
-   sf::SoundBuffer *buffer;
-   sf::Sound *sound;
-   bool isMusic = false;
-   float volume = 1;
+   sf::SoundBuffer   *buffer;
+   sf::Sound         *sound;
+   bool              isMusic  = false;
+   float             volume   = 1;
 private:
 public:
-   void playSound();
-   void stopSound();
-   void loadSound(const char*);
-   void loopSound();
-   Audio(float volume);
+   void playSound();             //Play music
+   void stopSound();             //For stop playing sound
+   void loadSound(const char*);  //For loading sound
+   void loopSound(bool isloop);  //Set up loop our sound or not
+   Audio(float volume);          //Create a conteiners and set up volums
    ~Audio();
 };

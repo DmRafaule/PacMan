@@ -84,10 +84,10 @@ void GUI::updateMenu(sf::RenderTarget &win){
    if (arrow->getPosition().x < text->getPosition().x && arrow->getPosition().y < text->getPosition().y)
       arrow->setPosition(text->getPosition().x - 15,text->getPosition().y + 10);// 15 and 10 it's value of neccessary shift(not good calculation)
 }                                                                               // this is neccessary put them here because  I want interact with menu imediatly
-sf::CircleShape& GUI::updateMenuArrow(){
+sf::CircleShape& GUI::getArrow(){
    return *arrow;
 }
-const sf::Sprite& GUI::getMenuArrow() const{
+const sf::Sprite& GUI::getMenu() const{
    return *sprite;
 }
 void GUI::getVolume(const float *volume){

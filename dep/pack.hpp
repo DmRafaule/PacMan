@@ -17,31 +17,31 @@ Class about packman(player) and interaction with world, enemies
 class Hero_pack{
 private:
     /*For holding info about map*/
-    std::vector<std::vector<sf::Sprite>> *tiles;
+    std::vector<std::vector<sf::Sprite>>    *tiles;
     /*For holdig info about globalTime*/
-    sf::Clock *clock;
-    sf::Time *localTime;
+    sf::Clock                               *clock;
+    sf::Time                                *localTime;
 
     /*For pack textures*/
-    sf::Texture texture;
-    sf::Sprite pack;
+    sf::Texture                             *texture;
+    sf::Sprite                              *pack;
     /*For status bar*/
-    sf::Texture *texture_bar;
-    sf::Sprite *sprite_bar;
-    sf::Font *font;
-    sf::Text *textScore,*textHealth;
+    sf::Texture                             *texture_bar;
+    sf::Sprite                              *sprite_bar;
+    sf::Font                                *font;
+    sf::Text                                *textScore,*textHealth;
 
-    Audio *audio;
+    Audio                                   *audio;
     
     /*for directions of moves*/
-    float dir_x = 0, dir_y = 1;
+    float                                   dir_x = 0, dir_y = 1;
     /*for status bar*/
-    int score = 0, sizeHealthBar = 6;
-    float frame = 0;
-    char *healthBar;//contain ****** as default
-    bool isWall=false;//logical(it isn't wall)
-    bool isBar=false;//about question of existing status bar
-    bool isGhost=false;//for detect a ghost
+    int                                     score = 0, sizeHealthBar = 6;
+    float                                   frame = 0;
+    char                                    *healthBar;             //contain ****** as default
+    bool                                    isWall          = false;//logical(it isn't wall)
+    bool                                    isBar           = false;//about question of existing status bar
+    bool                                    isGhost         = false;//for detect a ghost
 private: 
     /*INIT F.*/
     /*about some actions(like pop up score,health,settings or do something else)*/
@@ -66,7 +66,9 @@ private:
     void updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime);
     /*update local time*/
     void updateTime();
+    /*Return as result type of end game*/
     short updateEndGame();
+    /*Update animation for pack*/
     void updateAnimation();
 public:
     /*init character pack*/
