@@ -6,6 +6,7 @@ GUI::GUI(const bool *whichGUI){
    isBadEndGame = whichGUI[1];
    isGoodEndGame = whichGUI[2];
    isHelp = whichGUI[4];
+   isSettings = whichGUI[5];
    
    if (isMenu){
       initMenu();
@@ -20,21 +21,22 @@ GUI::GUI(const bool *whichGUI){
       initHelp();
    }
 }
-GUI::~GUI(){
-      
-      
+GUI::~GUI(){     
       delete texture;
       delete sprite;
       delete ss;
       delete posOnScreen;
       delete font;
       delete text;
-      if (isMenu || isStartMenu) delete arrow;//???
+      if (isMenu || isStartMenu) delete arrow;
+      
       isMenu         =  false;
       isBadEndGame   =  false;
       isGoodEndGame  =  false;
       isStartMenu    =  false;
-      isHelp         =  false;}
+      isHelp         =  false;
+      isSettings     =  false;
+}
 
 void GUI::_update(const bool isGUI, sf::RenderTarget &win){
    if (isGUI){
@@ -48,7 +50,6 @@ void GUI::updateEndGame(sf::RenderTarget &win){
    posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
    posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
     
-   
    if (isBadEndGame) *ss << "\tGAME OVER\n\n\n\n\n\npress Enter to exit";
    if (isGoodEndGame) *ss << "\tGAME OVER but you WIN\n\tpress Enter to exit";
    text->setString(ss->str());
@@ -89,13 +90,26 @@ sf::CircleShape& GUI::updateMenuArrow(){
 const sf::Sprite& GUI::getMenuArrow() const{
    return *sprite;
 }
+void GUI::getVolume(const float *volume){
+   this->volume = *volume;
+}
+void GUI::getMap(const int *map){
+   this->map = *map;
+}
 void GUI::updateStartMenu(sf::RenderTarget &win){
    posOnScreen->x = win.getSize().x/2 - sprite->getGlobalBounds().width/2;
    posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
 
-   *ss << " Start\n\nSettings\n\n  Quit";
-   text->setString(ss->str());
-   ss->str("");
+   if (isSettings){
+      *ss << "Maps\t\t"<< map <<"\n\nVolume\t\t" << volume <<"\n\nBack to menu";
+      text->setString(ss->str());
+      ss->str("");
+   }
+   else{
+      *ss << " Start\n\nSettings\n\n  Quit";
+      text->setString(ss->str());
+      ss->str("");
+   }
 
    sprite->setPosition(posOnScreen->x + 40,
                        posOnScreen->y - 200);
@@ -119,7 +133,6 @@ void GUI::updateHelp(sf::RenderTarget &win){
    text->setPosition(posOnScreen->x + 100,
                      posOnScreen->y + 40);
 }
-
 
 void GUI::_render(sf::RenderTarget &win, const bool isGUI){
    if (isGUI){
@@ -147,6 +160,7 @@ void GUI::renderHelp(sf::RenderTarget &win){
    win.draw(*sprite);
    win.draw(*text);
 }
+
 
 void GUI::initStartMenu(){
    texture = new sf::Texture();

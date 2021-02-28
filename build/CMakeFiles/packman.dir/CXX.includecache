@@ -1012,6 +1012,16 @@ audio.hpp
 world.hpp
 ../dep/world.hpp
 
+../dep/pack_E.hpp
+pack.hpp
+../dep/pack.hpp
+world.hpp
+../dep/world.hpp
+GUI.hpp
+../dep/GUI.hpp
+audio.hpp
+../dep/audio.hpp
+
 ../dep/world.hpp
 vector
 -
@@ -1030,17 +1040,19 @@ map.hpp
 ghost.hpp
 ../dep/ghost.hpp
 
-/home/dimond/Projects/Repositories/PacMan/src/GUI.cpp
-GUI.hpp
-/home/dimond/Projects/Repositories/PacMan/src/GUI.hpp
-
-/home/dimond/Projects/Repositories/PacMan/src/map.cpp
-map.hpp
-/home/dimond/Projects/Repositories/PacMan/src/map.hpp
+/home/dimond/Projects/Repositories/PacMan/src/main.cpp
+ctime
+-
+pack_E.hpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 
 /home/dimond/Projects/Repositories/PacMan/src/pack.cpp
 pack.hpp
 /home/dimond/Projects/Repositories/PacMan/src/pack.hpp
 sstream
 -
+
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.cpp
+pack_E.hpp
+/home/dimond/Projects/Repositories/PacMan/src/pack_E.hpp
 

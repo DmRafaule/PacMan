@@ -19,7 +19,7 @@ class World{
 
 public:
 
-    World(unsigned int winWidth, unsigned int winHeight);
+    World(unsigned int winWidth, unsigned int winHeight, int optionMap);
     ~World();
     void _render(sf::RenderTarget &win);
     void _update(sf::RenderTarget &win, std::vector<std::vector<sf::Sprite>> &tiles, sf::Sprite &pack);
@@ -30,7 +30,7 @@ private:
     /*Init f*/
     void initVar(unsigned int winWidth, unsigned int winHeight);
     void initTiles();
-    void initMap();
+    void initMap(int optionMap);
     void initGhost();
     
     /*Render f*/

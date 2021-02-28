@@ -1,10 +1,10 @@
 #include "audio.hpp"
 
 
-Audio::Audio(){
+Audio::Audio(float volume){
    buffer = new sf::SoundBuffer;
    sound = new sf::Sound;
-   sound->setVolume(10.f);
+   sound->setVolume(volume);
 }
 Audio::~Audio(){
    delete buffer;
@@ -17,7 +17,6 @@ void Audio::loadSound(const char* path){
       sound->setBuffer(*buffer);
    }
 }
-
 void Audio::playSound(){
    sound->play();
 }

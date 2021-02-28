@@ -15,7 +15,7 @@ Hero_pack::Hero_pack(){
 
     clock = new sf::Clock();
     localTime = new sf::Time();
-    audio = new Audio;//But I can't segm fault WHY???
+    audio = new Audio(10);//But I can't segm fault WHY???
     audio->loadSound("../audio/eating.ogg");
 }
 Hero_pack::~Hero_pack(){
@@ -164,12 +164,8 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
     int remain_y = pos_y%25;
     int remain_x = pos_x%25;
     
-    if (localTime->asSeconds() >= 1){//For avoiding stacking in walls
-        isFix=true;
-    }
-
     //left-right direction
-    if ((dir_x == 1 || dir_x == -1) && (dir_y == 0 ) && isFix){
+    if ((dir_x == 1 || dir_x == -1) && (dir_y == 0 )){
         if (remain_y >= 12.5){
             pos_y += 25 - remain_y;
         }
@@ -179,7 +175,7 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         pack.setPosition(pos_x,pos_y);
     }
     //top-down direction
-    if ((dir_x == 0) && (dir_y == -1 || dir_y == 1 ) && isFix){
+    if ((dir_x == 0) && (dir_y == -1 || dir_y == 1 )){
         if (remain_x >= 12.5){
             pos_x += 25 - remain_x;
         }
@@ -188,7 +184,6 @@ void Hero_pack::updateCorrect_movements(float &dir_x, float &dir_y){
         }
         pack.setPosition(pos_x,pos_y);
     }
-    isFix=false;///For avoiding stacking in walls
 }
 
 

@@ -1,10 +1,10 @@
 #include "world.hpp"
 #include <iostream>
 
-World::World(unsigned int winWidth, unsigned int winHeight){
+World::World(unsigned int winWidth, unsigned int winHeight, int optionMap){
     initVar(winWidth,winHeight);
     initTiles();
-    initMap();
+    initMap(optionMap);
     initGhost();
 }
 World::~World(){
@@ -28,8 +28,8 @@ void World::initTiles(){
     spriteP.setScale(0.05,0.05);
     spriteMap.setScale(0.25,0.25);
 }
-void World::initMap(){
-    map = new Map();
+void World::initMap(int optionMap){
+    map = new Map(optionMap);
 
     tiles.clear();
     std::vector<sf::Sprite> row;

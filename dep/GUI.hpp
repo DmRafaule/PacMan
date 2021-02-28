@@ -23,6 +23,9 @@ private:
    bool isBadEndGame = false;
    bool isGoodEndGame = false;
    bool isHelp = false;
+   bool isSettings = false;
+   float volume = 1;
+   int   map = 0;
 private:
    void initMenu();
    void initEndGame();
@@ -38,6 +41,7 @@ private:
    void renderMenu(sf::RenderTarget &win);
    void renderStartMenu(sf::RenderTarget &win);
    void renderHelp(sf::RenderTarget &win);
+
 public:
    GUI(const bool*);
    ~GUI();
@@ -46,6 +50,8 @@ public:
 public:   
    sf::CircleShape& updateMenuArrow();
    const sf::Sprite& getMenuArrow() const;
+   void getVolume(const float *volume);
+   void getMap(const int *map);
 };
 
 

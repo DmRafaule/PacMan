@@ -12,7 +12,7 @@ Game::Game(){
     isGUI = true;
     whichGUI[3] = true;
     gui = new GUI(whichGUI);
-    audio = new Audio;
+    audio = new Audio(1);
     audio->loadSound("../audio/opening.wav");
     audio->playSound();
 }
@@ -92,19 +92,37 @@ void Game::update(){
         if (event->type == sf::Event::KeyPressed && isGUI && !isStartGame){//For interact with game before start actual game
             if (event->key.code == sf::Keyboard::Enter){
                 if (gui->updateMenuArrow().getPosition().y <= 230 ){//Starting game
-                    audio->stopSound();
-                    world = new World(window->getSize().x,window->getSize().y);
-                    pack = new Hero_pack();
-                    isGUI = false;
-                    whichGUI[3] = false;
-                    isStartGame = true;
-                    delete gui;
+                    if (!whichGUI[5]){
+                        audio->stopSound();
+                        world = new World(window->getSize().x, window->getSize().y, optionMap);
+                        pack = new Hero_pack();
+                        isGUI = false;
+                        whichGUI[3] = false;
+                        whichGUI[5] = false;
+                        isStartGame = true;
+                        delete gui;
+                    }
                 }
                 if (gui->updateMenuArrow().getPosition().y <= 330 && gui->updateMenuArrow().getPosition().y > 230 ){//Open window with settings
-                    printf("settings\n");
+                    if (!whichGUI[5]){
+                        delete gui;
+                        for (auto &i : whichGUI)
+                            i = false;
+                        whichGUI[3] = true;    
+                        whichGUI[5] = true;
+                        gui = new GUI(whichGUI);
+                    }
                 }
                 if (gui->updateMenuArrow().getPosition().y > 330 ){//Quit from the game
-                    window->close();
+                    if (whichGUI[5]){//In settings
+                        delete gui;
+                        for (auto &i : whichGUI)
+                            i = false;
+                        whichGUI[3] = true;    
+                        gui = new GUI(whichGUI);
+                    }
+                    else//In main menu
+                        window->close();
                 }
             }
             if (event->key.code == sf::Keyboard::Up && gui->updateMenuArrow().getPosition().y >= 200){//For moving arrow up
@@ -112,6 +130,41 @@ void Game::update(){
             }
             if (event->key.code == sf::Keyboard::Down && gui->updateMenuArrow().getPosition().y <= 330){//For moving arrow down
                 gui->updateMenuArrow().move(0,120);
+            }
+            if (whichGUI[5]){//Keys lefr right
+                if (gui->updateMenuArrow().getPosition().y <= 230){//Keys for maps
+                    if (event->key.code == sf::Keyboard::Right){//Next map
+                        if (optionMap <=2)
+                            optionMap++;
+                        gui->getMap(&optionMap);
+                    }
+                    if (event->key.code == sf::Keyboard::Left){//Previose map
+                        if (optionMap >=1)
+                            optionMap--;
+                        gui->getMap(&optionMap);
+                    }
+                }
+                if (gui->updateMenuArrow().getPosition().y <= 330 && gui->updateMenuArrow().getPosition().y > 230 ){//For volume
+                    if (event->key.code == sf::Keyboard::Right){//Increase volume
+                        optionVolume++;
+                        gui->getVolume(&optionVolume);
+                        delete audio;
+                        audio = new Audio(optionVolume);
+                        audio->loadSound("../audio/opening.wav");
+                        audio->playSound();
+                        audio->loopSound();
+                    }
+                    if (event->key.code == sf::Keyboard::Left){//Shrink volume
+                        if (optionVolume>=1)
+                            optionVolume--;   
+                        gui->getVolume(&optionVolume);
+                        delete audio;
+                        audio = new Audio(optionVolume);
+                        audio->loadSound("../audio/opening.wav");
+                        audio->playSound();
+                        audio->loopSound();
+                    }
+                }
             }
         }
         //For interact with menu and interact with game on stage game over

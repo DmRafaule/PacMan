@@ -19,7 +19,7 @@ private:
     //Load map from txt file
     void load_map(const char *path);
 public:
-    Map();
+    Map(int optionMap);
     ~Map();
     //Returning character 
     const char get_map(size_t iterator_x,size_t itertor_y) const;
