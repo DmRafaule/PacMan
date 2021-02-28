@@ -1,7 +1,7 @@
 #include "map.hpp"
 
 Map::Map(){
-    load_map(maps[0]);
+    load_map(maps[2]);
 }
 Map::~Map(){
 

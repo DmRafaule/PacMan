@@ -111,7 +111,7 @@ short Hero_pack::updateEndGame(){
     if (sizeHealthBar == 0){//For bad end
         return 1; 
     }
-    else if (score == 300){//For good end
+    else if (score >= 600){//For good end
         return 2;
     }
     return 0;

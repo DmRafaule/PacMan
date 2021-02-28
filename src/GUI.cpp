@@ -110,7 +110,7 @@ void GUI::updateHelp(sf::RenderTarget &win){
    posOnScreen->y = win.getSize().y/2 - sprite->getGlobalBounds().height/2;
 
 
-   *ss << "Arrows\t\t\t for moves\nTab\t\t\t\tfor open status\nQ\t\t\t\t  for close status\nEsc\t\t\t\tfor open menu\n";
+   *ss << "Arrows\t\t\t for moves\nTab\t\t\t\tfor open status\nQ\t\t\t\t  for close status\nEsc\t\t\t\tfor open menu\nWin\t\t\t\t600 poins";
    text->setString(ss->str());
    *ss <<"\n\n\n\n\n\n\nPress escape for close this help";
    text->setString(ss->str());
