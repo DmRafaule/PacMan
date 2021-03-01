@@ -73,9 +73,9 @@ void Hero_pack::_render(sf::RenderTarget *window){
 }
 void Hero_pack::_update(sf::Event &event, sf::RenderTarget &window,std::vector<std::vector<sf::Sprite>> &tiles, Ghost &ghost, sf::Time &globalTime, short& isEndGame){
     updateTiles(tiles);
+    updateMovements(event);
     updateCollisions(window,ghost);
     updateAnimation();
-    updateMovements(event);
     updateTime();
     isEndGame = updateEndGame();
     initStatus_Bar(event);
@@ -111,7 +111,8 @@ void Hero_pack::updateStatus_Bar(sf::RenderTarget &window, sf::Time &globalTime)
                             sprite_bar->getPosition().y + 7);
 }
 void Hero_pack::updateTime(){
-    *localTime = clock->getElapsedTime();
+    *localTime = clock->restart();
+    timer += localTime->asSeconds();
 }
 short Hero_pack::updateEndGame(){
     //For bad end
@@ -137,15 +138,18 @@ void Hero_pack::updateAnimation(){
 void Hero_pack::updateMovements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed)
         updateCh_movements(event);
-    pack->move(dir_x,dir_y);//Make dependense from time
+    if (localTime->asSeconds()*150 < 2){//This is for save long jump
+        pack->move(static_cast<int>(dir_x*localTime->asSeconds()*150),
+                   static_cast<int>(dir_y*localTime->asSeconds()*150));//Make dependense from time
+    }
 }
 void Hero_pack::updateCh_movements(sf::Event &event){
     if (event.type == sf::Event::KeyPressed && !isWall){
         if (event.key.code == sf::Keyboard::Left){
-            dir_x = -1;
+            dir_x = -1 ;
             dir_y = 0;
         }
-        else if (event.key.code == sf::Keyboard::Right){
+        if (event.key.code == sf::Keyboard::Right){
             dir_x = 1;
             dir_y = 0;
         }    
@@ -153,7 +157,7 @@ void Hero_pack::updateCh_movements(sf::Event &event){
             dir_y = -1;
             dir_x = 0;
         }
-        else if (event.key.code == sf::Keyboard::Down){
+        if (event.key.code == sf::Keyboard::Down){
             dir_y = 1;
             dir_x = 0;
         }
@@ -206,8 +210,6 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
                 else if (dir_y == -1)   dir_y = 1;
                 if      (dir_x == 1)    dir_x = -1;
                 else if (dir_x == -1)   dir_x = 1;
-                
-                isWall=true;
             }
             if ((pack->getGlobalBounds().intersects(map[j].getGlobalBounds())) &&
                 (map[j].getScale().x >= 0.05) &&
@@ -254,8 +256,8 @@ void Hero_pack::updateCollisionWallsPoint(sf::RenderTarget &window){
 }
 void Hero_pack::updateCollisionGhost(Ghost &ghost){
     for (int i = 0; i != 4 ; ++i){
-        if (pack->getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>((*localTime).asSeconds()) > 3){//Here it's ok MAKE  a global timer in Engine
-            (*clock).restart();
+        if (pack->getGlobalBounds().intersects((&ghost + i)->_getGhostSprite().getGlobalBounds()) && !isGhost && static_cast<int>(timer) > 3){
+            timer = 0;
             isGhost=true;
             sizeHealthBar--;
             audio->stopSound();

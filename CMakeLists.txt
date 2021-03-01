@@ -8,5 +8,5 @@ set(INCLUDE_DIRECTORIES dep/SFML/include dep)
 add_definitions(-ggdb -Wall)
 	      
 include_directories(${INCLUDE_DIRECTORIES})
-add_executable(${PROJECT_NAME} ${SOURCES} ${HEADERS})
+add_executable(${PROJECT_NAME} ${SOURCES})
 target_link_libraries(${PROJECT_NAME} ${DEPENDENCIES_LIB})

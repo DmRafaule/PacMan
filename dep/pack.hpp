@@ -37,6 +37,7 @@ private:
     float                                   dir_x = 0, dir_y = 1;
     /*for status bar*/
     int                                     score = 0, sizeHealthBar = 6;
+    float                                   timer = 0;
     float                                   frame = 0;
     char                                    *healthBar;             //contain ****** as default
     bool                                    isWall          = false;//logical(it isn't wall)

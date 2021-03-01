@@ -120,7 +120,9 @@ void Ghost::updateMovements(){
     
     updateChangingMovements();
     updateCorrectMovements();
-    sprite->move(sf::Vector2f(dir_x,dir_y));
+    if (time.asSeconds()*50 <=3){
+        sprite->move(sf::Vector2f(dir_x*time.asSeconds()*40,dir_y*time.asSeconds()*40));
+    }
 }
 void Ghost::updateMovementsNoVisionPack(){
     if (updateCollisionWalls()){
