@@ -8,7 +8,7 @@ Before start you have to install next packages:
 Fedora: 
    0)sudo yum install git cmake g++ openal-soft.x86_64
 Ubuntu,Mint,Debian: 
-	0)sudo apt install git cmake g++
+   0)sudo apt install git cmake g++
    
 
    1)Go to work directory 
@@ -20,5 +20,4 @@ Ubuntu,Mint,Debian:
       ./packman
 
 =======>On Windows<========
-1)Open cmake in source choose workin dir
-2)In build field choose build
+I'm working on it
